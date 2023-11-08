@@ -37,7 +37,7 @@ function DesktopResponsive() {
 
   return (
     <div className="hidden h-screen w-dynamicBorder lg:flex flex-col items-center border-2 border-blue-600">
-      <div className="flex flex-col justify-center items-center border-2 border-red-600">
+      <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
         <p className="font-[Poppins] font-bold text-xl">Simulation:</p>
         <div className="flex gap-2">
           <Button variant="contained" onClick={() => setConfetti(true)}>
