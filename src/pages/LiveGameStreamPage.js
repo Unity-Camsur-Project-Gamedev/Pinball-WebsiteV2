@@ -23,6 +23,7 @@ const LiveGameStreamPage = ({ userToken }) => {
     // const [rows, setRows] = useState([]); //bet history rows*
     const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
     const [currentProgramScene, setCurrentProgramScene] = useState(); //*
+    const [confetti, setConfetti] = useState(false);
 
     const obsAddress = 'ws://127.0.0.1:4455';
     const obs = new OBSWebSocket();
@@ -57,7 +58,20 @@ const LiveGameStreamPage = ({ userToken }) => {
         socket.on('walletUpdate', (data) => {
             // Update the totalCredits state with the wallet balance
             console.log('Received wallet update:', data.balance);
+            setConfetti(false);
             setTotalCredits(data.balance);
+        });
+
+        // socket.on('bettingHistoryUpdate', (data) => {
+        //     // Update the totalCredits state with the wallet balance
+        //     console.log('bettingHistoryUpdate:', data)
+        // });
+
+        socket.on('walletUpdateWin', (data) => {
+            // Update the totalCredits state with the wallet balance
+            console.log('UpdatedWalletBalance:', data.balance);
+            setTotalCredits(data.balance);
+            setConfetti(true);
         });
 
         return () => {
@@ -88,7 +102,7 @@ const LiveGameStreamPage = ({ userToken }) => {
             </ModalProvider>
 
             <LiveStreamProvider userToken={userToken} isOpen={isOpen} setIsOpen={setIsOpen} totalCredits={totalCredits}>
-                <DesktopResponsive />
+                <DesktopResponsive confetti={confetti}/>
                 <MobileResponsive />
             </LiveStreamProvider>
 

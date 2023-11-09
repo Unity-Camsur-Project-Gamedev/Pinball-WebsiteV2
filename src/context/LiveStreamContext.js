@@ -91,7 +91,7 @@ export const LiveStreamProvider = ({
       const betAmountInt = parseInt(betAmount);
       if (!isNaN(betAmountInt) && betAmountInt > 0) {
         if (totalCredits > 0) {
-          if (totalCredits > betAmountInt) {
+          if (totalCredits >= betAmountInt) {
             try {
               await postBet(selectedColorName, betAmountInt, userToken);
               //reset

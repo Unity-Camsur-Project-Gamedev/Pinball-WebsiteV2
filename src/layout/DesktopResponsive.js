@@ -11,7 +11,7 @@ import useLiveStream from "../context/LiveStreamContext";
 import Confetti from "../components/Confetti ";
 import PopUp from "../components/PopUp";
 
-function DesktopResponsive() {
+function DesktopResponsive({ confetti }) {
   const {
     isOpen,
     colorHex,
@@ -32,7 +32,7 @@ function DesktopResponsive() {
     handleInputButtonClick,
   } = useLiveStream();
 
-  const [confetti, setConfetti] = useState(false);
+  // const [confetti, setConfetti] = useState(false);
   const [popUp, setPopUp] = useState(false);
 
   return (
@@ -40,12 +40,12 @@ function DesktopResponsive() {
       <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
         <p className="font-[Poppins] font-bold text-xl">Simulation:</p>
         <div className="flex gap-2">
-          <Button variant="contained" onClick={() => setConfetti(true)}>
+          {/* <Button variant="contained" onClick={() => setConfetti(true)}>
             Confetti
           </Button>
           <Button variant="contained" onClick={() => setPopUp(true)}>
             Pop Up
-          </Button>
+          </Button> */}
         </div>
       </div>
 
@@ -108,7 +108,7 @@ function DesktopResponsive() {
                       }
                       className="text-dynamicLarge w-full text-[#E26226] border-2"
                       onChange={handleInputChange}
-                      // onKeyDown={handleKeyDown}
+                    // onKeyDown={handleKeyDown}
                     ></input>
                   </div>
                 </div>

@@ -216,33 +216,41 @@ const BetHistory = ({ userToken }) => {
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows, setRows] = React.useState([]);
 
+    // const baseUrl = process.env.REACT_APP_BACKEND_URL;
+
     //GET BET HISTORY OF THE PLAYER
-    useEffect(() => {
-        const fetchData = async () => {
-            // console.log('userToken bet history: ', userToken);
-            try {
-                const response = await getBetHistory(userToken);
-                // console.log('Response front:', response);
-                const updatedRows = response.map((item) => {
-                    return {
-                        date: item.createdAt.slice(0, 10),
-                        gameId: item.game_id,
-                        bet: item.bet_data,
-                        betAmount: item.amount,
-                        winLose: item.status,
-                        result: ''
-                    };
-                });
-
-                setRows(updatedRows);
-            } catch (error) {
-                console.error('Error:', error.message);
-                window.alert('An error occurred while placing the bet. Please try again later.');
-            }
+    const fetchData = async () => {
+        try {
+          const response = await getBetHistory(userToken);
+          const updatedRows = response.map((item) => ({
+            date: item.createdAt.slice(0, 10),
+            gameId: item.game_id,
+            bet: item.bet_data,
+            betAmount: item.amount,
+            winLose: item.status,
+            result: item.status === 'Win' ? '+ ' + item.amount * 2 : 0,
+          }));
+          setRows(updatedRows);
+        } catch (error) {
+          console.error('Error:', error.message);
+          window.alert('An error occurred while fetching the bet history. Please try again later.');
+        }
+      };
+    
+      useEffect(() => {
+        fetchData(); 
+    
+        // Set up periodic polling
+        const intervalId = setInterval(() => {
+          fetchData();
+        }, 3000); 
+    
+        // Clean up the interval when the component unmounts
+        return () => {
+          clearInterval(intervalId);
         };
+      }, [userToken]);
 
-        fetchData(); // Call the fetchData function
-    }, []);
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -361,10 +369,16 @@ const BetHistory = ({ userToken }) => {
                                                 <TableCell align="center" style={{ fontFamily: 'Poppins' }}>
                                                     {row.betAmount}
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontFamily: 'Poppins' }}>
+                                                <TableCell align="center" style={{ fontFamily: 'Poppins',  color: row.winLose === 'Win' ? 'green' : row.winLose === 'On going' ? 'black' : 'red'}}>
                                                     {row.winLose}
                                                 </TableCell>
-                                                <TableCell align="center" style={{ fontFamily: 'Poppins' }}>
+                                                <TableCell
+                                                    align="center"
+                                                    style={{
+                                                        fontFamily: 'Poppins',
+                                                        color: row.result !== 0 ? 'green' : 'inherit',
+                                                    }}
+                                                >
                                                     {row.result}
                                                 </TableCell>
                                             </TableRow>
