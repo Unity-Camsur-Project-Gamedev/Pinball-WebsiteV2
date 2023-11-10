@@ -1,6 +1,5 @@
 /* eslint-disable */
-import React, { useState, useEffect } from "react";
-import { getGameID } from "../services/getGameId";
+import React, { useState } from "react";
 
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -37,46 +36,26 @@ function DesktopResponsive({ confetti }) {
   // const [confetti, setConfetti] = useState(false);
   const [popUp, setPopUp] = useState(false);
 
-  const [currentGameID, setCurrentGameID] = useState("");
-
-  //gameID hook
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const gameIDData = await getGameID();
-        setCurrentGameID(gameIDData.game_id);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetchData();
-    const intervalId = setInterval(fetchData, 10000);
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
-
   return (
-    <div className="hidden h-screen w-dynamicBorder lg:flex flex-col items-center border-2 border-blue-600">
-      <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
-        <p className="font-[Poppins] font-bold text-3xl p-2">
-          Game Id {currentGameID}{" "}
-        </p>
-        <div className="flex gap-2">
-          {/* <Button variant="contained" onClick={() => setConfetti(true)}>
+    <div className="hidden lg:block border-4 border-blue-600">
+      <div className="flex flex-col items-center border-2 border-green-600 ">
+        <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
+          <p className="font-[Poppins] font-bold text-xl">Simulation:</p>
+          <div className="flex gap-2">
+            {/* <Button variant="contained" onClick={() => setConfetti(true)}>
             Confetti
           </Button>
           <Button variant="contained" onClick={() => setPopUp(true)}>
             Pop Up
           </Button> */}
+          </div>
         </div>
+
+        {confetti && <Confetti />}
+        {popUp && <PopUp />}
+
+        <LiveStreamFrame />
       </div>
-
-      {confetti && <Confetti />}
-      {popUp && <PopUp />}
-
-      <LiveStreamFrame />
 
       <div className=" flex justify-center items-center h-56">
         <div className="flex flex-col w-full h-full ">
@@ -147,25 +126,25 @@ function DesktopResponsive({ confetti }) {
                   </div>
                 </div>
               </div>
+              <Button
+                variant="contained"
+                className="w-[90%]"
+                style={{
+                  backgroundColor: "#14C61B",
+                  color: "white",
+                  fontSize: "1rem",
+                  paddingTop: "3%",
+                  paddingBottom: "3%",
+                  fontFamily: "Poppins",
+                  fontWeight: "bold",
+                }}
+                onClick={handleConfirmBet}
+              >
+                confirm
+              </Button>
             </div>
-            <Button
-              variant="contained"
-              className="w-[90%]"
-              style={{
-                backgroundColor: "#14C61B",
-                color: "white",
-                fontSize: "1rem",
-                paddingTop: "3%",
-                paddingBottom: "3%",
-                fontFamily: "Poppins",
-                fontWeight: "bold",
-              }}
-              onClick={handleConfirmBet}
-            >
-              confirm
-            </Button>
+            <LiveChat />
           </div>
-          <LiveChat />
         </div>
       </div>
     </div>

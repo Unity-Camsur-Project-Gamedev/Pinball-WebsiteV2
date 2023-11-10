@@ -16,7 +16,6 @@ import DesktopResponsive from "../layout/DesktopResponsive";
 //CONTEXT
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
-import DesktopProto from "../layout/DesktopProto";
 import ColorInputs from "../layout/ColorInputs";
 
 const LiveGameStreamPage = ({ userToken }) => {
@@ -63,11 +62,6 @@ const LiveGameStreamPage = ({ userToken }) => {
       setConfetti(false);
       setTotalCredits(data.balance);
     });
-
-    // socket.on('bettingHistoryUpdate', (data) => {
-    //     // Update the totalCredits state with the wallet balance
-    //     console.log('bettingHistoryUpdate:', data)
-    // });
 
     socket.on("walletUpdateWin", (data) => {
       // Update the totalCredits state with the wallet balance
