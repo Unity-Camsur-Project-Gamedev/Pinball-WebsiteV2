@@ -70,7 +70,9 @@ const LiveGameStreamPage = ({ userToken }) => {
         socket.on('walletUpdateWin', (data) => {
             // Update the totalCredits state with the wallet balance
             console.log('UpdatedWalletBalance:', data.balance);
-            setTotalCredits(data.balance);
+            setTimeout(() => {
+                setTotalCredits(data.balance);
+            }, 3000);
             setConfetti(true);
         });
 
@@ -102,7 +104,7 @@ const LiveGameStreamPage = ({ userToken }) => {
             </ModalProvider>
 
             <LiveStreamProvider userToken={userToken} isOpen={isOpen} setIsOpen={setIsOpen} totalCredits={totalCredits}>
-                <DesktopResponsive confetti={confetti}/>
+                <DesktopResponsive confetti={confetti} />
                 <MobileResponsive />
             </LiveStreamProvider>
 
