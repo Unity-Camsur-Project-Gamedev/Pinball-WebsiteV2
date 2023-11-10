@@ -4,7 +4,7 @@ import { Alert, Button, ButtonGroup } from "@mui/material";
 
 const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
   return (
-    <div className="flex h-[15%] ">
+    <div className="flex h-full">
       <div
         variant="contained"
         className="h-full w-full"
@@ -223,7 +223,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                                     //               borderColor: 'black'
                                     //           }
                                     //         : {
-                                    //               backgroundColor: color,
+
+Matt Angelo Lim, [09/11/2023 5:04 pm]
+//               backgroundColor: color,
                                     //               borderRadius: '100px'
                                     //           }
                                     // }
@@ -234,7 +236,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                                         ? 'jackpot ' + (divLabels[key] || '')
                                         : divLabels[key] === ''
                                         ? ''
-                                        : `PHP ${parseFloat(divLabels[key]).toLocaleString()}`}
+                                        : PHP ${parseFloat(divLabels[key]).toLocaleString()}}
                                 </div>
                             ))} */}
     </div>
