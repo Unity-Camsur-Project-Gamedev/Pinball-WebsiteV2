@@ -78,20 +78,20 @@ const LiveGameStreamPage = ({ userToken }) => {
   }, [userId]);
 
   //INITIALIZE OBS CONNECTION
-  // useEffect(() => {
-  //     (async () => {
-  //         try {
-  //             //OBS websocket connection
-  //             await obs.connect(obsAddress);
-  //             console.log(`Connected to OBS`);
+  useEffect(() => {
+    (async () => {
+      try {
+        //OBS websocket connection
+        await obs.connect(obsAddress);
+        console.log(`Connected to OBS`);
 
-  //             //Scene change listener
-  //             obs.on('CurrentProgramSceneChanged', onCurrentSceneChanged);
-  //         } catch (error) {
-  //             console.error('Failed to connect', error.code, error.message);
-  //         }
-  //     })();
-  // }, []);
+        //Scene change listener
+        obs.on("CurrentProgramSceneChanged", onCurrentSceneChanged);
+      } catch (error) {
+        console.error("Failed to connect", error.code, error.message);
+      }
+    })();
+  }, []);
 
   return (
     <div className="h-full flex flex-col gap-10 items-center border-2 border-green-600 ">
