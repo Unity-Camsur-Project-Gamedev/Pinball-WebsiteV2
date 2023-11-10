@@ -56,9 +56,9 @@ function DesktopResponsive({ confetti }) {
         <LiveStreamFrame />
       </div>
 
-      <div className="border-2 border-red-600 flex justify-center items-center h-56">
+      <div className=" flex justify-center items-center h-56">
         <div className="flex flex-col w-full h-full ">
-          <div className="h-[15%]">
+          <div className="h-[15%] z-10">
             <ColorInputs
               selectedButton={selectedButton}
               colorHex={colorHex}
@@ -80,7 +80,7 @@ function DesktopResponsive({ confetti }) {
 
             <div className="bet-info  flex flex-col gap-2 items-center justify-center uppercase font-extrabold">
               <div className=" w-[90%] text-dynamicLarge ">
-                <div className=" flex flex-col items-center gap-4 ">
+                <div className=" flex flex-col items-center gap-2 ">
                   <div className="relative flex items-center justify-between w-4/5 ">
                     <div className="absolute right-0">
                       <IconButton
@@ -97,8 +97,8 @@ function DesktopResponsive({ confetti }) {
                     <p className="font-['Poppins']">credits: </p>
                     <div className="flex items-center  text-[#E26226] font-['Poppins'] w-1/2">
                       {totalCredits !== 0
-                        ? `₱ ${parseFloat(totalCredits).toLocaleString()}.00`
-                        : "0.00"}
+                        ? `₱ ${parseFloat(totalCredits).toLocaleString()}`
+                        : "0"}
                     </div>
                   </div>
                   <div className="flex items-center justify-between w-4/5 ">

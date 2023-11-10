@@ -19,18 +19,22 @@ const NumberInput = ({
   };
 
   return (
-    <div className="flex flex-col w-full h-full items-center">
+    <div className="flex flex-col w-full h-full items-center gap-1 py-1">
       <ButtonGroup
         variant="outlined"
         aria-label="outlined button group"
-        className="w-full h-full"
+        className="w-full h-full gap-1"
       >
         {numGroup1.map((number, index) => (
           <Button
             key={index}
             // size="large"
             className="w-full h-full"
-            style={{ border: "1px solid black", position: "relative" }}
+            style={{
+              border: "1px solid black",
+              position: "relative",
+              borderRadius: 5,
+            }}
             onClick={() => handleButtonClick(number)}
           >
             <p style={numStyle} className="absolute">
@@ -42,14 +46,18 @@ const NumberInput = ({
       <ButtonGroup
         variant="outlined"
         aria-label="outlined button group"
-        className="w-full h-full"
+        className="w-full h-full gap-1"
       >
         {numGroup2.map((number, index) => (
           <Button
             key={index}
             size="large"
             className="w-full h-full"
-            style={{ border: "1px solid black", position: "relative" }}
+            style={{
+              border: "1px solid black",
+              position: "relative",
+              borderRadius: 5,
+            }}
             onClick={() => handleButtonClick(number)}
           >
             <p style={numStyle} className="absolute">
@@ -61,14 +69,18 @@ const NumberInput = ({
       <ButtonGroup
         variant="outlined"
         aria-label="outlined button group"
-        className="w-full h-full"
+        className="w-full h-full gap-1"
       >
         {numGroup3.map((number, index) => (
           <Button
             key={index}
             size="large"
             className="w-full h-full"
-            style={{ border: "1px solid black", position: "relative" }}
+            style={{
+              border: "1px solid black",
+              position: "relative",
+              borderRadius: 5,
+            }}
             onClick={() => handleButtonClick(number)}
           >
             <p style={numStyle} className="absolute">
@@ -80,7 +92,7 @@ const NumberInput = ({
       <ButtonGroup
         variant="outlined"
         aria-label="outlined button group"
-        className="w-full h-full"
+        className="w-full h-full gap-1"
       >
         <Button
           size="large"
@@ -92,6 +104,7 @@ const NumberInput = ({
             fontSize: "clamp(1.5rem, 1.5rem + 0vw, 1.5rem)",
             fontFamily: "Poppins",
             fontWeight: "bold",
+            borderRadius: 5,
           }}
           onClick={() => handleClearButton()}
         >
@@ -107,6 +120,7 @@ const NumberInput = ({
             fontFamily: "Poppins",
             fontWeight: "bold",
             position: "relative",
+            borderRadius: 5,
           }}
           onClick={() => {
             if (betAmount !== "") {
@@ -126,6 +140,7 @@ const NumberInput = ({
             fontSize: "clamp(1.5rem, 1.5rem + 0vw, 1.5rem)",
             fontFamily: "Poppins",
             fontWeight: "bold",
+            borderRadius: 5,
           }}
           onClick={handleMaxButton}
         >
