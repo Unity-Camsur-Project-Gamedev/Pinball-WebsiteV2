@@ -37,29 +37,17 @@ function DesktopResponsive({ confetti }) {
   const [popUp, setPopUp] = useState(false);
 
   return (
-    <div className="hidden lg:block border-2 border-blue-600">
+    <>
       <div className="flex flex-col items-center border-2 border-green-600 ">
-        <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
-          <p className="font-[Poppins] font-bold text-xl">Simulation:</p>
-          <div className="flex gap-2">
-            {/* <Button variant="contained" onClick={() => setConfetti(true)}>
-            Confetti
-          </Button>
-          <Button variant="contained" onClick={() => setPopUp(true)}>
-            Pop Up
-          </Button> */}
-          </div>
-        </div>
-
         {confetti && <Confetti />}
         {popUp && <PopUp />}
 
         <LiveStreamFrame />
       </div>
 
-      <div className=" flex justify-center items-center h-56">
+      <div className=" flex flex-1 justify-center items-center h-56">
         <div className="flex flex-col w-full h-full ">
-          <div className="h-[15%] z-10">
+          <div className="h-[20%] z-10">
             <ColorInputs
               selectedButton={selectedButton}
               colorHex={colorHex}
@@ -79,9 +67,9 @@ function DesktopResponsive({ confetti }) {
               />
             </div>
 
-            <div className="bet-info  flex flex-col gap-2 items-center justify-center uppercase font-extrabold">
-              <div className=" w-[90%] text-dynamicLarge ">
-                <div className=" flex flex-col items-center gap-2 ">
+            <div className="bet-info  flex flex-col gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600">
+              <div className=" w-[90%] text-dynamicLarge">
+                <div className=" flex flex-col items-center gap-4 ">
                   <div className="relative flex items-center justify-between w-4/5 ">
                     <div className="absolute right-0">
                       <IconButton
@@ -147,7 +135,7 @@ function DesktopResponsive({ confetti }) {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

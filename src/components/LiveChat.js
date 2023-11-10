@@ -62,7 +62,10 @@ function LiveChat() {
   return (
     <>
       <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-gray-200 ">
-        <ul className="h-28 w-[23rem] overflow-y-auto " ref={messagesListRef}>
+        <ul
+          className="h-[160px] 2xl:h-[210px] w-full overflow-y-auto border-2 border-red-600"
+          ref={messagesListRef}
+        >
           {messages.map((message, index) => (
             <li
               key={index}
@@ -75,7 +78,10 @@ function LiveChat() {
             </li>
           ))}
         </ul>
-        <form onSubmit={sendMessage} className="bg-white rounded-md">
+        <form
+          onSubmit={sendMessage}
+          className="bg-white rounded-md border-2 border-green-600"
+        >
           <input
             type="text"
             className="w-5/6 decoration-transparent mr-2 h-full border-none p-2 rounded-md"

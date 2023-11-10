@@ -109,10 +109,13 @@ const LiveGameStreamPage = ({ userToken }) => {
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
       >
-        <div className="flex flex-col gap-10 border-2 border-red-600 ">
-          {/* <DesktopProto /> */}
-          <DesktopResponsive confetti={confetti} />
+        <div className="w-full h-full  lg:w-[70%] lg:h-[720px] 2xl:h-[963px] flex flex-col gap-10 border-2 border-red-600 ">
+          <div className="hidden lg:flex flex-col h-full justify-between border-4 border-blue-600">
+            <DesktopResponsive confetti={confetti} />
+          </div>
           <MobileResponsive />
+        </div>
+        <div className="w-full lg:w-[70%]">
           <BetHistory userToken={userToken} />
         </div>
       </LiveStreamProvider>

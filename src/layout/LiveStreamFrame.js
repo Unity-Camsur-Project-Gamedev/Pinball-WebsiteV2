@@ -3,7 +3,7 @@ import React from "react";
 
 const LiveStreamFrame = () => {
   return (
-    <div className="relative w-[90%] xl:w-[75%] 2xl:w-full aspect-video">
+    <div className="relative w-[90%] xl:w-[75%] 2xl:w-[80%] aspect-video">
       <iframe
         // We'll use the padding bottom technique to maintain 16:9 ratio
         className="absolute w-full h-full"
