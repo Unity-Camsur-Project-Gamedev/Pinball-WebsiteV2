@@ -249,7 +249,7 @@ const BetHistory = ({ userToken }) => {
         bet: item.bet_data,
         betAmount: item.amount,
         winLose: item.status,
-        result: item.status === "Win" ? "+ " + item.amount * 2 : 0,
+        result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
       }));
       setRows(updatedRows);
     } catch (error) {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
@@ -8,6 +8,7 @@ function LiveChat() {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState(null);
+  const messagesListRef = useRef(null);
 
   const userId = Cookies.get("username");
 
@@ -51,14 +52,26 @@ function LiveChat() {
     }
   };
 
+  useEffect(() => {
+    // Scroll to the bottom of the messages list when it updates
+    if (messagesListRef.current) {
+      messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <>
-      {/* Live Chat here */}
-      <div className="chat-feed border-2 border-black p-2 bg-gray-200">
-        <ul className="h-5/6 overflow-y-auto">
+      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-gray-200 ">
+        <ul className="h-28 w-[23rem] overflow-y-auto " ref={messagesListRef}>
           {messages.map((message, index) => (
-            <li key={index} className="mb-2 p-2 bg-white w-fit rounded-md">
-              <strong>{message.userId}: </strong> {message.message.message}
+            <li
+              key={index}
+              className="mb-2 p-2 bg-white w-fit rounded-md break-words"
+            >
+              <p>
+                <strong className="font-semibold">{message.userId}: </strong>{" "}
+                {message.message.message}
+              </p>
             </li>
           ))}
         </ul>
@@ -66,7 +79,7 @@ function LiveChat() {
           <input
             type="text"
             className="w-5/6 decoration-transparent mr-2 h-full border-none p-2 rounded-md"
-            placeholder="Input Your Comment Here"
+            placeholder="Write a comment..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />

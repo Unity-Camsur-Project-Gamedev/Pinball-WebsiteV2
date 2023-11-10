@@ -37,7 +37,7 @@ function DesktopResponsive({ confetti }) {
   const [popUp, setPopUp] = useState(false);
 
   return (
-    <div className="hidden lg:block border-4 border-blue-600">
+    <div className="hidden lg:block border-2 border-blue-600">
       <div className="flex flex-col items-center border-2 border-green-600 ">
         <div className="absolute z-10 flex flex-col justify-center items-center border-2 border-red-600">
           <p className="font-[Poppins] font-bold text-xl">Simulation:</p>
@@ -66,7 +66,7 @@ function DesktopResponsive({ confetti }) {
               handleBetOnColor={handleBetOnColor}
             />
           </div>
-          <div className="h-[85%] grid grid-cols-3">
+          <div className="h-[85%] grid grid-cols-3 border-2 border-red-600">
             <div className="numpad ">
               <NumberInput
                 numGroup1={numGroup1}
