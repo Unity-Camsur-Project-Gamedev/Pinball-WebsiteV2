@@ -4,10 +4,10 @@ import { Alert, Button, ButtonGroup } from "@mui/material";
 
 const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
   return (
-    <div className="flex h-[15%] ">
+    <div className="flex h-full gap-1">
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 0
             ? {
@@ -27,7 +27,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       </div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 1
             ? {
@@ -45,7 +45,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 2
             ? {
@@ -63,7 +63,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 3
             ? {
@@ -81,7 +81,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 4
             ? {
@@ -99,7 +99,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 5
             ? {
@@ -117,7 +117,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 6
             ? {
@@ -135,7 +135,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 7
             ? {
@@ -153,7 +153,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
       ></div>
       <div
         variant="contained"
-        className="h-full w-full"
+        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 8
             ? {
@@ -223,7 +223,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                                     //               borderColor: 'black'
                                     //           }
                                     //         : {
-                                    //               backgroundColor: color,
+
+Matt Angelo Lim, [09/11/2023 5:04 pm]
+//               backgroundColor: color,
                                     //               borderRadius: '100px'
                                     //           }
                                     // }
@@ -234,7 +236,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                                         ? 'jackpot ' + (divLabels[key] || '')
                                         : divLabels[key] === ''
                                         ? ''
-                                        : `PHP ${parseFloat(divLabels[key]).toLocaleString()}`}
+                                        : PHP ${parseFloat(divLabels[key]).toLocaleString()}}
                                 </div>
                             ))} */}
     </div>
