@@ -38,6 +38,7 @@ function DesktopResponsive2({ confetti }) {
 
   return (
     <div className="border-2 border-black h-full w-full">
+      {confetti && <Confetti />}
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
           <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center">

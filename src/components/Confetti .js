@@ -75,18 +75,6 @@ export default function Confetti() {
 
   return (
     <>
-      {/* <div className="flex flex-col gap-2 justify-center items-center absolute z-10">
-        <p className="font-[Poppins] font-bold text-xl">Winner Simulation:</p>
-        <div className="flex gap-2">
-          <Button variant="contained" onClick={startAnimation}>
-            Win
-          </Button>
-          <Button variant="contained" onClick={pauseAnimation}>
-            Stop
-          </Button>
-        </div>
-      </div>
-      <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} /> */}
       {showConfetti && (
         <ReactCanvasConfetti refConfetti={getInstance} style={canvasStyles} />
       )}

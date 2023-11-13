@@ -338,7 +338,7 @@ const BetHistory = ({ userToken }) => {
   );
 
   return (
-    <div className="w-full lg:w-full flex items-center justify-center h-full border-2 border-red-600">
+    <div className="w-full h-full lg:w-full flex items-center justify-center border-2 border-red-600">
       <div className="w-[90%] lg:w-full flex flex-col gap-6">
         <h1 className="text-center text-dynamicMid font-bold uppercase font-['Poppins']">
           bet history

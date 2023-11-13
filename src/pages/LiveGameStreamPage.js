@@ -12,13 +12,16 @@ import BetHistory from "../layout/BetHistory";
 import TopUpModal from "../layout/TopUpModal";
 import MobileResponsive from "../layout/MobileResponsive";
 import DesktopResponsive from "../layout/DesktopResponsive";
+
 import DesktopResponsive2 from "../layout/DesktopResponsive2";
+import MobileResponsive2 from "../layout/MobileResponsive2";
 
 //CONTEXT
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 import ColorInputs from "../layout/ColorInputs";
 import Desktop from "../layout/Desktop/Desktop";
+import Mobile from "../layout/Mobile/Mobile";
 
 const LiveGameStreamPage = ({ userToken }) => {
   const [isOpen, setIsOpen] = useState(false); //modal state*
@@ -123,8 +126,18 @@ const LiveGameStreamPage = ({ userToken }) => {
         {/* <div className="h-[100vh] w-full border-2 border-blue-600">
           <DesktopResponsive2 />
         </div> */}
-        <Desktop userToken={userToken} />
-        <MobileResponsive />
+
+        {/* <Desktop userToken={userToken} confetti={confetti} />
+        <Mobile userToken={userToken} /> */}
+
+        <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
+          <DesktopResponsive2 confetti={confetti} />
+          <BetHistory userToken={userToken} />
+        </div>
+        <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
+          <MobileResponsive2 confetti={confetti} />
+          <BetHistory userToken={userToken} />
+        </div>
       </LiveStreamProvider>
     </div>
   );
