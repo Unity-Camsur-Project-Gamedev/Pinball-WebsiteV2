@@ -12,11 +12,13 @@ import BetHistory from "../layout/BetHistory";
 import TopUpModal from "../layout/TopUpModal";
 import MobileResponsive from "../layout/MobileResponsive";
 import DesktopResponsive from "../layout/DesktopResponsive";
+import DesktopResponsive2 from "../layout/DesktopResponsive2";
 
 //CONTEXT
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 import ColorInputs from "../layout/ColorInputs";
+import Desktop from "../layout/Desktop/Desktop";
 
 const LiveGameStreamPage = ({ userToken }) => {
   const [isOpen, setIsOpen] = useState(false); //modal state*
@@ -94,7 +96,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   }, []);
 
   return (
-    <div className="h-full flex flex-col gap-10 items-center border-2 border-green-600 ">
+    <div className="h-auto flex flex-col gap-10 items-center border-2 border-green-600 ">
       <ModalProvider
         userToken={userToken}
         isOpen={isOpen}
@@ -109,7 +111,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
       >
-        <div className="w-full h-full  lg:w-[70%] lg:h-[720px] 2xl:h-[963px] flex flex-col gap-10 border-2 border-red-600 ">
+        {/* <div className="w-full h-full lg:w-[70%] lg:h-[720px] 2xl:h-[963px] flex flex-col gap-10 border-2 border-red-600 ">
           <div className="hidden lg:flex flex-col h-full justify-between border-4 border-blue-600">
             <DesktopResponsive confetti={confetti} />
           </div>
@@ -117,7 +119,12 @@ const LiveGameStreamPage = ({ userToken }) => {
         </div>
         <div className="w-full lg:w-[70%]">
           <BetHistory userToken={userToken} />
-        </div>
+        </div> */}
+        {/* <div className="h-[100vh] w-full border-2 border-blue-600">
+          <DesktopResponsive2 />
+        </div> */}
+        <Desktop userToken={userToken} />
+        <MobileResponsive />
       </LiveStreamProvider>
     </div>
   );
