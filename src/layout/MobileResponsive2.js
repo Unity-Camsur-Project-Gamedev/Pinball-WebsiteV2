@@ -8,7 +8,7 @@ import Confetti from "../components/Confetti ";
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
 
-function MobileResponsive2({ confetti }) {
+function MobileResponsive2() {
   const {
     isOpen,
     colorHex,
@@ -30,7 +30,6 @@ function MobileResponsive2({ confetti }) {
   } = useLiveStream();
   return (
     <div className="lg:gap-0 pb-14 h-auto w-full flex flex-col items-center border-4 border-blue-600">
-      {confetti && <Confetti />}
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-gray-300 ">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">

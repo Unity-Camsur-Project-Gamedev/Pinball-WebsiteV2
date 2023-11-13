@@ -135,7 +135,7 @@ const LiveGameStreamPage = ({ userToken }) => {
           <BetHistory userToken={userToken} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
-          <MobileResponsive2 confetti={confetti} />
+          <MobileResponsive2 />
           <BetHistory userToken={userToken} />
         </div>
       </LiveStreamProvider>
