@@ -25,6 +25,7 @@ import { visuallyHidden } from "@mui/utils";
 import { useEffect } from "react";
 
 import { getBetHistory } from "../services/getBetHistory";
+import useLiveStream from "../context/LiveStreamContext";
 
 // function createData(date, gameId, bet, betAmount, winLose, result) {
 //     return {
@@ -236,6 +237,7 @@ const BetHistory = ({ userToken }) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
+  const { setUserBets } = useLiveStream();
 
   // const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -252,6 +254,7 @@ const BetHistory = ({ userToken }) => {
         result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
       }));
       setRows(updatedRows);
+      setUserBets(updatedRows); //FOR COLOR INPUTS
     } catch (error) {
       console.error("Error:", error.message);
       window.alert(

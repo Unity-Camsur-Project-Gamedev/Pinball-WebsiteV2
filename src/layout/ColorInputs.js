@@ -1,13 +1,58 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Alert, Button, ButtonGroup } from "@mui/material";
+import { getBetHistory } from "../services/getBetHistory";
+import useLiveStream from "../context/LiveStreamContext";
 
 const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
+  const { userBets } = useLiveStream();
+  const [redBetArray, setRedBetArray] = useState([]);
+  const [blueBetArray, setBlueBetArray] = useState([]);
+  const [yellowBetArray, setYellowBetArray] = useState([]);
+  const [greenBetArray, setGreenBetArray] = useState([]);
+  const [goldBetArray, setGoldBetArray] = useState([]);
+  const [violetBetArray, setVioletBetArray] = useState([]);
+  const [orangeBetArray, setOrangeBetArray] = useState([]);
+  const [pinkBetArray, setPinkBetArray] = useState([]);
+  const [cyanBetArray, setCyanBetArray] = useState([]);
+
+  useEffect(() => {
+    const ongoingRows = userBets
+      .filter((item) => item.winLose === "On going")
+      .map((item) => ({
+        betColor: item.bet,
+        betAmount: item.betAmount,
+        status: item.winLose,
+      }));
+
+    ongoingRows.forEach((row) => {
+      if (row.betColor === "Red") {
+        setRedBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Blue") {
+        setBlueBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Yellow") {
+        setYellowBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Green") {
+        setGreenBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Gold") {
+        setGoldBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Violet") {
+        setVioletBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Orange") {
+        setOrangeBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Pink") {
+        setPinkBetArray((prevArray) => [...prevArray, row.betAmount]);
+      } else if (row.betColor === "Cyan") {
+        setCyanBetArray((prevArray) => [...prevArray, row.betAmount]);
+      }
+    });
+  }, [selectedButton]);
+
   return (
-    <div className="flex h-full gap-1">
+    <div className="grid grid-cols-9 h-full gap-1">
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 0
             ? {
@@ -23,11 +68,13 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(0)}
       >
-        {/* {confirmedBetAmount} */}
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{redBetArray}</p>
+        </div>
       </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 1
             ? {
@@ -42,10 +89,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(1)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{blueBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 2
             ? {
@@ -60,10 +111,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(2)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{yellowBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 3
             ? {
@@ -78,10 +133,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(3)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{greenBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 4
             ? {
@@ -96,10 +155,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(4)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{goldBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 5
             ? {
@@ -114,10 +177,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(5)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{violetBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 6
             ? {
@@ -132,10 +199,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(6)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{orangeBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 7
             ? {
@@ -150,10 +221,14 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(7)}
-      ></div>
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{pinkBetArray}</p>
+        </div>
+      </div>
       <div
         variant="contained"
-        className="h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
+        className="flex justify-center items-center h-full w-full hover:scale-110 transition ease-in-out rounded-sm"
         style={
           selectedButton == 8
             ? {
@@ -168,77 +243,11 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
               }
         }
         onClick={() => handleBetOnColor(8)}
-      ></div>
-      {/* {colorHex.map((color, key) => (
-                                <div
-                                    key={key}
-                                    variant="contained"
-                                    className={color === '#FFD700' ? 'h-full w-full col-span-4' : 'h-full w-full'}
-                                    // style={{
-                                    //     backgroundColor: color,
-                                    //     borderRadius: '100px'
-                                    // }}
-                                    style={
-                                        color === '#FFD700'
-                                            ? {
-                                                  backgroundColor: '#FFD700',
-                                                  borderRadius: '100px',
-                                                  color: 'black',
-                                                  padding: 0,
-                                                  fontSize: '1.5rem',
-                                                  fontWeight: 'bold'
-                                              }
-                                            : selectedButton === 8
-                                            ? {
-                                                  backgroundColor: '#FFD700',
-                                                  borderRadius: '100px',
-                                                  color: 'black',
-                                                  padding: 0,
-                                                  fontSize: '1.5rem',
-                                                  fontWeight: 'bold',
-                                                  borderStyle: 'solid',
-                                                  borderWidth: '2px',
-                                                  borderColor: 'black'
-                                              }
-                                            : selectedButton === key
-                                            ? {
-                                                  backgroundColor: color,
-                                                  borderRadius: '50px',
-                                                  borderStyle: 'solid',
-                                                  borderWidth: '2px',
-                                                  borderColor: 'black'
-                                              }
-                                            : {
-                                                  backgroundColor: color,
-                                                  borderRadius: '100px'
-                                              }
-                                    }
-                                    // style={
-                                    //     selectedButton === key
-                                    //         ? {
-                                    //               backgroundColor: color,
-                                    //               borderRadius: '50px',
-                                    //               borderStyle: 'solid',
-                                    //               borderWidth: '2px',
-                                    //               borderColor: 'black'
-                                    //           }
-                                    //         : {
-
-Matt Angelo Lim, [09/11/2023 5:04 pm]
-//               backgroundColor: color,
-                                    //               borderRadius: '100px'
-                                    //           }
-                                    // }
-                                    // onClick={() => handleBetOnColor(color, betAmount, key)}
-                                    onClick={() => handleBetOnColor(key)}
-                                >
-                                    {color === '#FFD700'
-                                        ? 'jackpot ' + (divLabels[key] || '')
-                                        : divLabels[key] === ''
-                                        ? ''
-                                        : PHP ${parseFloat(divLabels[key]).toLocaleString()}}
-                                </div>
-                            ))} */}
+      >
+        <div className="border-2 border-black rounded-full py-1 px-2 ">
+          <p className="text-2xl font-bold">{cyanBetArray}</p>
+        </div>
+      </div>
     </div>
   );
 };

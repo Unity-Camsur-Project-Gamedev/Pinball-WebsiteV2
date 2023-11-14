@@ -10,18 +10,12 @@ import BetHistory from "../layout/BetHistory";
 
 //SERVICES API FOLDER
 import TopUpModal from "../layout/TopUpModal";
-import MobileResponsive from "../layout/MobileResponsive";
-import DesktopResponsive from "../layout/DesktopResponsive";
-
 import DesktopResponsive2 from "../layout/DesktopResponsive2";
 import MobileResponsive2 from "../layout/MobileResponsive2";
 
 //CONTEXT
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
-import ColorInputs from "../layout/ColorInputs";
-import Desktop from "../layout/Desktop/Desktop";
-import Mobile from "../layout/Mobile/Mobile";
 
 const LiveGameStreamPage = ({ userToken }) => {
   const [isOpen, setIsOpen] = useState(false); //modal state*

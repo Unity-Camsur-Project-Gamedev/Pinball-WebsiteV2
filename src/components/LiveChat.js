@@ -61,7 +61,7 @@ function LiveChat() {
 
   return (
     <>
-      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-gray-200 ">
+      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-white">
         <ul
           className="h-[160px] 2xl:h-[210px] w-full overflow-y-auto border-2 border-red-600"
           ref={messagesListRef}

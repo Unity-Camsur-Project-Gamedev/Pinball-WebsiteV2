@@ -41,11 +41,11 @@ function DesktopResponsive2({ confetti }) {
       {confetti && <Confetti />}
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
-          <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center">
+          <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-slate-200">
             <LiveStreamFrame />
           </div>
           <div className="sub-container flex flex-col flex-1 border-2 border-red-600">
-            <div className="color-grid-container h-[3rem] border-2 border-blue-600">
+            <div className="color-grid-container h-[4rem] border-2 border-blue-600">
               <ColorInputs
                 selectedButton={selectedButton}
                 colorHex={colorHex}
@@ -130,7 +130,7 @@ function DesktopResponsive2({ confetti }) {
                   </Button>
                 </div>
               </div>
-              <div className="border-2 border-green-600">
+              <div className="border-2 border-green-600 ">
                 <LiveChat />
               </div>
             </div>

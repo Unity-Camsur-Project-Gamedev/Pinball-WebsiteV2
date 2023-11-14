@@ -17,6 +17,8 @@ const initialState = {
   selectedColorName: "",
   selectedColorHex: "",
   betButtons: [],
+  userBets: [],
+  setUserBets: () => {},
   setIsOpen: () => {},
   setSelectedColorName: () => {},
   setSelectedColorHex: () => {},
@@ -34,8 +36,8 @@ const LiveStreamContext = createContext(initialState);
 
 export const LiveStreamProvider = ({
   children,
-  userToken,
   isOpen,
+  userToken,
   setIsOpen,
   totalCredits,
 }) => {
@@ -69,6 +71,7 @@ export const LiveStreamProvider = ({
   const [selectedColorHex, setSelectedColorHex] = useState("");
   const [betAmount, setBetAmount] = useState("");
   const [selectedButton, setSelectedButton] = useState(null);
+  const [userBets, setUserBets] = useState([]);
 
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
@@ -146,6 +149,8 @@ export const LiveStreamProvider = ({
         selectedButton,
         betButtons,
         setIsOpen,
+        userBets,
+        setUserBets,
         handleInputChange,
         handleConfirmBet,
         handleBetOnColor,
