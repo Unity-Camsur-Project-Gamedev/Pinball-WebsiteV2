@@ -41,7 +41,7 @@ function DesktopResponsive2({ confetti, betStatus }) {
       {confetti && <Confetti />}
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
-          <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-slate-200">
+          <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-[#b0ecfa]">
             <LiveStreamFrame />
           </div>
 
@@ -51,14 +51,14 @@ function DesktopResponsive2({ confetti, betStatus }) {
               <div className="absolute inset-0 z-10"></div>
             )}
             {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-            <div className="color-grid-container h-[4rem] border-2 border-blue-600">
+            <div className="color-grid-container h-[3rem] border-2 border-blue-600">
               <ColorInputs
                 selectedButton={selectedButton}
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />
             </div>
-            <div className="input-grid-container grid grid-cols-3 flex-1 border-2 border-blue-600">
+            <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
               <div className="border-2 border-green-600">
                 <NumberInput
                   numGroup1={numGroup1}
@@ -70,12 +70,15 @@ function DesktopResponsive2({ confetti, betStatus }) {
                   handleMaxButton={handleMaxButton}
                 />
               </div>
-              <div className="bet-info border-2 border-green-600">
-                <div className="h-full flex flex-col gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600">
-                  <div className=" w-[90%] text-dynamicLarge">
-                    <div className=" flex flex-col items-center gap-4 ">
-                      <div className="relative flex items-center justify-between w-4/5 ">
-                        <div className="absolute right-0">
+              <div className="bet-info border-2 border-green-600 p-2">
+                <div
+                  className="bg-[#ffdf01] h-full flex flex-col gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600"
+                  style={{ borderRadius: 45 }}
+                >
+                  <div className=" w-[85%] text-dynamicLarge">
+                    <div className=" flex flex-col gap-4">
+                      <div className="relative flex items-center justify-between w-full  ">
+                        <div className="absolute right-0 ">
                           <IconButton
                             aria-label="delete"
                             color="primary"
@@ -87,15 +90,19 @@ function DesktopResponsive2({ confetti, betStatus }) {
                             <AddCircleRoundedIcon />
                           </IconButton>
                         </div>
-                        <p className="font-['Poppins']">credits: </p>
-                        <div className="flex items-center  text-[#E26226] font-['Poppins'] w-1/2">
+                        <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
+                          credits:{" "}
+                        </p>
+                        <div className="flex items-center font-bold 2xl:text-2xl xl:text-xl lg:text-md text-[#E26226] 2xl:px-2 xl:px-1 w-1/2">
                           {totalCredits !== 0
                             ? `₱ ${parseFloat(totalCredits).toLocaleString()}`
                             : "0"}
                         </div>
                       </div>
-                      <div className="flex items-center justify-between w-4/5 ">
-                        <p className="font-['Poppins']">Bet Amount: </p>
+                      <div className="flex items-center justify-between w-full  ">
+                        <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
+                          Bet Amount:{" "}
+                        </p>
                         <div className="text-[#E26226] w-1/2 font-['Poppins']">
                           <input
                             type="text"
@@ -104,15 +111,17 @@ function DesktopResponsive2({ confetti, betStatus }) {
                                 ? `₱ ${parseFloat(betAmount).toLocaleString()}`
                                 : "₱ 0"
                             }
-                            className="text-dynamicLarge w-full text-[#E26226] border-2"
+                            className="2xl:text-2xl xl:text-xl lg:text-md w-full text-[#E26226] border-2 rounded-full 2xl:p-2 xl:p-1"
                             onChange={handleInputChange}
                           ></input>
                         </div>
                       </div>
-                      <div className="flex items-center justify-between w-4/5 ">
-                        <p className="font-['Poppins']">color: </p>
+                      <div className="flex items-center justify-between w-full  ">
+                        <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
+                          color:{" "}
+                        </p>
                         <div
-                          className="w-1/2 h-5 "
+                          className="w-1/2 h-5 bg-white border-2 rounded-full 2xl:p-6 xl:p-4"
                           style={{ backgroundColor: colorHex[selectedButton] }}
                         ></div>
                       </div>
@@ -120,15 +129,17 @@ function DesktopResponsive2({ confetti, betStatus }) {
                   </div>
                   <Button
                     variant="contained"
-                    className="w-[90%]"
+                    className="w-[70%] bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                     style={{
-                      backgroundColor: "#14C61B",
+                      backgroundColor: "#0474f2",
                       color: "white",
-                      fontSize: "1rem",
-                      paddingTop: "3%",
-                      paddingBottom: "3%",
-                      fontFamily: "Poppins",
+                      fontSize: "1.5rem",
+                      padding: "2%",
+                      // paddingTop: "3%",
+                      // paddingBottom: "3%",
+                      // fontFamily: "Poppins",
                       fontWeight: "bold",
+                      borderRadius: 50,
                     }}
                     onClick={handleConfirmBet}
                   >

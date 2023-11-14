@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
@@ -61,19 +62,19 @@ function LiveChat() {
 
   return (
     <>
-      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-white">
+      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-[#0d4fa3]">
         <ul
           className="h-[160px] 2xl:h-[210px] w-full overflow-y-auto border-2 border-red-600"
           ref={messagesListRef}
         >
           {messages.map((message, index) => (
-            <li
-              key={index}
-              className="mb-2 p-2 bg-white w-fit rounded-md break-words"
-            >
+            <li key={index} className=" p-2  w-fit rounded-md break-words">
               <p>
-                <strong className="font-semibold">{message.userId}: </strong>{" "}
-                {message.message.message}
+                <AccountCircleIcon style={{ color: "white" }} />
+                <strong className="ml-1 text-white font-semibold">
+                  {message.userId}:{" "}
+                </strong>{" "}
+                <span className="text-white">{message.message.message}</span>
               </p>
             </li>
           ))}

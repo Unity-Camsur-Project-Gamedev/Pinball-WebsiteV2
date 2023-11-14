@@ -14,7 +14,6 @@ const NumberInput = ({
   const numStyle = {
     color: "black",
     fontSize: "clamp(1.75rem, 1.25rem + 0.7813vw, 2.5rem)",
-    fontFamily: "Poppins",
     fontWeight: "bold",
   };
 
@@ -28,12 +27,14 @@ const NumberInput = ({
         {numGroup1.map((number, index) => (
           <Button
             key={index}
-            // size="large"
             className="w-full h-full"
             style={{
-              border: "1px solid black",
               position: "relative",
-              borderRadius: 5,
+              borderRadius: 50,
+              backgroundColor: "#ffffff",
+              boxShadow:
+                "0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.1)", // Add an embossed box shadow
+              border: "1px solid rgba(255, 255, 255, 0.5)", // Add a light border for depth
             }}
             onClick={() => handleButtonClick(number)}
           >
@@ -54,9 +55,12 @@ const NumberInput = ({
             size="large"
             className="w-full h-full"
             style={{
-              border: "1px solid black",
               position: "relative",
-              borderRadius: 5,
+              borderRadius: 50,
+              backgroundColor: "#ffffff",
+              boxShadow:
+                "0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.1)", // Add an embossed box shadow
+              border: "1px solid rgba(255, 255, 255, 0.5)", // Add a light border for depth
             }}
             onClick={() => handleButtonClick(number)}
           >
@@ -77,9 +81,12 @@ const NumberInput = ({
             size="large"
             className="w-full h-full"
             style={{
-              border: "1px solid black",
               position: "relative",
-              borderRadius: 5,
+              borderRadius: 50,
+              backgroundColor: "#ffffff",
+              boxShadow:
+                "0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.1)", // Add an embossed box shadow
+              border: "1px solid rgba(255, 255, 255, 0.5)", // Add a light border for depth
             }}
             onClick={() => handleButtonClick(number)}
           >
@@ -96,15 +103,14 @@ const NumberInput = ({
       >
         <Button
           size="large"
-          className="w-full h-full"
+          className="w-full h-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
           style={{
-            border: "1px solid black",
             backgroundColor: "#FFFF00",
-            color: "black",
+            color: "white",
             fontSize: "clamp(1.5rem, 1.5rem + 0vw, 1.5rem)",
-            fontFamily: "Poppins",
             fontWeight: "bold",
-            borderRadius: 5,
+            borderRadius: 50,
+            backgroundColor: "#0474f2",
           }}
           onClick={() => handleClearButton()}
         >
@@ -114,13 +120,15 @@ const NumberInput = ({
           size="large"
           className="w-full h-full"
           style={{
-            border: "1px solid black",
             color: "black",
             fontSize: "clamp(1.75rem, 1.25rem + 0.7813vw, 2.5rem)",
-            fontFamily: "Poppins",
             fontWeight: "bold",
             position: "relative",
-            borderRadius: 5,
+            borderRadius: 50,
+            backgroundColor: "#ffffff",
+            boxShadow:
+              "0px 4px 8px rgba(0, 0, 0, 0.2), 0px 2px 4px rgba(0, 0, 0, 0.1)", // Add an embossed box shadow
+            border: "1px solid rgba(255, 255, 255, 0.5)", // Add a light border for depth
           }}
           onClick={() => {
             if (betAmount !== "") {
@@ -132,15 +140,14 @@ const NumberInput = ({
         </Button>
         <Button
           size="large"
-          className="w-full h-full"
+          className="w-full h-full bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800"
           style={{
-            border: "1px solid black",
             backgroundColor: "#FF0000",
             color: "white",
             fontSize: "clamp(1.5rem, 1.5rem + 0vw, 1.5rem)",
-            fontFamily: "Poppins",
             fontWeight: "bold",
-            borderRadius: 5,
+            borderRadius: 50,
+            backgroundColor: "#ee3231",
           }}
           onClick={handleMaxButton}
         >
