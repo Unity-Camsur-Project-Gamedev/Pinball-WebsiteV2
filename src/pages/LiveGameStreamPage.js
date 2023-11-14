@@ -74,9 +74,7 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingStatusUpdate", (data) => {
       console.log("Betting Status:", data.status);
-      setTimeout(() => {
-        setBetStatus(data.status);
-      }, 3000);
+      setBetStatus(data.status); //set the bet status to 'Closed'
     });
 
     return () => {
