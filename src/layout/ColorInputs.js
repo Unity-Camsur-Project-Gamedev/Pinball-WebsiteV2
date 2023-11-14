@@ -16,37 +16,37 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
   const [pinkBetArray, setPinkBetArray] = useState([]);
   const [cyanBetArray, setCyanBetArray] = useState([]);
 
-  useEffect(() => {
-    const ongoingRows = userBets
-      .filter((item) => item.winLose === "On going")
-      .map((item) => ({
-        betColor: item.bet,
-        betAmount: item.betAmount,
-        status: item.winLose,
-      }));
+  // useEffect(() => {
+  //   const ongoingRows = userBets
+  //     .filter((item) => item.winLose === "On going")
+  //     .map((item) => ({
+  //       betColor: item.bet,
+  //       betAmount: item.betAmount,
+  //       status: item.winLose,
+  //     }));
 
-    ongoingRows.forEach((row) => {
-      if (row.betColor === "Red") {
-        setRedBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Blue") {
-        setBlueBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Yellow") {
-        setYellowBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Green") {
-        setGreenBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Gold") {
-        setGoldBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Violet") {
-        setVioletBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Orange") {
-        setOrangeBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Pink") {
-        setPinkBetArray((prevArray) => [...prevArray, row.betAmount]);
-      } else if (row.betColor === "Cyan") {
-        setCyanBetArray((prevArray) => [...prevArray, row.betAmount]);
-      }
-    });
-  }, [selectedButton]);
+  //   ongoingRows.forEach((row) => {
+  //     if (row.betColor === "Red") {
+  //       setRedBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Blue") {
+  //       setBlueBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Yellow") {
+  //       setYellowBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Green") {
+  //       setGreenBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Gold") {
+  //       setGoldBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Violet") {
+  //       setVioletBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Orange") {
+  //       setOrangeBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Pink") {
+  //       setPinkBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     } else if (row.betColor === "Cyan") {
+  //       setCyanBetArray((prevArray) => [...prevArray, row.betAmount]);
+  //     }
+  //   });
+  // }, [selectedButton]);
 
   return (
     <div className="grid grid-cols-9 h-full gap-1">
@@ -68,9 +68,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(0)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{redBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -90,9 +90,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(1)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{blueBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -112,9 +112,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(2)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{yellowBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -134,9 +134,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(3)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{greenBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -156,9 +156,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(4)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{goldBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -178,9 +178,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(5)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{violetBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -200,9 +200,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(6)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{orangeBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -222,9 +222,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(7)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{pinkBetArray}</p>
-        </div>
+        </div> */}
       </div>
       <div
         variant="contained"
@@ -244,9 +244,9 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
         }
         onClick={() => handleBetOnColor(8)}
       >
-        <div className="border-2 border-black rounded-full py-1 px-2 ">
+        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
           <p className="text-2xl font-bold">{cyanBetArray}</p>
-        </div>
+        </div> */}
       </div>
     </div>
   );
