@@ -24,6 +24,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
+  const [betStatus, setBetStatus] = useState("");
 
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
@@ -69,6 +70,13 @@ const LiveGameStreamPage = ({ userToken }) => {
         setTotalCredits(data.balance);
       }, 3000);
       setConfetti(true);
+    });
+
+    socket.on("bettingStatusUpdate", (data) => {
+      console.log("Betting Status:", data.status);
+      setTimeout(() => {
+        setBetStatus(data.status);
+      }, 3000);
     });
 
     return () => {
@@ -125,7 +133,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         <Mobile userToken={userToken} /> */}
 
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
-          <DesktopResponsive2 confetti={confetti} />
+          <DesktopResponsive2 confetti={confetti} betStatus={betStatus} />
           <BetHistory userToken={userToken} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">

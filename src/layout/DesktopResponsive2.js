@@ -12,7 +12,7 @@ import Confetti from "../components/Confetti ";
 import PopUp from "../components/PopUp";
 import LiveChat from "../components/LiveChat";
 
-function DesktopResponsive2({ confetti }) {
+function DesktopResponsive2({ confetti, betStatus }) {
   const {
     isOpen,
     colorHex,
@@ -44,7 +44,13 @@ function DesktopResponsive2({ confetti }) {
           <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-slate-200">
             <LiveStreamFrame />
           </div>
-          <div className="sub-container flex flex-col flex-1 border-2 border-red-600">
+
+          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 relative">
+            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+            {betStatus === "Closed" && (
+              <div className="absolute inset-0 z-10"></div>
+            )}
+            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
             <div className="color-grid-container h-[4rem] border-2 border-blue-600">
               <ColorInputs
                 selectedButton={selectedButton}
