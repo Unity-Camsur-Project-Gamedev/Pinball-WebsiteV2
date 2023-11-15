@@ -50,21 +50,23 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
-  // //FETCH USER WALLET BALANCE
+  // FETCH SOCKETS
   useEffect(() => {
     // console.log('userId changed:', userId);
     const baseUrl = process.env.REACT_APP_BACKEND_URL;
     const socket = io(baseUrl, { query: { userId } });
 
+    socket.on("connect", () => {
+      console.log("Socket connected!");
+    });
+
     socket.on("walletUpdate", (data) => {
-      // Update the totalCredits state with the wallet balance
       console.log("Received wallet update:", data.balance);
       setConfetti(false);
       setTotalCredits(data.balance);
     });
 
     socket.on("walletUpdateWin", (data) => {
-      // Update the totalCredits state with the wallet balance
       console.log("UpdatedWalletBalance:", data.balance);
       setTimeout(() => {
         setTotalCredits(data.balance);
