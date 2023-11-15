@@ -29,8 +29,8 @@ function MobileResponsive2() {
     handleInputButtonClick,
   } = useLiveStream();
   return (
-    <div className="lg:gap-0 pb-14 h-auto w-full flex flex-col items-center border-4 border-blue-600">
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-gray-300 ">
+    <div className="lg:gap-0 pb-14 h-auto w-full flex flex-col items-center border-4 border-blue-600 bg-[#a0dfff]">
+      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
             <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
@@ -49,11 +49,11 @@ function MobileResponsive2() {
           src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=f41e0c23-d082-4426-b79e-3eac9d5070b1&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-gray-300 ">
+      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
         <div className="w-[85%] flex ">
-          <div className="flex flex-2 items-center justify-between gap-2 ">
-            <p className="w-full">credits:</p>
-            <div className="text-[#E26226] font-['Poppins'] mt-1">
+          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins']">
+            <p className="w-full text-lg font-bold">credits:</p>
+            <div className="text-[#e26629] text-lg">
               {totalCredits !== 0
                 ? ` ${parseFloat(totalCredits).toLocaleString()}.00`
                 : "0.00"}
@@ -72,19 +72,22 @@ function MobileResponsive2() {
               </IconButton>
             </div>
           </div>
-          <div className="flex flex-1 items-center justify-end gap-2 ">
-            <p>color:</p>
+          <div className="flex flex-1 items-center justify-end gap-2 font-['Poppins']">
+            <p className="text-lg font-bold">color:</p>
             <div
-              className="w-16 h-8 "
-              style={{ backgroundColor: colorHex[selectedButton] }}
+              className="w-16 h-8 rounded-sm"
+              style={{
+                backgroundColor: colorHex[selectedButton] || "#FFFFFF",
+                boxShadow: "inset gray 0px 0px 20px -12px",
+              }}
             ></div>
           </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse w-[90%] p-2 gap-2 rounded-lg ">
+      <div className="flex flex-col-reverse w-[90%] p-2 gap-4 rounded-lg  ">
         <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-2 ">
           <p>enter bet amount:</p>
-          <div className="flex items-center justify-center px-2 py-2 border-2 border-black">
+          <div className="flex items-center justify-center px-2 gap-2 ">
             <input
               type="text"
               value={
@@ -92,13 +95,17 @@ function MobileResponsive2() {
                   ? `₱ ${parseFloat(betAmount).toLocaleString()}`
                   : "₱ 0"
               }
-              className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none"
+              className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
               onChange={handleInputChange}
-              // onKeyDown={handleKeyDown}
             />
             <p
               onClick={() => handleClearButton()}
-              style={{ fontWeight: 100, fontSize: ".75rem" }}
+              style={{
+                fontWeight: 100,
+                fontSize: ".75rem",
+                fontWeight: "bold",
+                fontFamily: "Poppins",
+              }}
             >
               clear
             </p>
@@ -109,15 +116,27 @@ function MobileResponsive2() {
                 key={key}
                 className="p-2 rounded-full border-2 border-black"
                 onClick={() => handleInputButtonClick(button)}
+                style={{
+                  backgroundColor: "#ffffff", // Default white background color
+                  boxShadow:
+                    "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
+                  border: "1px solid rgba(255, 255, 255, 0.5)",
+                }}
               >
                 <p className="text-dynamicMid">{button}</p>
               </div>
             ))}
             <div
-              className="flex items-center justify-center rounded-full bg-[#00FF19]"
+              className="flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 "
+              style={{
+                backgroundColor: "#ffffff", // Default white background color
+                boxShadow:
+                  "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
+                border: "1px solid rgba(255, 255, 255, 0.5)",
+              }}
               onClick={handleConfirmBet}
             >
-              <p>confirm</p>
+              <p className="text-white">confirm</p>
             </div>
           </div>
         </div>

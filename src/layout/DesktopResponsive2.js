@@ -72,12 +72,12 @@ function DesktopResponsive2({ confetti, betStatus }) {
               </div>
               <div className="bet-info border-2 border-green-600 p-2">
                 <div
-                  className="bg-[#ffdf01] h-full flex flex-col gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600"
-                  style={{ borderRadius: 45 }}
+                  className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600 shadow-inner"
+                  style={{ borderRadius: 35 }}
                 >
                   <div className=" w-[85%] text-dynamicLarge">
-                    <div className=" flex flex-col gap-4">
-                      <div className="relative flex items-center justify-between w-full  ">
+                    <div className=" flex flex-col gap-4 ">
+                      <div className="relative flex items-center justify-between w-full ">
                         <div className="absolute right-0 ">
                           <IconButton
                             aria-label="delete"
@@ -103,7 +103,7 @@ function DesktopResponsive2({ confetti, betStatus }) {
                         <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
                           Bet Amount:{" "}
                         </p>
-                        <div className="text-[#E26226] w-1/2 font-['Poppins']">
+                        <div className="text-[#E26226] w-1/2 font-['Poppins'] rounded-full shadow-inner">
                           <input
                             type="text"
                             value={
@@ -121,7 +121,7 @@ function DesktopResponsive2({ confetti, betStatus }) {
                           color:{" "}
                         </p>
                         <div
-                          className="w-1/2 h-5 bg-white border-2 rounded-full 2xl:p-6 xl:p-4"
+                          className="w-1/2 h-5 bg-white rounded-full 2xl:p-6 xl:p-4 shadow-inner"
                           style={{ backgroundColor: colorHex[selectedButton] }}
                         ></div>
                       </div>

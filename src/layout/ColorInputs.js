@@ -49,7 +49,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
   // }, [selectedButton]);
 
   return (
-    <div className="grid grid-cols-9 h-full gap-1">
+    <div className="grid grid-cols-9 h-full gap-1 ">
       <div
         variant="contained"
         className="flex justify-center items-center h-full w-full hover:-translate-y-2 duration-300 transition ease-in-out rounded-sm"
@@ -59,7 +59,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[0],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -81,7 +81,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[1],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -103,7 +103,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[2],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -125,7 +125,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[3],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -147,7 +147,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[4],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -169,7 +169,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[5],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -191,7 +191,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[6],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -213,7 +213,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[7],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {
@@ -235,7 +235,7 @@ const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
                 backgroundColor: colorHex[8],
 
                 borderStyle: "solid",
-                borderWidth: "4px",
+                borderWidth: "2px",
                 borderColor: "black",
               }
             : {

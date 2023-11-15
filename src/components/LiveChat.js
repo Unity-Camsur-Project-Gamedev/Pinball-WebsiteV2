@@ -68,7 +68,7 @@ function LiveChat() {
           ref={messagesListRef}
         >
           {messages.map((message, index) => (
-            <li key={index} className=" p-2  w-fit rounded-md break-words">
+            <li key={index} className="p-1 w-fit rounded-md break-words">
               <p>
                 <AccountCircleIcon style={{ color: "white" }} />
                 <strong className="ml-1 text-white font-semibold">
