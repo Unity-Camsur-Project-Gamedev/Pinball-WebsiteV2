@@ -1,5 +1,6 @@
 /* eslint-disable */
-import React from "react";
+import React, { useState } from "react";
+import EmbossedMobile from "../components/EmbossedMobile";
 
 import { IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -29,6 +30,29 @@ function MobileResponsive2() {
     handleMaxButton,
     handleInputButtonClick,
   } = useLiveStream();
+
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handlePress = () => {
+    setIsPressed(true);
+    setTimeout(() => {
+      setIsPressed(false);
+    }, 100);
+  };
+
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+
   return (
     <div className="lg:gap-0 pb-14 h-auto w-full flex flex-col items-center border-4 border-blue-600 bg-[#a0dfff] ">
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
@@ -116,29 +140,34 @@ function MobileResponsive2() {
           </div>
           <div className="grid grid-cols-3 gap-2 w-full text-center">
             {betButtons.map((button, key) => (
-              <div
-                key={key}
-                className="p-2 rounded-full border-2 border-black"
-                onClick={() => handleInputButtonClick(button)}
-                style={{
-                  backgroundColor: "#ffffff", // Default white background color
-                  boxShadow:
-                    "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
-                  border: "1px solid rgba(255, 255, 255, 0.5)",
-                }}
-              >
-                <p className="text-dynamicMid">{button}</p>
+              // <div
+              //   key={key}
+              //   className="p-2 rounded-full border-2 border-black"
+              //   onClick={() => handleInputButtonClick(button)}
+              //   style={{
+              //     backgroundColor: "#ffffff", // Default white background color
+              //     boxShadow:
+              //       "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
+              //     border: "1px solid rgba(255, 255, 255, 0.5)",
+              //   }}
+              // >
+              //   <p className="text-dynamicMid">{button}</p>
+              // </div>
+              <div key={key}>
+                <EmbossedMobile
+                  button={button}
+                  handlerFunction={() => handleInputButtonClick(button)}
+                />
               </div>
             ))}
             <div
-              className="flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 "
-              style={{
-                backgroundColor: "#ffffff", // Default white background color
-                boxShadow:
-                  "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
-                border: "1px solid rgba(255, 255, 255, 0.5)",
+              className={buttonClassName}
+              onClick={() => {
+                handleConfirmBet();
+                handlePress();
               }}
-              onClick={handleConfirmBet}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
             >
               <p className="text-white">confirm</p>
             </div>
