@@ -99,7 +99,7 @@ const NumberInput = ({
           size="large"
           className={buttonClassName}
           style={{
-            color: "black",
+            color: "#0d4fa3",
             fontSize: "clamp(1.75rem, 1.25rem + 0.7813vw, 2.5rem)",
             fontWeight: "bold",
             position: "relative",

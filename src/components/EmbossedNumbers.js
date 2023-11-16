@@ -53,7 +53,7 @@ function EmbossedNumbers({
         onMouseLeave={handleLeave}
       >
         <p
-          className={`absolute ${
+          className={`absolute text-[#0d4fa3] ${
             isPressed ? "transition translate-x-[3px] translate-y-[3px] " : ""
           } `}
         >
