@@ -14,6 +14,10 @@ module.exports = {
       width: {
         dynamicBorder: "clamp(64rem, 42.6667rem + 33.3333vw, 96rem)",
       },
+      boxShadow: {
+        unpressed: "inset -5px -5px 5px 1px rgb(0 0 0 / 0.3)",
+        pressed: "inset 5px 5px 5px 1px rgb(0 0 0 / 0.3)",
+      },
     },
   },
   plugins: [],

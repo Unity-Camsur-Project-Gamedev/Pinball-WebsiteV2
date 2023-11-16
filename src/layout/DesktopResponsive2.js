@@ -36,6 +36,28 @@ function DesktopResponsive2({ confetti, betStatus }) {
   // const [confetti, setConfetti] = useState(false);
   const [popUp, setPopUp] = useState(false);
 
+  const [isHovered, setIsHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleLeave = () => {
+    setIsHovered(false);
+  };
+
+  const handlePress = () => {
+    setIsPressed(true);
+    setTimeout(() => {
+      setIsPressed(false);
+    }, 100);
+  };
+
+  const buttonClassName = `w-[70%]  ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+
   return (
     <div className="border-2 border-black h-full w-full">
       {confetti && <Confetti />}
@@ -72,7 +94,7 @@ function DesktopResponsive2({ confetti, betStatus }) {
               </div>
               <div className="bet-info border-2 border-green-600 p-2">
                 <div
-                  className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-4 items-center justify-center uppercase font-extrabold border-2 border-red-600 shadow-inner"
+                  className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-3 items-center justify-center uppercase font-extrabold shadow-unpressed"
                   style={{ borderRadius: 35 }}
                 >
                   <div className=" w-[85%] text-dynamicLarge">
@@ -128,22 +150,32 @@ function DesktopResponsive2({ confetti, betStatus }) {
                     </div>
                   </div>
                   <Button
-                    variant="contained"
-                    className="w-[70%] bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                    disableRipple
+                    className={buttonClassName}
                     style={{
-                      backgroundColor: "#0474f2",
+                      backgroundColor: isHovered ? "#036be2" : "#0474f2",
                       color: "white",
                       fontSize: "1.5rem",
                       padding: "2%",
-                      // paddingTop: "3%",
-                      // paddingBottom: "3%",
-                      // fontFamily: "Poppins",
                       fontWeight: "bold",
                       borderRadius: 50,
                     }}
-                    onClick={handleConfirmBet}
+                    onClick={() => {
+                      handlePress();
+                      handleConfirmBet();
+                    }}
+                    onMouseEnter={handleHover}
+                    onMouseLeave={handleLeave}
                   >
-                    confirm
+                    <p
+                      className={`${
+                        isPressed
+                          ? "transition translate-x-[3px] translate-y-[3px] "
+                          : ""
+                      } `}
+                    >
+                      confirm
+                    </p>
                   </Button>
                 </div>
               </div>
