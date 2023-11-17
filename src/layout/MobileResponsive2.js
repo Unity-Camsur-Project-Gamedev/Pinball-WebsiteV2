@@ -118,7 +118,7 @@ function MobileResponsive2() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[60vh] pt-2 items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
+      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
         <div className="">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
