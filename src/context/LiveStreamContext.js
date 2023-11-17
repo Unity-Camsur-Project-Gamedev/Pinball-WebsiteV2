@@ -69,7 +69,7 @@ export const LiveStreamProvider = ({
   const betButtons = ["₱5", "₱10", "₱20", "₱50", "₱100"];
   const [selectedColorName, setSelectedColorName] = useState("");
   const [selectedColorHex, setSelectedColorHex] = useState("");
-  const [betAmount, setBetAmount] = useState("");
+  const [betAmount, setBetAmount] = useState("0");
   const [selectedButton, setSelectedButton] = useState(null);
   const [userBets, setUserBets] = useState([]);
 
@@ -86,7 +86,9 @@ export const LiveStreamProvider = ({
   };
 
   const handleInputButtonClick = (buttonText) => {
-    setBetAmount(buttonText.substring(1));
+    setBetAmount((prevAmount) =>
+      String(parseInt(prevAmount, 10) + parseInt(buttonText.substring(1), 10))
+    );
   };
 
   const handleConfirmBet = async () => {
@@ -125,7 +127,7 @@ export const LiveStreamProvider = ({
   };
 
   const handleClearButton = () => {
-    setBetAmount("");
+    setBetAmount("0");
   };
 
   const handleBetOnColor = (key) => {
