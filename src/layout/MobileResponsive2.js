@@ -118,12 +118,12 @@ function MobileResponsive2() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[57vh] py-2 gap-2 justify-center items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
-        <div>
+      <div className="flex flex-col w-full h-[57vh] pt-2 items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
+        <div className="">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
         {toggle === "play" ? (
-          <div className="flex flex-col-reverse gap-4">
+          <div className="flex flex-col-reverse gap-4 w-full px-4 border-2 border-blue-600">
             <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
