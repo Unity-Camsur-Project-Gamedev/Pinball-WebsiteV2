@@ -229,53 +229,54 @@ function EnhancedTableToolbar(props) {
   );
 }
 
-const BetHistory = ({ userToken }) => {
+const BetHistory = ({ userToken, rows }) => {
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("date");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  const [rows, setRows] = React.useState([]);
+  // const [rows, setRows] = React.useState([])
   const { setUserBets } = useLiveStream();
 
   // const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
   //GET BET HISTORY OF THE PLAYER
-  const fetchData = async () => {
-    try {
-      const response = await getBetHistory(userToken);
-      const updatedRows = response.map((item) => ({
-        date: item.createdAt.slice(0, 10),
-        gameId: item.game_id,
-        bet: item.bet_data,
-        betAmount: item.amount,
-        winLose: item.status,
-        result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
-      }));
-      setRows(updatedRows);
-      setUserBets(updatedRows); //FOR COLOR INPUTS
-    } catch (error) {
-      console.error("Error:", error.message);
-      window.alert(
-        "An error occurred while fetching the bet history. Please try again later."
-      );
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await getBetHistory(userToken);
+  //     const updatedRows = response.map((item) => ({
+  //       date: item.createdAt.slice(0, 10),
+  //       gameId: item.game_id,
+  //       bet: item.bet_data,
+  //       betAmount: item.amount,
+  //       winLose: item.status,
+  //       result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
+  //     }));
+  //     setRows(updatedRows);
+  //     console.log(updatedRows)
+  //     setUserBets(updatedRows); //FOR COLOR INPUTS
+  //   } catch (error) {
+  //     console.error("Error:", error.message);
+  //     window.alert(
+  //       "An error occurred while fetching the bet history. Please try again later."
+  //     );
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchData();
+  // useEffect(() => {
+  //   fetchData();
 
-    // Set up periodic polling
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 3000);
+  //   // Set up periodic polling
+  //   const intervalId = setInterval(() => {
+  //     fetchData();
+  //   }, 3000);
 
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [userToken]);
+  //   // Clean up the interval when the component unmounts
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [userToken]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";

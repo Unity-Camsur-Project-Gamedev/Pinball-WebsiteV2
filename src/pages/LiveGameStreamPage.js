@@ -20,7 +20,7 @@ import { LiveStreamProvider } from "../context/LiveStreamContext";
 const LiveGameStreamPage = ({ userToken }) => {
   const [isOpen, setIsOpen] = useState(false); //modal state*
   const [userId, setUserId] = useState(""); //user id state*
-  // const [rows, setRows] = useState([]); //bet history rows*
+  const [rows, setRows] = useState([]);
   const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
@@ -79,6 +79,14 @@ const LiveGameStreamPage = ({ userToken }) => {
       setBetStatus(data.status); //set the bet status to 'Closed'
     });
 
+    socket.on("bettingHistoryUpdate", (data) =>{
+      console.log(data.combinedDetails)
+      setRows(data.combinedDetails)
+
+    })
+
+
+
     return () => {
       socket.disconnect();
     };
@@ -134,11 +142,11 @@ const LiveGameStreamPage = ({ userToken }) => {
 
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
           <DesktopResponsive2 confetti={confetti} betStatus={betStatus} />
-          <BetHistory userToken={userToken} />
+          <BetHistory userToken={userToken} rows={rows}/>
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
           <MobileResponsive2 />
-          <BetHistory userToken={userToken} />
+          <BetHistory userToken={userToken} rows={rows} />
         </div>
       </LiveStreamProvider>
     </div>
