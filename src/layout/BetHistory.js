@@ -236,8 +236,24 @@ const BetHistory = ({ userToken, rows }) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  // const [rows, setRows] = React.useState([])
+  const [historyRows, setHistoryRows] = React.useState([]);
   const { setUserBets } = useLiveStream();
+
+  useEffect(() => {
+    console.log(rows[0]);
+  }, [rows]);
+
+  useEffect(() => {
+    const updatedRows = rows.map((item) => ({
+      date: item.createdAt.slice(0, 10),
+      gameId: item.game_id,
+      bet: item.bet_data,
+      betAmount: item.amount,
+      winLose: item.status,
+      result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
+    }));
+    setHistoryRows(updatedRows);
+  }, [rows]);
 
   // const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -334,7 +350,7 @@ const BetHistory = ({ userToken, rows }) => {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(historyRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),

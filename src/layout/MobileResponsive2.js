@@ -11,7 +11,6 @@ import LiveChat from "../components/LiveChat";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
-import MobileLiveChat from "../components/MobileLiveChat";
 
 function MobileResponsive2() {
   const {

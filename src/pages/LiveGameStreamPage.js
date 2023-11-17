@@ -79,13 +79,10 @@ const LiveGameStreamPage = ({ userToken }) => {
       setBetStatus(data.status); //set the bet status to 'Closed'
     });
 
-    socket.on("bettingHistoryUpdate", (data) =>{
-      console.log(data.combinedDetails)
-      setRows(data.combinedDetails)
-
-    })
-
-
+    socket.on("bettingHistoryUpdate", (data) => {
+      // console.log(data.combinedDetails);
+      setRows(data.combinedDetails);
+    });
 
     return () => {
       socket.disconnect();
@@ -142,11 +139,11 @@ const LiveGameStreamPage = ({ userToken }) => {
 
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
           <DesktopResponsive2 confetti={confetti} betStatus={betStatus} />
-          <BetHistory userToken={userToken} rows={rows}/>
+          <BetHistory userToken={userToken} rows={rows} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
           <MobileResponsive2 />
-          <BetHistory userToken={userToken} rows={rows} />
+          {/* <BetHistory userToken={userToken} rows={rows} /> */}
         </div>
       </LiveStreamProvider>
     </div>
