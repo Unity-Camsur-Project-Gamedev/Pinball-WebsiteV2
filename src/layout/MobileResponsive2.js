@@ -6,9 +6,12 @@ import { IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import Confetti from "../components/Confetti ";
 import ChatModal from "../components/ChatModal";
+import ChatPlayToggle from "../components/ChatPlayToggle";
+import LiveChat from "../components/LiveChat";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
+import MobileLiveChat from "../components/MobileLiveChat";
 
 function MobileResponsive2() {
   const {
@@ -33,6 +36,7 @@ function MobileResponsive2() {
 
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const [toggle, setToggle] = useState("play");
 
   const handleHover = () => {
     setIsHovered(true);
@@ -54,7 +58,7 @@ function MobileResponsive2() {
   } `;
 
   return (
-    <div className="lg:gap-0 pb-14 h-auto w-full flex flex-col items-center border-4 border-blue-600 bg-[#a0dfff] ">
+    <div className="lg:gap-0 h-auto w-full flex flex-col items-center border-4 border-blue-600 bg-white ">
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
@@ -65,9 +69,9 @@ function MobileResponsive2() {
         </div>
       </div>
       <div className="relative w-full pb-[56.25%] border-2 border-yellow-600">
-        <div className="border-red-600 absolute left-2 bottom-10 z-20">
+        {/* <div className="border-red-600 absolute left-2 bottom-10 z-20">
           <ChatModal />
-        </div>
+        </div> */}
         <iframe
           //We'll use the padding bottom technique to maintain 16:9 ratio
           className=" absolute w-full h-full"
@@ -78,30 +82,32 @@ function MobileResponsive2() {
         ></iframe>
       </div>
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
-        <div className="w-[85%] flex ">
-          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins']">
-            <p className="w-full text-lg font-bold">credits:</p>
-            <div className="text-[#e26629] text-lg">
-              {totalCredits !== 0
-                ? ` ${parseFloat(totalCredits).toLocaleString()}.00`
-                : "0.00"}
-            </div>
-            <div>
-              <IconButton
-                aria-label="delete"
-                color="primary"
-                size="small"
-                onClick={() => {
-                  setIsOpen(!isOpen);
-                  // console.log(isOpen);
-                }}
-              >
-                <AddCircleRoundedIcon />
-              </IconButton>
+        <div className="w-[90%] flex">
+          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] border-2 border-red-600">
+            <p className="w-full text-md font-bold">credits:</p>
+            <div className="flex justify-center items-center">
+              <div className="text-[#e26629] text-md ">
+                {totalCredits !== 0
+                  ? ` ${parseFloat(totalCredits).toLocaleString()}.00`
+                  : "0.00"}
+              </div>
+              <div>
+                <IconButton
+                  aria-label="delete"
+                  color="primary"
+                  style={{ fontSize: "5rem" }}
+                  onClick={() => {
+                    setIsOpen(!isOpen);
+                    // console.log(isOpen);
+                  }}
+                >
+                  <AddCircleRoundedIcon style={{ fontSize: "1.2rem" }} />
+                </IconButton>
+              </div>
             </div>
           </div>
           <div className="flex flex-1 items-center justify-end gap-2 font-['Poppins']">
-            <p className="text-lg font-bold">color:</p>
+            <p className="text-md font-bold">color:</p>
             <div
               className="w-16 h-8 rounded-sm"
               style={{
@@ -112,75 +118,73 @@ function MobileResponsive2() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col-reverse w-[90%] p-2 gap-4 rounded-lg  ">
-        <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 ">
-          <p>enter bet amount:</p>
-          <div className="flex items-center justify-center px-2 gap-2 ">
-            <input
-              type="text"
-              value={
-                betAmount !== ""
-                  ? `₱ ${parseFloat(betAmount).toLocaleString()}`
-                  : "₱ 0"
-              }
-              className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
-              onChange={handleInputChange}
-            />
-            <p
-              onClick={() => handleClearButton()}
-              style={{
-                fontWeight: 100,
-                fontSize: ".75rem",
-                fontWeight: "bold",
-                fontFamily: "Poppins",
-              }}
-            >
-              clear
-            </p>
-          </div>
-          <div className="grid grid-cols-3 gap-2 w-full text-center">
-            {betButtons.map((button, key) => (
-              // <div
-              //   key={key}
-              //   className="p-2 rounded-full border-2 border-black"
-              //   onClick={() => handleInputButtonClick(button)}
-              //   style={{
-              //     backgroundColor: "#ffffff", // Default white background color
-              //     boxShadow:
-              //       "4px 4px 4px rgba(0, 0, 0, 0.4), 0px 2px 4px rgba(0, 0, 0, 0.1)",
-              //     border: "1px solid rgba(255, 255, 255, 0.5)",
-              //   }}
-              // >
-              //   <p className="text-dynamicMid">{button}</p>
-              // </div>
-              <div key={key}>
-                <EmbossedMobile
-                  button={button}
-                  handlerFunction={() => handleInputButtonClick(button)}
+      <div className="flex flex-col w-full h-[57vh] py-2 gap-2 justify-center items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
+        <div>
+          <ChatPlayToggle setToggle={setToggle} />
+        </div>
+        {toggle === "play" ? (
+          <div className="flex flex-col-reverse gap-4">
+            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
+              <p>enter bet amount:</p>
+              <div className="flex items-center justify-center px-2 gap-2">
+                <input
+                  type="text"
+                  value={
+                    betAmount !== ""
+                      ? `₱ ${parseFloat(betAmount).toLocaleString()}`
+                      : "₱ 0"
+                  }
+                  className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
+                  onChange={handleInputChange}
                 />
+                <p
+                  onClick={() => handleClearButton()}
+                  style={{
+                    fontWeight: 100,
+                    fontSize: ".75rem",
+                    fontWeight: "bold",
+                    fontFamily: "Poppins",
+                  }}
+                >
+                  clear
+                </p>
               </div>
-            ))}
-            <div
-              className={buttonClassName}
-              onClick={() => {
-                handleConfirmBet();
-                handlePress();
-              }}
-              onMouseEnter={handleHover}
-              onMouseLeave={handleLeave}
-            >
-              <p className="text-white">confirm</p>
+              <div className="grid grid-cols-3 gap-2 w-full text-center">
+                {betButtons.map((button, key) => (
+                  <div key={key}>
+                    <EmbossedMobile
+                      button={button}
+                      handlerFunction={() => handleInputButtonClick(button)}
+                    />
+                  </div>
+                ))}
+                <div
+                  className={buttonClassName}
+                  onClick={() => {
+                    handleConfirmBet();
+                    handlePress();
+                  }}
+                  onMouseEnter={handleHover}
+                  onMouseLeave={handleLeave}
+                >
+                  <p className="text-white">confirm</p>
+                </div>
+              </div>
+            </div>
+            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
+              <p>select a color:</p>
+              <ColorInputGrid
+                selectedButton={selectedButton}
+                colorHex={colorHex}
+                handleBetOnColor={handleBetOnColor}
+              />
             </div>
           </div>
-        </div>
-        <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 ">
-          <p>select a color:</p>
-          <ColorInputGrid
-            selectedButton={selectedButton}
-            colorHex={colorHex}
-            handleBetOnColor={handleBetOnColor}
-          />
-        </div>
+        ) : (
+          <div className="h-[90%] w-full py-2 px-4 rounded-lg">
+            <LiveChat />
+          </div>
+        )}
       </div>
     </div>
   );
