@@ -27,23 +27,6 @@ import { useEffect } from "react";
 import { getBetHistory } from "../services/getBetHistory";
 import useLiveStream from "../context/LiveStreamContext";
 
-// function createData(date, gameId, bet, betAmount, winLose, result) {
-//     return {
-//         date,
-//         gameId,
-//         bet,
-//         betAmount,
-//         winLose,
-//         result
-//     };
-// }
-
-// const rows = [
-//     createData('2023-09-20', '29468', 'RED', 'P10', 'WIN', 'RED'),
-//     createData('2023-09-21', '29469', 'YELLOW', 'P150', 'LOSS', 'BLACK'),
-//     createData('2023-09-22', '29470', 'BLACK', 'P75', 'WIN', 'BLACK')
-// ];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -60,10 +43,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -239,20 +218,28 @@ const BetHistory = ({ userToken, rows }) => {
   const [historyRows, setHistoryRows] = React.useState([]);
   const { setUserBets } = useLiveStream();
 
+  const fetchData = async () => {
+    try {
+      const updatedRows = rows.map((item) => ({
+        date: item.createdAt.slice(0, 10),
+        gameId: item.game_id,
+        bet: item.bet_data,
+        betAmount: item.amount,
+        winLose: item.status,
+        result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
+      }));
+      setHistoryRows(updatedRows);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
   useEffect(() => {
-    console.log(rows[0]);
+    console.log(rows);
   }, [rows]);
 
   useEffect(() => {
-    const updatedRows = rows.map((item) => ({
-      date: item.createdAt.slice(0, 10),
-      gameId: item.game_id,
-      bet: item.bet_data,
-      betAmount: item.amount,
-      winLose: item.status,
-      result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
-    }));
-    setHistoryRows(updatedRows);
+    fetchData();
   }, [rows]);
 
   // const baseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -354,7 +341,7 @@ const BetHistory = ({ userToken, rows }) => {
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage, rows]
+    [order, orderBy, page, rowsPerPage, historyRows]
   );
 
   return (
