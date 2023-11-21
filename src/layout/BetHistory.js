@@ -27,23 +27,6 @@ import { useEffect } from "react";
 import { getBetHistory } from "../services/getBetHistory";
 import useLiveStream from "../context/LiveStreamContext";
 
-// function createData(date, gameId, bet, betAmount, winLose, result) {
-//     return {
-//         date,
-//         gameId,
-//         bet,
-//         betAmount,
-//         winLose,
-//         result
-//     };
-// }
-
-// const rows = [
-//     createData('2023-09-20', '29468', 'RED', 'P10', 'WIN', 'RED'),
-//     createData('2023-09-21', '29469', 'YELLOW', 'P150', 'LOSS', 'BLACK'),
-//     createData('2023-09-22', '29470', 'BLACK', 'P75', 'WIN', 'BLACK')
-// ];
-
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -60,10 +43,6 @@ function getComparator(order, orderBy) {
     : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
 function stableSort(array, comparator) {
   const stabilizedThis = array.map((el, index) => [el, index]);
   stabilizedThis.sort((a, b) => {
@@ -236,8 +215,32 @@ const BetHistory = ({ userToken, rows }) => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  // const [rows, setRows] = React.useState([])
+  const [historyRows, setHistoryRows] = React.useState([]);
   const { setUserBets } = useLiveStream();
+
+  const fetchData = async () => {
+    try {
+      const updatedRows = rows.map((item) => ({
+        date: item.createdAt.slice(0, 10),
+        gameId: item.game_id,
+        bet: item.bet_data,
+        betAmount: item.amount,
+        winLose: item.status,
+        result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
+      }));
+      setHistoryRows(updatedRows);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  // useEffect(() => {
+  //   console.log(rows);
+  // }, [rows]);
+
+  useEffect(() => {
+    fetchData();
+  }, [rows]);
 
   // const baseUrl = process.env.REACT_APP_BACKEND_URL;
 
@@ -263,20 +266,6 @@ const BetHistory = ({ userToken, rows }) => {
   //     );
   //   }
   // };
-
-  // useEffect(() => {
-  //   fetchData();
-
-  //   // Set up periodic polling
-  //   const intervalId = setInterval(() => {
-  //     fetchData();
-  //   }, 3000);
-
-  //   // Clean up the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [userToken]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -334,15 +323,15 @@ const BetHistory = ({ userToken, rows }) => {
 
   const visibleRows = React.useMemo(
     () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
+      stableSort(historyRows, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage
       ),
-    [order, orderBy, page, rowsPerPage, rows]
+    [order, orderBy, page, rowsPerPage, historyRows]
   );
 
   return (
-    <div className="w-full h-full lg:w-full flex items-center justify-center border-2 border-red-600">
+    <div className="w-full h-full lg:w-full flex items-center justify-center ">
       <div className="w-[90%] lg:w-full flex flex-col gap-6">
         <h1 className="text-center text-dynamicMid font-bold uppercase font-['Poppins']">
           bet history

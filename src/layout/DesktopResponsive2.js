@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -8,11 +8,9 @@ import ColorInputs from "./ColorInputs";
 import NumberInput from "./NumberInput";
 import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
-import Confetti from "../components/Confetti ";
-import PopUp from "../components/PopUp";
 import LiveChat from "../components/LiveChat";
 
-function DesktopResponsive2({ confetti, betStatus }) {
+function DesktopResponsive2({ betStatus }) {
   const {
     isOpen,
     colorHex,
@@ -33,7 +31,6 @@ function DesktopResponsive2({ confetti, betStatus }) {
     handleInputButtonClick,
   } = useLiveStream();
 
-  // const [confetti, setConfetti] = useState(false);
   const [popUp, setPopUp] = useState(false);
 
   const [isHovered, setIsHovered] = useState(false);
@@ -60,20 +57,18 @@ function DesktopResponsive2({ confetti, betStatus }) {
 
   return (
     <div className="border-2 border-black h-full w-full">
-      {confetti && <Confetti />}
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
           <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-[#b0ecfa]">
             <LiveStreamFrame />
           </div>
 
-          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 relative">
-            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-            {betStatus === "Closed" && (
-              <div className="absolute inset-0 z-10"></div>
-            )}
-            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-            <div className="color-grid-container h-[3rem] border-2 border-blue-600">
+          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 ">
+            <div className="color-grid-container h-[3rem] border-2 border-blue-600 relative">
+              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Closed" && (
+                <div className="absolute inset-0 z-10 "></div>
+              )}
               <ColorInputs
                 selectedButton={selectedButton}
                 colorHex={colorHex}
@@ -81,7 +76,11 @@ function DesktopResponsive2({ confetti, betStatus }) {
               />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className="border-2 border-green-600">
+              <div className="border-2 border-green-600 relative">
+                {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+                {betStatus === "Closed" && (
+                  <div className="absolute inset-0 z-10 "></div>
+                )}
                 <NumberInput
                   numGroup1={numGroup1}
                   numGroup2={numGroup2}
@@ -92,7 +91,11 @@ function DesktopResponsive2({ confetti, betStatus }) {
                   handleMaxButton={handleMaxButton}
                 />
               </div>
-              <div className="bet-info border-2 border-green-600 p-2">
+              <div className="bet-info border-2 border-green-600 p-2 relative">
+                {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+                {betStatus === "Closed" && (
+                  <div className="absolute inset-0 z-10 "></div>
+                )}
                 <div
                   className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-3 items-center justify-center uppercase font-extrabold shadow-unpressed"
                   style={{ borderRadius: 35 }}

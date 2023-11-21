@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState, createContext, useContext } from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 
 import { postBet } from "../services/postBet";
 
@@ -66,7 +66,7 @@ export const LiveStreamProvider = ({
   const numGroup1 = ["1", "2", "3"];
   const numGroup2 = ["4", "5", "6"];
   const numGroup3 = ["7", "8", "9"];
-  const betButtons = ["₱5", "₱10", "₱20", "₱50", "₱100"];
+  const betButtons = ["5", "10", "20", "50", "100"];
   const [selectedColorName, setSelectedColorName] = useState("");
   const [selectedColorHex, setSelectedColorHex] = useState("");
   const [betAmount, setBetAmount] = useState("0");
@@ -87,7 +87,7 @@ export const LiveStreamProvider = ({
 
   const handleInputButtonClick = (buttonText) => {
     setBetAmount((prevAmount) =>
-      String(parseInt(prevAmount, 10) + parseInt(buttonText.substring(1), 10))
+      String(parseInt(prevAmount, 10) + parseInt(buttonText, 10))
     );
   };
 
@@ -101,7 +101,7 @@ export const LiveStreamProvider = ({
               await postBet(selectedColorName, betAmountInt, userToken);
               //reset
               setSelectedButton(null);
-              setBetAmount("");
+              setBetAmount("0");
             } catch (error) {
               console.error("Error:", error.message);
               window.alert(

@@ -103,9 +103,9 @@ function LiveChat() {
 
   return (
     <>
-      <div className="h-full chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-[#0d4fa3]">
+      <div className="h-full rounded-lg lg:rounded-none chat-feed flex flex-col gap-2 border-2 border-black py-2 px-2 bg-[#0d4fa3]">
         <ul
-          className="h-[160px] 2xl:h-[210px] w-full overflow-y-auto border-2 border-red-600"
+          className="h-full xl:h-[160px] 2xl:h-[210px] w-full overflow-y-auto border-2 border-red-600"
           ref={messagesListRef}
         >
           {messages.map((message, index) => (
