@@ -132,7 +132,7 @@ const LiveGameStreamPage = ({ userToken }) => {
           <BetHistory userToken={userToken} rows={rows} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
-          <MobileResponsive2 />
+          <MobileResponsive2 betStatus={betStatus} />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
       </LiveStreamProvider>

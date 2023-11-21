@@ -10,7 +10,7 @@ import LiveChat from "../components/LiveChat";
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
 
-function MobileResponsive2() {
+function MobileResponsive2({ betStatus }) {
   const {
     isOpen,
     colorHex,
@@ -118,7 +118,11 @@ function MobileResponsive2() {
         </div>
         {toggle === "play" ? (
           <div className="flex flex-col-reverse gap-4 w-full px-4 py-2 ">
-            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
+            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
+              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Closed" && (
+                <div className="absolute inset-0 z-10 "></div>
+              )}
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
                 <input
@@ -165,8 +169,12 @@ function MobileResponsive2() {
                 </div>
               </div>
             </div>
-            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
+            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
               <p>select a color:</p>
+              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Closed" && (
+                <div className="absolute inset-0 z-10 "></div>
+              )}
               <ColorInputGrid
                 selectedButton={selectedButton}
                 colorHex={colorHex}

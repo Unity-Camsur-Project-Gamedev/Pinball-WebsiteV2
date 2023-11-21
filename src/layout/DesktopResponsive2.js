@@ -67,7 +67,7 @@ function DesktopResponsive2({ betStatus }) {
             <div className="color-grid-container h-[3rem] border-2 border-blue-600 relative">
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 bg-pink-300"></div>
+                <div className="absolute inset-0 z-10 "></div>
               )}
               <ColorInputs
                 selectedButton={selectedButton}
@@ -79,7 +79,7 @@ function DesktopResponsive2({ betStatus }) {
               <div className="border-2 border-green-600 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
-                  <div className="absolute inset-0 z-10 bg-red-300"></div>
+                  <div className="absolute inset-0 z-10 "></div>
                 )}
                 <NumberInput
                   numGroup1={numGroup1}
@@ -94,7 +94,7 @@ function DesktopResponsive2({ betStatus }) {
               <div className="bet-info border-2 border-green-600 p-2 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
-                  <div className="absolute inset-0 z-10 bg-green-300"></div>
+                  <div className="absolute inset-0 z-10 "></div>
                 )}
                 <div
                   className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-3 items-center justify-center uppercase font-extrabold shadow-unpressed"
