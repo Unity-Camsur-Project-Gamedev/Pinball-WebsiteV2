@@ -61,13 +61,13 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("walletUpdate", (data) => {
-      console.log("Received wallet update:", data.balance);
+      // console.log("Received wallet update:", data.balance);
       setConfetti(false);
       setTotalCredits(data.balance);
     });
 
     socket.on("walletUpdateWin", (data) => {
-      console.log("UpdatedWalletBalance:", data.balance);
+      // console.log("UpdatedWalletBalance:", data.balance)
       setTimeout(() => {
         setTotalCredits(data.balance);
       }, 3000);
@@ -75,12 +75,12 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("bettingStatusUpdate", (data) => {
-      console.log("Betting Status:", data.status);
+      // console.log("Betting Status:", data.status);
       setBetStatus(data.status); //set the bet status to 'Closed'
     });
 
     socket.on("bettingHistoryUpdate", (data) =>{
-      console.log(data.combinedDetails)
+      console.log("bet history", data.combinedDetails)
       setRows(data.combinedDetails)
 
     })
