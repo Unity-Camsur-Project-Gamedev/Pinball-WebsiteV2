@@ -4,8 +4,6 @@ import EmbossedMobile from "../components/EmbossedMobile";
 
 import { IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import Confetti from "../components/Confetti ";
-import ChatModal from "../components/ChatModal";
 import ChatPlayToggle from "../components/ChatPlayToggle";
 import LiveChat from "../components/LiveChat";
 
@@ -57,7 +55,7 @@ function MobileResponsive2() {
   } `;
 
   return (
-    <div className="lg:gap-0 h-auto w-full flex flex-col items-center border-4 border-blue-600 bg-white ">
+    <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
@@ -68,9 +66,6 @@ function MobileResponsive2() {
         </div>
       </div>
       <div className="relative w-full pb-[56.25%] border-2 border-yellow-600">
-        {/* <div className="border-red-600 absolute left-2 bottom-10 z-20">
-          <ChatModal />
-        </div> */}
         <iframe
           //We'll use the padding bottom technique to maintain 16:9 ratio
           className=" absolute w-full h-full"
@@ -82,7 +77,7 @@ function MobileResponsive2() {
       </div>
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
         <div className="w-[90%] flex">
-          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] border-2 border-red-600">
+          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] ">
             <p className="w-full text-md font-bold">credits:</p>
             <div className="flex justify-center items-center">
               <div className="text-[#e26629] text-md ">
@@ -117,12 +112,12 @@ function MobileResponsive2() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl border-2 border-red-600 bg-[#a0dfff]">
+      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl  bg-[#a0dfff]">
         <div className="">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
         {toggle === "play" ? (
-          <div className="flex flex-col-reverse gap-4 w-full px-4 border-2 border-blue-600">
+          <div className="flex flex-col-reverse gap-4 w-full px-4 py-2 ">
             <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3">
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">

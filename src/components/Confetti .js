@@ -7,6 +7,7 @@ const canvasStyles = {
   pointerEvents: "none",
   width: "100%",
   height: "100%",
+  zIndex: 50,
   top: 0,
   left: 0,
 };

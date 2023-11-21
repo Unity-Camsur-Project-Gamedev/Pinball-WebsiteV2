@@ -234,9 +234,9 @@ const BetHistory = ({ userToken, rows }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(rows);
-  }, [rows]);
+  // useEffect(() => {
+  //   console.log(rows);
+  // }, [rows]);
 
   useEffect(() => {
     fetchData();
@@ -266,20 +266,6 @@ const BetHistory = ({ userToken, rows }) => {
   //     );
   //   }
   // };
-
-  // useEffect(() => {
-  //   fetchData();
-
-  //   // Set up periodic polling
-  //   const intervalId = setInterval(() => {
-  //     fetchData();
-  //   }, 3000);
-
-  //   // Clean up the interval when the component unmounts
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [userToken]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -345,7 +331,7 @@ const BetHistory = ({ userToken, rows }) => {
   );
 
   return (
-    <div className="w-full h-full lg:w-full flex items-center justify-center border-2 border-red-600">
+    <div className="w-full h-full lg:w-full flex items-center justify-center ">
       <div className="w-[90%] lg:w-full flex flex-col gap-6">
         <h1 className="text-center text-dynamicMid font-bold uppercase font-['Poppins']">
           bet history

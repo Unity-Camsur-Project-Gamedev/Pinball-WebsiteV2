@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -8,11 +8,9 @@ import ColorInputs from "./ColorInputs";
 import NumberInput from "./NumberInput";
 import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
-import Confetti from "../components/Confetti ";
-import PopUp from "../components/PopUp";
 import LiveChat from "../components/LiveChat";
 
-function DesktopResponsive2({ confetti, betStatus }) {
+function DesktopResponsive2({ betStatus }) {
   const {
     isOpen,
     colorHex,
@@ -33,7 +31,6 @@ function DesktopResponsive2({ confetti, betStatus }) {
     handleInputButtonClick,
   } = useLiveStream();
 
-  // const [confetti, setConfetti] = useState(false);
   const [popUp, setPopUp] = useState(false);
 
   const [isHovered, setIsHovered] = useState(false);
@@ -60,7 +57,6 @@ function DesktopResponsive2({ confetti, betStatus }) {
 
   return (
     <div className="border-2 border-black h-full w-full">
-      {confetti && <Confetti />}
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
           <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-[#b0ecfa]">

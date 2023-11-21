@@ -41,7 +41,7 @@ function EmbossedMobile({ button, handlerFunction }) {
             isPressed ? "transition translate-x-[3px] translate-y-[3px] " : ""
           } `}
         >
-          {button}
+          ₱{button}
         </p>
       </div>
     </>

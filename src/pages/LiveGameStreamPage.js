@@ -4,6 +4,7 @@ import axios from "axios";
 import OBSWebSocket from "obs-websocket-js";
 import { io } from "socket.io-client";
 // import jwt from 'jsonwebtoken';
+import Confetti from "../components/Confetti ";
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -71,7 +72,11 @@ const LiveGameStreamPage = ({ userToken }) => {
       setTimeout(() => {
         setTotalCredits(data.balance);
       }, 3000);
-      setConfetti(true);
+      // Check if the window width is above a certain threshold for desktop
+      if (window.innerWidth > 768) {
+        // Adjust the threshold as needed
+        setConfetti(true);
+      }
     });
 
     socket.on("bettingStatusUpdate", (data) => {
@@ -121,29 +126,14 @@ const LiveGameStreamPage = ({ userToken }) => {
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
       >
-        {/* <div className="w-full h-full lg:w-[70%] lg:h-[720px] 2xl:h-[963px] flex flex-col gap-10 border-2 border-red-600 ">
-          <div className="hidden lg:flex flex-col h-full justify-between border-4 border-blue-600">
-            <DesktopResponsive confetti={confetti} />
-          </div>
-          <MobileResponsive />
-        </div>
-        <div className="w-full lg:w-[70%]">
-          <BetHistory userToken={userToken} />
-        </div> */}
-        {/* <div className="h-[100vh] w-full border-2 border-blue-600">
-          <DesktopResponsive2 />
-        </div> */}
-
-        {/* <Desktop userToken={userToken} confetti={confetti} />
-        <Mobile userToken={userToken} /> */}
-
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
-          <DesktopResponsive2 confetti={confetti} betStatus={betStatus} />
+          {confetti && <Confetti />}
+          <DesktopResponsive2 betStatus={betStatus} />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
           <MobileResponsive2 />
-          {/* <BetHistory userToken={userToken} rows={rows} /> */}
+          <BetHistory userToken={userToken} rows={rows} />
         </div>
       </LiveStreamProvider>
     </div>
