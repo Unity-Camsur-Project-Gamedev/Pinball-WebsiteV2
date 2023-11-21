@@ -51,7 +51,10 @@ function DesktopResponsive2({ betStatus }) {
     }, 100);
   };
 
-  const buttonClassName = `w-[70%]  ${
+  const confirmButtonClassName = `w-[70%]  ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+  const buttonClassName = `w-[20%]  ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
 
@@ -152,34 +155,92 @@ function DesktopResponsive2({ betStatus }) {
                       </div>
                     </div>
                   </div>
-                  <Button
-                    disableRipple
-                    className={buttonClassName}
-                    style={{
-                      backgroundColor: isHovered ? "#036be2" : "#0474f2",
-                      color: "white",
-                      fontSize: "1.5rem",
-                      padding: "2%",
-                      fontWeight: "bold",
-                      borderRadius: 50,
-                    }}
-                    onClick={() => {
-                      handlePress();
-                      handleConfirmBet();
-                    }}
-                    onMouseEnter={handleHover}
-                    onMouseLeave={handleLeave}
-                  >
-                    <p
-                      className={`${
-                        isPressed
-                          ? "transition translate-x-[3px] translate-y-[3px] "
-                          : ""
-                      } `}
+                  <div className="w-full flex justify-between items-center gap-4 px-5">
+                    <Button
+                      disableRipple
+                      className={buttonClassName}
+                      style={{
+                        backgroundColor: isHovered ? "#036be2" : "#0474f2",
+                        color: "white",
+                        fontSize: ".75rem",
+                        padding: "2%",
+                        fontWeight: "bold",
+                        borderRadius: 50,
+                      }}
+                      onClick={() => {
+                        // handlePress();
+                        // handleConfirmBet();
+                      }}
+                      onMouseEnter={handleHover}
+                      onMouseLeave={handleLeave}
                     >
-                      confirm
-                    </p>
-                  </Button>
+                      <p
+                        className={`${
+                          isPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
+                      >
+                        repeat bet
+                      </p>
+                    </Button>
+                    <Button
+                      disableRipple
+                      className={confirmButtonClassName}
+                      style={{
+                        backgroundColor: isHovered ? "#036be2" : "#0474f2",
+                        color: "white",
+                        fontSize: "1.5rem",
+                        padding: "2%",
+                        fontWeight: "bold",
+                        borderRadius: 50,
+                      }}
+                      onClick={() => {
+                        handlePress();
+                        handleConfirmBet();
+                      }}
+                      onMouseEnter={handleHover}
+                      onMouseLeave={handleLeave}
+                    >
+                      <p
+                        className={`${
+                          isPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
+                      >
+                        confirm
+                      </p>
+                    </Button>
+                    <Button
+                      disableRipple
+                      className={buttonClassName}
+                      style={{
+                        backgroundColor: isHovered ? "#036be2" : "#0474f2",
+                        color: "white",
+                        fontSize: ".75rem",
+                        padding: "2%",
+                        fontWeight: "bold",
+                        borderRadius: 50,
+                      }}
+                      onClick={() => {
+                        // handlePress();
+                        // handleConfirmBet();
+                      }}
+                      onMouseEnter={handleHover}
+                      onMouseLeave={handleLeave}
+                    >
+                      <p
+                        className={`${
+                          isPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
+                      >
+                        clear bet
+                      </p>
+                    </Button>
+                  </div>
                 </div>
               </div>
               <div className="border-2 border-green-600 ">
