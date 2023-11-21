@@ -229,14 +229,11 @@ const BetHistory = ({ userToken, rows }) => {
         result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
       }));
       setHistoryRows(updatedRows);
+      setUserBets(updatedRows.filter((row) => row.winLose === "On going"));
     } catch (error) {
       console.error("Error:", error.message);
     }
   };
-
-  // useEffect(() => {
-  //   console.log(rows);
-  // }, [rows]);
 
   useEffect(() => {
     fetchData();

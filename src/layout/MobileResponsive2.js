@@ -72,7 +72,7 @@ function MobileResponsive2({ betStatus }) {
           allow="fullscreen"
           // width="1280"
           // height="720"
-          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=f41e0c23-d082-4426-b79e-3eac9d5070b1&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
+          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
       <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">

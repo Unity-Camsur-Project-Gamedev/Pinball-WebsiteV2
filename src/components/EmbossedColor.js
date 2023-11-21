@@ -1,6 +1,13 @@
 import React, { useState } from "react";
+import pokerChip from "../assets/pokerChip.png";
 
-function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
+function EmbossedColor({
+  index,
+  selectedButton,
+  colorHex,
+  handleBetOnColor,
+  totalBetOnColor,
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
 
@@ -19,7 +26,7 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     }, 100);
   };
 
-  const buttonClassName = `flex justify-center items-center h-full w-full hover:-translate-y-1 duration-300 transition ease-in-out rounded-sm ${
+  const buttonClassName = `flex gap-1 font-['Poppins'] justify-center items-center h-full w-full hover:-translate-y-1 duration-300 transition ease-in-out rounded-sm ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
   return (
@@ -42,9 +49,14 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
         }
         onClick={() => handleBetOnColor(index)}
       >
-        {/* <div className="border-2 border-black rounded-full py-1 px-2 ">
-          <p className="text-2xl font-bold">{redBetArray}</p>
-        </div> */}
+        {totalBetOnColor > 0 ? (
+          <div className="flex flex-col justify-center items-center gap-1 border-2 border-black relative w-full h-full">
+            <div className="rounded-full p-1 z-10" key={index}>
+              <p className="text-xl text-white font-bold">{totalBetOnColor}</p>
+            </div>
+            <img src={pokerChip} className="absolute w-[80%]" />
+          </div>
+        ) : null}
       </div>
     </>
   );

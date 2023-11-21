@@ -59,12 +59,12 @@ function DesktopResponsive2({ betStatus }) {
     <div className="border-2 border-black h-full w-full">
       <div className="flex justify-center items-center h-full border-2 border-green-600">
         <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
-          <div className="sub-container w-full border-2 border-red-600 flex justify-center items-center bg-[#b0ecfa]">
+          <div className="sub-container w-full  flex justify-center items-center bg-[#b0ecfa]">
             <LiveStreamFrame />
           </div>
 
-          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 ">
-            <div className="color-grid-container h-[3rem] border-2 border-blue-600 relative">
+          <div className="sub-container flex flex-col flex-1  ">
+            <div className="color-grid-container h-[5rem]  relative">
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
                 <div className="absolute inset-0 z-10 "></div>
