@@ -226,7 +226,7 @@ const BetHistory = ({ userToken, rows }) => {
         bet: item.bet_data,
         betAmount: item.amount,
         winLose: item.status,
-        result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
+        result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
       }));
       setHistoryRows(updatedRows);
       setUserBets(updatedRows.filter((row) => row.winLose === "On going"));
