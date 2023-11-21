@@ -63,13 +63,12 @@ function DesktopResponsive2({ betStatus }) {
             <LiveStreamFrame />
           </div>
 
-          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 relative">
-            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-            {betStatus === "Closed" && (
-              <div className="absolute inset-0 z-10"></div>
-            )}
-            {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-            <div className="color-grid-container h-[3rem] border-2 border-blue-600">
+          <div className="sub-container flex flex-col flex-1 border-2 border-red-600 ">
+            <div className="color-grid-container h-[3rem] border-2 border-blue-600 relative">
+              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Closed" && (
+                <div className="absolute inset-0 z-10 bg-pink-300"></div>
+              )}
               <ColorInputs
                 selectedButton={selectedButton}
                 colorHex={colorHex}
@@ -77,7 +76,11 @@ function DesktopResponsive2({ betStatus }) {
               />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className="border-2 border-green-600">
+              <div className="border-2 border-green-600 relative">
+                {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+                {betStatus === "Closed" && (
+                  <div className="absolute inset-0 z-10 bg-red-300"></div>
+                )}
                 <NumberInput
                   numGroup1={numGroup1}
                   numGroup2={numGroup2}
@@ -88,7 +91,11 @@ function DesktopResponsive2({ betStatus }) {
                   handleMaxButton={handleMaxButton}
                 />
               </div>
-              <div className="bet-info border-2 border-green-600 p-2">
+              <div className="bet-info border-2 border-green-600 p-2 relative">
+                {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+                {betStatus === "Closed" && (
+                  <div className="absolute inset-0 z-10 bg-green-300"></div>
+                )}
                 <div
                   className="bg-[#ffdf01] h-full flex flex-col xl:gap-2 2xl:gap-3 items-center justify-center uppercase font-extrabold shadow-unpressed"
                   style={{ borderRadius: 35 }}
