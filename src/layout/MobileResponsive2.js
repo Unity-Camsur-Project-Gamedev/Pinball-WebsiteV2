@@ -1,11 +1,13 @@
 /* eslint-disable */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EmbossedMobile from "../components/EmbossedMobile";
-
+import { io } from "socket.io-client";
+import Cookies from "js-cookie";
 import { IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ChatPlayToggle from "../components/ChatPlayToggle";
 import LiveChat from "../components/LiveChat";
+import icon from "../assets/group.png"
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
@@ -34,6 +36,27 @@ function MobileResponsive2({ betStatus }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [toggle, setToggle] = useState("play");
+  const [userCount, setUserCount] = useState("")
+  const userId = Cookies.get("username")
+
+  // FETCH SOCKETS
+  useEffect(() => {
+    // console.log('userId changed:', userId);
+    const baseUrl = process.env.REACT_APP_BACKEND_URL;
+    const socket = io(baseUrl, { query: { userId } });
+
+    socket.on("connect", () => {
+      console.log("Socket connected!");
+    });
+
+    socket.on("numberOfUsers", (data) => {
+      console.log("User's count", data)
+      setUserCount(data)
+    })
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId]);
 
   const handleHover = () => {
     setIsHovered(true);
@@ -50,9 +73,8 @@ function MobileResponsive2({ betStatus }) {
     }, 100);
   };
 
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${isPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
 
   return (
     <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">
@@ -66,6 +88,15 @@ function MobileResponsive2({ betStatus }) {
         </div>
       </div>
       <div className="relative w-full pb-[56.25%] border-2 border-yellow-600">
+        <div class="absolute right-0 top-4 flex items-center">
+          <div class="relative">
+            <div class="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
+            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-16 h-10 shadow-md flex items-center justify-center">
+              <p class="font-bold text-lg mr-2">{userCount}</p>
+              <img src={icon} alt="#" class="w-6 h-6" />
+            </div>
+          </div>
+        </div>
         <iframe
           //We'll use the padding bottom technique to maintain 16:9 ratio
           className=" absolute w-full h-full"

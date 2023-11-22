@@ -21,7 +21,7 @@ const LoginPage = () => {
       if (login.data) {
         alert("User Login Successfully");
         const userToken = login.data.token;
-        const username = login.data.userDetails.username;
+        const username = login.data.userDetails.user_id;
 
         Cookies.set("userToken", userToken);
         Cookies.set("username", username);
