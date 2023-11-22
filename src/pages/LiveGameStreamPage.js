@@ -90,7 +90,9 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     })
 
-
+    socket.on("numberOfUsers", (data) =>{
+      console.log("User's count", data)
+    })
 
     return () => {
       socket.disconnect();
