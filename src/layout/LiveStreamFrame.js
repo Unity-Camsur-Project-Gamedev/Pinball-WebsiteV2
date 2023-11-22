@@ -30,11 +30,11 @@ const LiveStreamFrame = () => {
 
   return (
     <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
-      <div class="absolute right-0 top-4 flex items-center">
-        <div class="relative">
-          <div class="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
-          <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-16 h-10 shadow-md flex items-center justify-center">
-            <p class="font-bold text-lg mr-2">{userCount}</p>
+      <div className="absolute right-0 top-4 flex items-center">
+        <div className="relative">
+          <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
+          <div className="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-auto p-2 h-10 shadow-md flex items-center justify-center">
+            <p className="font-bold text-lg mr-2">{userCount}</p>
             <img src={icon} alt="#" class="w-6 h-6" />
           </div>
         </div>
