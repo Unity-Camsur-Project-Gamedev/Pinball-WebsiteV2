@@ -18,11 +18,16 @@ const initialState = {
   selectedColorHex: "",
   betButtons: [],
   userBets: [],
+  toBeConfirmedBetArray: [],
+  confirmedBetArray: [],
+  setConfirmedBetArray: () => {},
+  setToBeConfirmedBetArray: () => {},
   setUserBets: () => {},
   setIsOpen: () => {},
   setSelectedColorName: () => {},
   setSelectedColorHex: () => {},
   handleInputChange: () => {},
+  handleClearBet: () => {},
   handleConfirmBet: () => {},
   handleBetOnColor: () => {},
   handleButtonClick: () => {},
@@ -72,10 +77,13 @@ export const LiveStreamProvider = ({
   const [betAmount, setBetAmount] = useState("0");
   const [selectedButton, setSelectedButton] = useState(null);
   const [userBets, setUserBets] = useState([]);
+  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]);
+  const [confirmedBetArray, setConfirmedBetArray] = useState([]);
 
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
     setBetAmount(newValue);
+    // console.log(newValue);
   };
 
   //keyboard input
@@ -91,35 +99,67 @@ export const LiveStreamProvider = ({
     );
   };
 
+  // const handleConfirmBet = async () => {
+  //   if (selectedButton !== null) {
+  //     const betAmountInt = parseInt(betAmount);
+  //     if (!isNaN(betAmountInt) && betAmountInt > 0) {
+  //       if (totalCredits > 0) {
+  //         if (totalCredits >= betAmountInt) {
+  //           try {
+  //             await postBet(selectedColorName, betAmountInt, userToken);
+  //             //reset
+  //             setSelectedButton(null);
+  //             setBetAmount("0");
+  //           } catch (error) {
+  //             console.error("Error:", error.message);
+  //             window.alert(
+  //               "An error occurred while placing the bet. Please try again later."
+  //             );
+  //           }
+  //         } else {
+  //           window.alert("Insufficient Credits. Please enter a valid number.");
+  //         }
+  //       } else {
+  //         window.alert("Insufficient Credits. Please add credits to bet.");
+  //       }
+  //     } else {
+  //       window.alert("Invalid bet amount. Please enter a valid number.");
+  //     }
+  //   } else {
+  //     window.alert("Select a color bet first");
+  //   }
+  // };
+
   const handleConfirmBet = async () => {
-    if (selectedButton !== null) {
-      const betAmountInt = parseInt(betAmount);
-      if (!isNaN(betAmountInt) && betAmountInt > 0) {
-        if (totalCredits > 0) {
-          if (totalCredits >= betAmountInt) {
-            try {
-              await postBet(selectedColorName, betAmountInt, userToken);
-              //reset
-              setSelectedButton(null);
-              setBetAmount("0");
-            } catch (error) {
-              console.error("Error:", error.message);
-              window.alert(
-                "An error occurred while placing the bet. Please try again later."
-              );
-            }
-          } else {
-            window.alert("Insufficient Credits. Please enter a valid number.");
-          }
-        } else {
-          window.alert("Insufficient Credits. Please add credits to bet.");
-        }
-      } else {
-        window.alert("Invalid bet amount. Please enter a valid number.");
+    // try {
+    //   for (const bet of toBeConfirmedBetArray) {
+    //     await postBet(colorName[bet.colorIndex], bet.amount, userToken);
+    //   }
+    //   //reset
+    //   setToBeConfirmedBetArray([]);
+    // } catch (error) {
+    //   console.error("Error:", error.message);
+    //   window.alert(
+    //     "An error occurred while placing the bet. Please try again later."
+    //   );
+    // }
+    try {
+      for (const bet of toBeConfirmedBetArray) {
+        console.log(colorName[bet.colorIndex], bet.amount);
       }
-    } else {
-      window.alert("Select a color bet first");
+      setConfirmedBetArray((prevArray) => [
+        ...prevArray,
+        ...toBeConfirmedBetArray,
+      ]);
+      setToBeConfirmedBetArray([]);
+    } catch (error) {
+      console.error("Error:", error.message);
     }
+  };
+
+  const handleClearBet = () => {
+    setToBeConfirmedBetArray([]);
+    // setUserBets([]);
   };
 
   const handleMaxButton = () => {
@@ -130,13 +170,52 @@ export const LiveStreamProvider = ({
     setBetAmount("0");
   };
 
+  // const handleBetOnColor = (key) => {
+  //   setSelectedButton(key);
+
+  //   //console logs
+  //   setSelectedColorHex(colorHex[key]);
+  //   setSelectedColorName(colorName[key]);
+  // };
+
   const handleBetOnColor = (key) => {
     setSelectedButton(key);
-
-    //console logs
-    setSelectedColorHex(colorHex[key]);
-    setSelectedColorName(colorName[key]);
+    const betAmountInt = parseInt(betAmount);
+    if (!isNaN(betAmountInt) && betAmountInt > 0) {
+      if (totalCredits > 0) {
+        if (totalCredits >= betAmountInt) {
+          //FUNCTION TO INCREMENT THE AMOUNT OF THE SAME COLOR INDEX INSTEAD OF INCREMENTING THE ARRAY
+          setToBeConfirmedBetArray((prevArray) => {
+            const updatedArray = [...prevArray];
+            const existingBetIndex = prevArray.findIndex(
+              (bet) => bet.colorIndex === key
+            );
+            if (existingBetIndex !== -1) {
+              // If the colorIndex already exists, update the amount
+              updatedArray[existingBetIndex].amount += betAmountInt;
+            } else {
+              // If the colorIndex doesn't exist, add a new entry
+              updatedArray.push({ colorIndex: key, amount: betAmountInt });
+            }
+            return updatedArray;
+          });
+          setBetAmount("0");
+        } else {
+          window.alert("Insufficient Credits. Please enter a valid number.");
+        }
+      } else {
+        window.alert("Insufficient Credits. Please add credits to bet.");
+      }
+    } else {
+      window.alert("Input amount first.");
+    }
   };
+
+  useEffect(() => {
+    // console.log("userBets: ", userBets);
+    console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
+    console.log("confirmedBetArray: ", confirmedBetArray);
+  }, [toBeConfirmedBetArray, confirmedBetArray]);
 
   return (
     <LiveStreamContext.Provider
@@ -152,9 +231,14 @@ export const LiveStreamProvider = ({
         betButtons,
         setIsOpen,
         userBets,
+        toBeConfirmedBetArray,
+        confirmedBetArray,
+        setConfirmedBetArray,
+        setToBeConfirmedBetArray,
         setUserBets,
         handleInputChange,
         handleConfirmBet,
+        handleClearBet,
         handleBetOnColor,
         handleButtonClick,
         handleClearButton,

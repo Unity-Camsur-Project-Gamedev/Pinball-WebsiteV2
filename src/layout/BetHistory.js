@@ -216,7 +216,7 @@ const BetHistory = ({ userToken, rows }) => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [historyRows, setHistoryRows] = React.useState([]);
-  const { setUserBets } = useLiveStream();
+  // const { setUserBets } = useLiveStream();
 
   const fetchData = async () => {
     try {
@@ -229,7 +229,7 @@ const BetHistory = ({ userToken, rows }) => {
         result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
       }));
       setHistoryRows(updatedRows);
-      setUserBets(updatedRows.filter((row) => row.winLose === "On going"));
+      // setUserBets(updatedRows.filter((row) => row.winLose === "On going"));
     } catch (error) {
       console.error("Error:", error.message);
     }

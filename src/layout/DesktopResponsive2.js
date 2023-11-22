@@ -24,6 +24,7 @@ function DesktopResponsive2({ betStatus }) {
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
+    handleClearBet,
     handleBetOnColor,
     handleButtonClick,
     handleClearButton,
@@ -34,28 +35,60 @@ function DesktopResponsive2({ betStatus }) {
   const [popUp, setPopUp] = useState(false);
 
   const [isHovered, setIsHovered] = useState(false);
+  const [repeatIsHovered, setRepeatIsHovered] = useState(false);
+  const [clearIsHovered, setClearIsHovered] = useState(false);
+
   const [isPressed, setIsPressed] = useState(false);
+  const [repeatIsPressed, setRepeatIsPressed] = useState(false);
+  const [clearIsPressed, setClearIsPressed] = useState(false);
 
-  const handleHover = () => {
-    setIsHovered(true);
+  const handleHover = (button) => {
+    if (button === "confirm") {
+      setIsHovered(true);
+    } else if (button === "repeat") {
+      setRepeatIsHovered(true);
+    } else {
+      setClearIsHovered(true);
+    }
   };
 
-  const handleLeave = () => {
-    setIsHovered(false);
+  const handleLeave = (button) => {
+    if (button === "confirm") {
+      setIsHovered(false);
+    } else if (button === "repeat") {
+      setRepeatIsHovered(false);
+    } else {
+      setClearIsHovered(false);
+    }
   };
 
-  const handlePress = () => {
-    setIsPressed(true);
-    setTimeout(() => {
-      setIsPressed(false);
-    }, 100);
+  const handlePress = (button) => {
+    if (button === "confirm") {
+      setIsPressed(true);
+      setTimeout(() => {
+        setIsPressed(false);
+      }, 100);
+    } else if (button === "repeat") {
+      setRepeatIsPressed(true);
+      setTimeout(() => {
+        setRepeatIsPressed(false);
+      }, 100);
+    } else {
+      setClearIsPressed(true);
+      setTimeout(() => {
+        setClearIsPressed(false);
+      }, 100);
+    }
   };
 
   const confirmButtonClassName = `w-[70%]  ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
-  const buttonClassName = `w-[20%]  ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  const repeatButtonClassName = `w-[20%]  ${
+    repeatIsPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+  const clearButtonClassName = `w-[20%]  ${
+    clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
 
   return (
@@ -158,9 +191,11 @@ function DesktopResponsive2({ betStatus }) {
                   <div className="w-full flex justify-between items-center gap-4 px-5">
                     <Button
                       disableRipple
-                      className={buttonClassName}
+                      className={repeatButtonClassName}
                       style={{
-                        backgroundColor: isHovered ? "#036be2" : "#0474f2",
+                        backgroundColor: repeatIsHovered
+                          ? "#036be2"
+                          : "#0474f2",
                         color: "white",
                         fontSize: ".75rem",
                         padding: "2%",
@@ -168,15 +203,15 @@ function DesktopResponsive2({ betStatus }) {
                         borderRadius: 50,
                       }}
                       onClick={() => {
-                        // handlePress();
-                        // handleConfirmBet();
+                        handlePress("repeat");
+                        handleConfirmBet();
                       }}
-                      onMouseEnter={handleHover}
-                      onMouseLeave={handleLeave}
+                      onMouseEnter={() => handleHover("repeat")}
+                      onMouseLeave={() => handleLeave("repeat")}
                     >
                       <p
                         className={`${
-                          isPressed
+                          repeatIsPressed
                             ? "transition translate-x-[3px] translate-y-[3px] "
                             : ""
                         } `}
@@ -196,11 +231,11 @@ function DesktopResponsive2({ betStatus }) {
                         borderRadius: 50,
                       }}
                       onClick={() => {
-                        handlePress();
+                        handlePress("confirm");
                         handleConfirmBet();
                       }}
-                      onMouseEnter={handleHover}
-                      onMouseLeave={handleLeave}
+                      onMouseEnter={() => handleHover("confirm")}
+                      onMouseLeave={() => handleLeave("confirm")}
                     >
                       <p
                         className={`${
@@ -214,9 +249,9 @@ function DesktopResponsive2({ betStatus }) {
                     </Button>
                     <Button
                       disableRipple
-                      className={buttonClassName}
+                      className={clearButtonClassName}
                       style={{
-                        backgroundColor: isHovered ? "#036be2" : "#0474f2",
+                        backgroundColor: clearIsHovered ? "#036be2" : "#0474f2",
                         color: "white",
                         fontSize: ".75rem",
                         padding: "2%",
@@ -224,15 +259,16 @@ function DesktopResponsive2({ betStatus }) {
                         borderRadius: 50,
                       }}
                       onClick={() => {
-                        // handlePress();
+                        handlePress("clear");
+                        handleClearBet();
                         // handleConfirmBet();
                       }}
-                      onMouseEnter={handleHover}
-                      onMouseLeave={handleLeave}
+                      onMouseEnter={() => handleHover("clear")}
+                      onMouseLeave={() => handleLeave("clear")}
                     >
                       <p
                         className={`${
-                          isPressed
+                          clearIsPressed
                             ? "transition translate-x-[3px] translate-y-[3px] "
                             : ""
                         } `}
