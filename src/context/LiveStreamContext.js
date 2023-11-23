@@ -93,7 +93,6 @@ export const LiveStreamProvider = ({
   const [totalBetAmount, setTotalBetAmount] = useState(0);
 
   useEffect(() => {
-    // console.log(clearBetsOnColor);
     setMirrorArray([]);
     setConfirmedBetArray([]);
     setToBeConfirmedBetArray([]);

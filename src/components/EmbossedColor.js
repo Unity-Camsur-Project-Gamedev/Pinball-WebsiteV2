@@ -4,8 +4,12 @@ import Coin from "../assets/coin.png";
 import useLiveStream from "../context/LiveStreamContext";
 
 function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
-  const { toBeConfirmedBetArray, confirmedBetArray, mirrorArray } =
-    useLiveStream();
+  const {
+    toBeConfirmedBetArray,
+    confirmedBetArray,
+    mirrorArray,
+    clearBetsOnColor,
+  } = useLiveStream();
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [animate, setAnimate] = useState(false);
@@ -18,7 +22,7 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     }, index * 200);
 
     return () => clearTimeout(timeout);
-  }, [index]);
+  }, [clearBetsOnColor]); //ito yon
 
   const handleHover = () => {
     setIsHovered(true);

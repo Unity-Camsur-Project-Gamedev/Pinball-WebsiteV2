@@ -56,6 +56,10 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
+  useEffect(() => {
+    console.log(clearBetsOnColor);
+  }, [clearBetsOnColor]);
+
   // FETCH SOCKETS
   useEffect(() => {
     // console.log('userId changed:', userId);
@@ -78,7 +82,6 @@ const LiveGameStreamPage = ({ userToken }) => {
       setTimeout(() => {
         setTotalCredits(data.balance);
         toast.success(`You win a total of ${data.winningAmount}! 🎉`);
-        setClearBetsOnColor(true);
       }, 2000);
       // Check if the window width is above a certain threshold for desktop
       if (window.innerWidth > 768) {
@@ -97,6 +100,13 @@ const LiveGameStreamPage = ({ userToken }) => {
     socket.on("bettingHistoryUpdate", (data) => {
       // console.log("bet history", data.combinedDetails)
       setRows(data.combinedDetails);
+    });
+
+    socket.on("clearBetCounts", () => {
+      // console.log("bet history", data.combinedDetails)
+      // console.log("clearbet counts");
+      setClearBetsOnColor((prevClearBetsOnColor) => !prevClearBetsOnColor);
+      // console.log("listening clear bet counts");
     });
 
     return () => {
