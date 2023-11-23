@@ -23,11 +23,11 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [userId, setUserId] = useState(""); //user id state*
   const [rows, setRows] = useState([]);
   const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
+  localStorage.setItem("totalCredits", totalCredits);
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
-
-
+  const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
 
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
@@ -73,6 +73,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       // console.log("UpdatedWalletBalance:", data.balance)
       setTimeout(() => {
         setTotalCredits(data.balance);
+        setClearBetsOnColor(true);
       }, 3000);
       // Check if the window width is above a certain threshold for desktop
       if (window.innerWidth > 768) {
@@ -88,10 +89,8 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingHistoryUpdate", (data) => {
       // console.log("bet history", data.combinedDetails)
-      setRows(data.combinedDetails)
-
-    })
-
+      setRows(data.combinedDetails);
+    });
 
     return () => {
       socket.disconnect();
@@ -114,7 +113,6 @@ const LiveGameStreamPage = ({ userToken }) => {
     })();
   }, []);
 
-
   return (
     <div className="h-auto flex flex-col gap-10 items-center border-2 border-green-600 ">
       <ModalProvider
@@ -130,7 +128,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
-
+        clearBetsOnColor={clearBetsOnColor}
       >
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
           {confetti && <Confetti />}

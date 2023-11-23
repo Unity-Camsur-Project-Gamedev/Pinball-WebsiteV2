@@ -7,7 +7,7 @@ import { IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ChatPlayToggle from "../components/ChatPlayToggle";
 import LiveChat from "../components/LiveChat";
-import icon from "../assets/group.png"
+import icon from "../assets/group.png";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
@@ -36,8 +36,8 @@ function MobileResponsive2({ betStatus }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const [toggle, setToggle] = useState("play");
-  const [userCount, setUserCount] = useState("")
-  const userId = Cookies.get("username")
+  const [userCount, setUserCount] = useState("");
+  const userId = Cookies.get("username");
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -50,9 +50,9 @@ function MobileResponsive2({ betStatus }) {
     });
 
     socket.on("numberOfUsers", (data) => {
-      console.log("User's count", data)
-      setUserCount(data)
-    })
+      // console.log("User's count", data)
+      setUserCount(data);
+    });
     return () => {
       socket.disconnect();
     };
@@ -73,8 +73,9 @@ function MobileResponsive2({ betStatus }) {
     }, 100);
   };
 
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${isPressed ? "shadow-pressed" : "shadow-unpressed"
-    } `;
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
 
   return (
     <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">

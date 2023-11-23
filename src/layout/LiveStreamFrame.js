@@ -1,12 +1,12 @@
 /* eslint-disable */
 import React, { useEffect, useState } from "react";
-import icon from "../assets/group.png"
+import icon from "../assets/group.png";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
 
 const LiveStreamFrame = () => {
-  const [userCount, setUserCount] = useState("")
-  const userId = Cookies.get("username")
+  const [userCount, setUserCount] = useState("");
+  const userId = Cookies.get("username");
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -19,14 +19,13 @@ const LiveStreamFrame = () => {
     });
 
     socket.on("numberOfUsers", (data) => {
-      console.log("User's count", data)
-      setUserCount(data)
-    })
+      // console.log("User's count", data)
+      setUserCount(data);
+    });
     return () => {
       socket.disconnect();
     };
   }, [userId]);
-
 
   return (
     <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">

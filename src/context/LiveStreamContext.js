@@ -20,6 +20,10 @@ const initialState = {
   userBets: [],
   toBeConfirmedBetArray: [],
   confirmedBetArray: [],
+  mirrorArray: [],
+  totalCreditsCopy: null,
+  clearBetsOnColor: false,
+  setMirrorArray: () => {},
   setConfirmedBetArray: () => {},
   setToBeConfirmedBetArray: () => {},
   setUserBets: () => {},
@@ -45,6 +49,7 @@ export const LiveStreamProvider = ({
   userToken,
   setIsOpen,
   totalCredits,
+  clearBetsOnColor,
 }) => {
   const colorName = [
     "Red",
@@ -72,13 +77,24 @@ export const LiveStreamProvider = ({
   const numGroup2 = ["4", "5", "6"];
   const numGroup3 = ["7", "8", "9"];
   const betButtons = ["5", "10", "20", "50", "100"];
+  const totalCreditsCopy = localStorage.getItem("totalCredits");
   const [selectedColorName, setSelectedColorName] = useState("");
   const [selectedColorHex, setSelectedColorHex] = useState("");
-  const [betAmount, setBetAmount] = useState("0");
-  const [selectedButton, setSelectedButton] = useState(null);
+  const [betAmount, setBetAmount] = useState("0"); //BET AMOUNT TEXT
+  const [selectedButton, setSelectedButton] = useState(null); //INDEX OF THE COLOR BUTTON
   const [userBets, setUserBets] = useState([]);
-  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]);
-  const [confirmedBetArray, setConfirmedBetArray] = useState([]);
+  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET TO POST
+  const [confirmedBetArray, setConfirmedBetArray] = useState([]); //CONTAINS CONFIRMED BETS
+  const [mirrorArray, setMirrorArray] = useState([]); //MIRROR ARRAY OF CBA
+
+  const [totalBetAmount, setTotalBetAmount] = useState(0);
+
+  useEffect(() => {
+    // console.log(clearBetsOnColor);
+    setMirrorArray([]);
+    setConfirmedBetArray([]);
+    setToBeConfirmedBetArray([]);
+  }, [clearBetsOnColor]);
 
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
@@ -131,34 +147,59 @@ export const LiveStreamProvider = ({
   // };
 
   const handleConfirmBet = async () => {
-    // try {
-    //   for (const bet of toBeConfirmedBetArray) {
-    //     await postBet(colorName[bet.colorIndex], bet.amount, userToken);
-    //   }
-    //   //reset
-    //   setToBeConfirmedBetArray([]);
-    // } catch (error) {
-    //   console.error("Error:", error.message);
-    //   window.alert(
-    //     "An error occurred while placing the bet. Please try again later."
-    //   );
-    // }
-    try {
+    if (totalBetAmount <= totalCreditsCopy) {
       for (const bet of toBeConfirmedBetArray) {
         console.log(colorName[bet.colorIndex], bet.amount);
       }
-      setConfirmedBetArray((prevArray) => [
-        ...prevArray,
-        ...toBeConfirmedBetArray,
-      ]);
+      //INSERT BETS THAT ARE CONFIRMED
+      setConfirmedBetArray((prevArray) => {
+        const combinedArray = [...prevArray, ...toBeConfirmedBetArray];
+
+        const aggregatedAmounts = {};
+
+        combinedArray.forEach((bet) => {
+          const { colorIndex, amount } = bet;
+          aggregatedAmounts[colorIndex] =
+            (aggregatedAmounts[colorIndex] || 0) + amount;
+        });
+
+        const updatedArray = Object.entries(aggregatedAmounts).map(
+          ([colorIndex, amount]) => ({
+            colorIndex: parseInt(colorIndex, 10),
+            amount,
+          })
+        );
+
+        return updatedArray;
+      });
+
+      console.log("POST", toBeConfirmedBetArray);
+
+      //POST METHOD
+      for (const bet of toBeConfirmedBetArray) {
+        console.log(colorName[bet.colorIndex], bet.amount);
+      }
+
+      try {
+        for (const bet of toBeConfirmedBetArray) {
+          await postBet(colorName[bet.colorIndex], bet.amount, userToken);
+        }
+      } catch (error) {
+        console.error("Error:", error.message);
+        window.alert(
+          "An error occurred while placing the bet. Please try again later."
+        );
+      }
+
       setToBeConfirmedBetArray([]);
-    } catch (error) {
-      console.error("Error:", error.message);
+    } else {
+      window.alert("Insuffiecient Balance. Please top up your credits.");
     }
   };
 
   const handleClearBet = () => {
     setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
     // setUserBets([]);
   };
 
@@ -184,24 +225,22 @@ export const LiveStreamProvider = ({
     if (!isNaN(betAmountInt) && betAmountInt > 0) {
       if (totalCredits > 0) {
         if (totalCredits >= betAmountInt) {
-          //FUNCTION TO INCREMENT THE AMOUNT OF THE SAME COLOR INDEX INSTEAD OF INCREMENTING THE ARRAY
           setToBeConfirmedBetArray((prevArray) => {
             const updatedArray = [...prevArray];
             const existingBetIndex = prevArray.findIndex(
               (bet) => bet.colorIndex === key
             );
             if (existingBetIndex !== -1) {
-              // If the colorIndex already exists, update the amount
               updatedArray[existingBetIndex].amount += betAmountInt;
             } else {
-              // If the colorIndex doesn't exist, add a new entry
               updatedArray.push({ colorIndex: key, amount: betAmountInt });
             }
             return updatedArray;
           });
+
           setBetAmount("0");
         } else {
-          window.alert("Insufficient Credits. Please enter a valid number.");
+          window.alert("Insufficient Credits. Please enter a valid amount.");
         }
       } else {
         window.alert("Insufficient Credits. Please add credits to bet.");
@@ -212,10 +251,47 @@ export const LiveStreamProvider = ({
   };
 
   useEffect(() => {
-    // console.log("userBets: ", userBets);
+    if (confirmedBetArray.length > 0 || toBeConfirmedBetArray.length > 0) {
+      // Combine array1 and array2 into array3 with incrementing amounts
+      const combinedArray = [
+        ...toBeConfirmedBetArray,
+        ...confirmedBetArray,
+      ].reduce((accumulator, currentValue) => {
+        const existingItem = accumulator.find(
+          (item) => item.colorIndex === currentValue.colorIndex
+        );
+
+        if (existingItem) {
+          // If the colorIndex already exists, increment the amount
+          existingItem.amount += currentValue.amount;
+        } else {
+          // If the colorIndex doesn't exist, add the item to the accumulator
+          accumulator.push({ ...currentValue });
+        }
+
+        return accumulator;
+      }, []);
+
+      const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
+
+      // Set the state
+      setMirrorArray(combinedArray);
+      setTotalBetAmount(total);
+    }
+  }, [confirmedBetArray, toBeConfirmedBetArray]);
+
+  useEffect(() => {
     console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
     console.log("confirmedBetArray: ", confirmedBetArray);
   }, [toBeConfirmedBetArray, confirmedBetArray]);
+
+  useEffect(() => {
+    console.log("mirrorArray:", mirrorArray);
+  }, [mirrorArray]);
+
+  useEffect(() => {
+    console.log("totalBetAmount:", totalBetAmount);
+  }, [totalBetAmount]);
 
   return (
     <LiveStreamContext.Provider
@@ -233,6 +309,10 @@ export const LiveStreamProvider = ({
         userBets,
         toBeConfirmedBetArray,
         confirmedBetArray,
+        mirrorArray,
+        totalCreditsCopy,
+        clearBetsOnColor,
+        setMirrorArray,
         setConfirmedBetArray,
         setToBeConfirmedBetArray,
         setUserBets,
