@@ -2,5 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s infinite; /* Adjust duration and timing as needed */
+}
+
+@keyframes scaleAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1); /* Change the scaling factor as needed */
+    }
+    100% {
+        transform: scale(1); /* Change the scaling factor as needed */
+      }
+  }
+  
+  .button-animation {
+    animation: scaleAnimation 0.5s forwards; /* Add 'infinite' for infinite animation */
+  }

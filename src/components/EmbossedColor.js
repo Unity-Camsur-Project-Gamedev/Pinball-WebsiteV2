@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import pokerChip from "../assets/pokerChip.png";
+import Coin from "../assets/coin.png";
 import useLiveStream from "../context/LiveStreamContext";
 
 function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
@@ -7,6 +8,17 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     useLiveStream();
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
+  const status = localStorage.getItem("betStatus");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setAnimate(true);
+    }, index * 200);
+
+    return () => clearTimeout(timeout);
+  }, [index]);
 
   const handleHover = () => {
     setIsHovered(true);
@@ -23,9 +35,9 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     }, 100);
   };
 
-  const buttonClassName = `flex gap-1 font-['Poppins'] justify-center items-center h-full w-full hover:-translate-y-1 duration-300 transition ease-in-out rounded-sm ${
+  const buttonClassName = `flex gap-1 font-['Poppins'] justify-center items-center h-full w-full hover:-translate-y-1 duration-300 transition ease-in-out rounded-md relative ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
+  } ${animate ? "button-animation" : ""}`;
 
   // const bothEmpty =
   //   mirrorArray.length === 0 && toBeConfirmedBetArray.length === 0;
@@ -44,7 +56,7 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
         variant="contained"
         className={buttonClassName}
         style={
-          selectedButton == index
+          selectedButton === index
             ? {
                 backgroundColor: colorHex[index],
 

@@ -29,7 +29,7 @@ export default function ChatModal() {
     <div>
       <div
         onClick={handleOpen}
-        className="border-2 border-red-600 p-1.5 rounded-full bg-white"
+        className="p-1.5 rounded-full bg-white"
       >
         <ForumIcon style={{ color: "skyblue", fontSize: "1.5rem" }} />
       </div>

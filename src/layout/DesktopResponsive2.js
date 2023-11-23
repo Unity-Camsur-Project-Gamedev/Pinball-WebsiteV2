@@ -10,7 +10,7 @@ import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
 import LiveChat from "../components/LiveChat";
 
-function DesktopResponsive2({ betStatus }) {
+function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   const {
     isOpen,
     colorHex,
@@ -24,6 +24,7 @@ function DesktopResponsive2({ betStatus }) {
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
+    handleRepeatBet,
     handleClearBet,
     handleBetOnColor,
     handleButtonClick,
@@ -41,6 +42,7 @@ function DesktopResponsive2({ betStatus }) {
   const [isPressed, setIsPressed] = useState(false);
   const [repeatIsPressed, setRepeatIsPressed] = useState(false);
   const [clearIsPressed, setClearIsPressed] = useState(false);
+  // const [empty, setEmpty] = useState(true)
 
   const handleHover = (button) => {
     if (button === "confirm") {
@@ -81,15 +83,12 @@ function DesktopResponsive2({ betStatus }) {
     }
   };
 
-  const confirmButtonClassName = `w-[70%]  ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
-  const repeatButtonClassName = `w-[20%]  ${
-    repeatIsPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
-  const clearButtonClassName = `w-[20%]  ${
-    clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
+  const confirmButtonClassName = `w-[70%]  ${isPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
+  const repeatButtonClassName = `w-[20%]  ${repeatIsPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
+  const clearButtonClassName = `w-[20%]  ${clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
 
   return (
     <div className="border-2 border-black h-full w-full">
@@ -102,8 +101,15 @@ function DesktopResponsive2({ betStatus }) {
           <div className="sub-container flex flex-col flex-1  ">
             <div className="color-grid-container h-[5rem]  relative">
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Open" && empty && (
+                <div className="absolute inset-0 flex justify-center items-center z-10 bg-gray-400 bg-opacity-50 cursor-pointer" onClick={(e) => setEmpty(false)}>
+                  <p className="text-center text-3xl font-bold text-yellow-50 animate-blink">PLEASE PLACE YOUR BETS HERE</p>
+                </div>
+              )}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 "></div>
+                <div className="absolute inset-0 z-10 flex justify-center items-center z-10 bg-gray-400 bg-opacity-50">
+                  <p className="text-center text-3xl font-bold text-yellow-50 animate-blink">BET IS CLOSED</p>
+                </div>
               )}
               <ColorInputs
                 selectedButton={selectedButton}
@@ -204,17 +210,16 @@ function DesktopResponsive2({ betStatus }) {
                       }}
                       onClick={() => {
                         handlePress("repeat");
-                        handleConfirmBet();
+                        handleRepeatBet();
                       }}
                       onMouseEnter={() => handleHover("repeat")}
                       onMouseLeave={() => handleLeave("repeat")}
                     >
                       <p
-                        className={`${
-                          repeatIsPressed
+                        className={`${repeatIsPressed
                             ? "transition translate-x-[3px] translate-y-[3px] "
                             : ""
-                        } `}
+                          } `}
                       >
                         repeat bet
                       </p>
@@ -238,11 +243,10 @@ function DesktopResponsive2({ betStatus }) {
                       onMouseLeave={() => handleLeave("confirm")}
                     >
                       <p
-                        className={`${
-                          isPressed
+                        className={`${isPressed
                             ? "transition translate-x-[3px] translate-y-[3px] "
                             : ""
-                        } `}
+                          } `}
                       >
                         confirm
                       </p>
@@ -267,11 +271,10 @@ function DesktopResponsive2({ betStatus }) {
                       onMouseLeave={() => handleLeave("clear")}
                     >
                       <p
-                        className={`${
-                          clearIsPressed
+                        className={`${clearIsPressed
                             ? "transition translate-x-[3px] translate-y-[3px] "
                             : ""
-                        } `}
+                          } `}
                       >
                         clear bet
                       </p>

@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, { useState, createContext, useContext } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { postAddCredits } from '../services/postAddCredits';
 
@@ -50,9 +52,11 @@ export const ModalProvider = ({ children, userToken, isOpen, setIsOpen }) => {
                     //reset input selections
                     setSelectedTopUpButton(null);
                     setTopUpAmount('');
+                    toast.success("Top-up successful!")
                 } catch (error) {
                     console.error('Error:', error.message);
-                    window.alert('An error occurred while placing the bet. Please try again later.');
+                    // window.alert('An error occurred while placing the bet. Please try again later.');
+
                 }
             } else {
                 window.alert('The amount you have entered exceed the maximum top up amount of P500,000');

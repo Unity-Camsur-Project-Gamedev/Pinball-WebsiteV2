@@ -1,7 +1,10 @@
 /* eslint-disable */
 import React, { useState, createContext, useContext, useEffect } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { postBet } from "../services/postBet";
+import { repeatBet } from "../services/repeatBet";
 
 const initialState = {
   userToken: null,
@@ -113,6 +116,17 @@ export const LiveStreamProvider = ({
     setBetAmount((prevAmount) =>
       String(parseInt(prevAmount, 10) + parseInt(buttonText, 10))
     );
+  };
+
+  const handleRepeatBet = async () => {
+    try {
+      await repeatBet(userToken);
+    } catch (error) {
+      // Show a toast notification indicating the user needs to make a bet first
+      toast.error("No bets found in the last game.", {
+        autoClose: 3000,
+      });
+    }
   };
 
   // const handleConfirmBet = async () => {
@@ -240,13 +254,13 @@ export const LiveStreamProvider = ({
 
           setBetAmount("0");
         } else {
-          window.alert("Insufficient Credits. Please enter a valid amount.");
+          toast.error("Insufficient Credits. Please enter a valid number.");
         }
       } else {
-        window.alert("Insufficient Credits. Please add credits to bet.");
+        toast.warning("Insufficient Credits. Please add credits to bet.");
       }
     } else {
-      window.alert("Input amount first.");
+      toast.warning("Input amount first.");
     }
   };
 
@@ -318,6 +332,7 @@ export const LiveStreamProvider = ({
         setUserBets,
         handleInputChange,
         handleConfirmBet,
+        handleRepeatBet,
         handleClearBet,
         handleBetOnColor,
         handleButtonClick,
