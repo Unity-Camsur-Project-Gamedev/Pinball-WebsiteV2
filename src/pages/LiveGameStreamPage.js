@@ -5,6 +5,9 @@ import OBSWebSocket from "obs-websocket-js";
 import { io } from "socket.io-client";
 // import jwt from 'jsonwebtoken';
 import Confetti from "../components/Confetti ";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -26,6 +29,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
+  const [empty, setEmpty] = useState(true)
 
 
 
@@ -70,20 +74,25 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("walletUpdateWin", (data) => {
-      // console.log("UpdatedWalletBalance:", data.balance)
+      console.log("UpdatedWalletBalance:", data)
+      console.log(data)
       setTimeout(() => {
         setTotalCredits(data.balance);
-      }, 3000);
+        toast.success(`You win a total of ${data.winningAmount}! 🎉`)
+      }, 2000);
       // Check if the window width is above a certain threshold for desktop
       if (window.innerWidth > 768) {
         // Adjust the threshold as needed
         setConfetti(true);
+        
       }
     });
 
     socket.on("bettingStatusUpdate", (data) => {
       // console.log("Betting Status:", data.status);
       setBetStatus(data.status); //set the bet status to 'Closed'
+      localStorage.setItem("betStatus", data.status)
+      setEmpty(true)
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
@@ -130,11 +139,12 @@ const LiveGameStreamPage = ({ userToken }) => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
+        betStatus={betStatus}
 
       >
         <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
           {confetti && <Confetti />}
-          <DesktopResponsive2 betStatus={betStatus} />
+          <DesktopResponsive2 betStatus={betStatus} empty={empty} setEmpty={setEmpty}/>
           <BetHistory userToken={userToken} rows={rows} />
         </div>
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
