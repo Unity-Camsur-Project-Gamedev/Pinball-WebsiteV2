@@ -12,7 +12,7 @@ import icon from "../assets/group.png";
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
 
-function MobileResponsive2({ betStatus }) {
+function MobileResponsive2({ betStatus, empty, setEmpty }) {
   const {
     isOpen,
     colorHex,
@@ -38,6 +38,8 @@ function MobileResponsive2({ betStatus }) {
   const [toggle, setToggle] = useState("play");
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
+  const shouldBlink = betStatus === 'Open' ? 'animate-blink2 text-green-700' : 'text-red-700';
+  const Blink = betStatus === 'Open' ? `border-pulse` : '';
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -73,13 +75,12 @@ function MobileResponsive2({ betStatus }) {
     }, 100);
   };
 
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${isPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
 
   return (
-    <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
+    <div className="lg:gap-0 h-auto w-full flex flex-col items-center head-div">
+      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
             <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
@@ -88,13 +89,13 @@ function MobileResponsive2({ betStatus }) {
           </div>
         </div>
       </div>
-      <div className="relative w-full pb-[56.25%] border-2 border-yellow-600">
+      <div className="relative w-full pb-[56.25%]">
         <div class="absolute right-0 top-4 flex items-center">
           <div class="relative">
             <div class="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
-            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-16 h-10 shadow-md flex items-center justify-center">
-              <p class="font-bold text-lg mr-2">{userCount}</p>
-              <img src={icon} alt="#" class="w-6 h-6" />
+            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md p-1 shadow-md flex items-center justify-center">
+              <p class="font-bold text-md mr-2">{userCount}</p>
+              <img src={icon} alt="#" class="w-4 h-4" />
             </div>
           </div>
         </div>
@@ -107,7 +108,7 @@ function MobileResponsive2({ betStatus }) {
           src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
+      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[90%] flex">
           <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] ">
             <p className="w-full text-md font-bold">credits:</p>
@@ -144,16 +145,24 @@ function MobileResponsive2({ betStatus }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl  bg-[#a0dfff]">
+      <div className="flex flex-col w-full h-[64vh] pt-4 pb-4 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
+        <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
+          <p className={`font-bold uppercase ${shouldBlink}`}>{betStatus} BETTING</p>
+          <div className="top"></div>
+          <div className="bottom"></div>
+          <div className="right"></div>
+          <div className="left"></div>
+        </div>
         <div className="">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
+
         {toggle === "play" ? (
           <div className="flex flex-col-reverse gap-4 w-full px-4 py-2 ">
             <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 "></div>
+                <div className="absolute inset-0 z-10"></div>
               )}
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
@@ -201,19 +210,24 @@ function MobileResponsive2({ betStatus }) {
                 </div>
               </div>
             </div>
-            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
+
+            <div className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-2 bg-gray-50 rounded-lg ${Blink}`}>
+              {/* Your content */}
               <p>select a color:</p>
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 "></div>
+                <div className="absolute inset-0 z-10">
+                </div>
               )}
               <ColorInputGrid
                 selectedButton={selectedButton}
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />
+
             </div>
           </div>
+
         ) : (
           <div className="h-[90%] w-full py-2 px-4 rounded-lg">
             <LiveChat />
