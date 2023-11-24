@@ -92,6 +92,7 @@ export const LiveStreamProvider = ({
 
   const [totalBetAmount, setTotalBetAmount] = useState(0);
 
+  //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
     setMirrorArray([]);
     setConfirmedBetArray([]);
@@ -101,10 +102,9 @@ export const LiveStreamProvider = ({
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
     setBetAmount(newValue);
-    // console.log(newValue);
   };
 
-  //keyboard input
+  //KEYBOARD INPUT
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const numericValue = inputValue.replace(/\D/g, "");
@@ -167,7 +167,6 @@ export const LiveStreamProvider = ({
       //INSERT BETS THAT ARE CONFIRMED
       setConfirmedBetArray((prevArray) => {
         const combinedArray = [...prevArray, ...toBeConfirmedBetArray];
-
         const aggregatedAmounts = {};
 
         combinedArray.forEach((bet) => {
@@ -182,17 +181,13 @@ export const LiveStreamProvider = ({
             amount,
           })
         );
-
+        setToBeConfirmedBetArray([]);
         return updatedArray;
       });
 
       console.log("POST", toBeConfirmedBetArray);
 
       //POST METHOD
-      for (const bet of toBeConfirmedBetArray) {
-        console.log(colorName[bet.colorIndex], bet.amount);
-      }
-
       try {
         for (const bet of toBeConfirmedBetArray) {
           await postBet(colorName[bet.colorIndex], bet.amount, userToken);
@@ -203,13 +198,12 @@ export const LiveStreamProvider = ({
           "An error occurred while placing the bet. Please try again later."
         );
       }
-
-      setToBeConfirmedBetArray([]);
     } else {
       window.alert("Insuffiecient Balance. Please top up your credits.");
     }
   };
 
+  //CLEAR THE UNCONFIRMED BETS
   const handleClearBet = () => {
     setToBeConfirmedBetArray([]);
     setMirrorArray([...confirmedBetArray]);
@@ -232,6 +226,7 @@ export const LiveStreamProvider = ({
   //   setSelectedColorName(colorName[key]);
   // };
 
+  //STORE THE USER BETS TO THE UNCONFIRMED ARRAY FIRST
   const handleBetOnColor = (key) => {
     setSelectedButton(key);
     const betAmountInt = parseInt(betAmount);
@@ -263,6 +258,7 @@ export const LiveStreamProvider = ({
     }
   };
 
+  //THIS IS USED TO TOTAL THE UNCONFIRMED BETS
   useEffect(() => {
     if (confirmedBetArray.length > 0 || toBeConfirmedBetArray.length > 0) {
       // Combine array1 and array2 into array3 with incrementing amounts
@@ -275,10 +271,8 @@ export const LiveStreamProvider = ({
         );
 
         if (existingItem) {
-          // If the colorIndex already exists, increment the amount
           existingItem.amount += currentValue.amount;
         } else {
-          // If the colorIndex doesn't exist, add the item to the accumulator
           accumulator.push({ ...currentValue });
         }
 
