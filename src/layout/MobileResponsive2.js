@@ -12,7 +12,7 @@ import icon from "../assets/group.png";
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
 
-function MobileResponsive2({ betStatus }) {
+function MobileResponsive2({ betStatus, empty, setEmpty }) {
   const {
     isOpen,
     colorHex,
@@ -38,6 +38,8 @@ function MobileResponsive2({ betStatus }) {
   const [toggle, setToggle] = useState("play");
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
+  const shouldBlink = betStatus === 'Open' ? 'animate-blink2 text-green-700' : 'text-red-700';
+  const Blink = betStatus === 'Open' ? `border-pulse` : '';
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -73,9 +75,8 @@ function MobileResponsive2({ betStatus }) {
     }, 100);
   };
 
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
-  } `;
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${isPressed ? "shadow-pressed" : "shadow-unpressed"
+    } `;
 
   return (
     <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">
@@ -144,16 +145,24 @@ function MobileResponsive2({ betStatus }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl  bg-[#a0dfff]">
+      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl bg-[#a0dfff] relative">
+        <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
+          <p className={`font-bold uppercase ${shouldBlink}`}>{betStatus} BETTING</p>
+          <div className="top"></div>
+          <div className="bottom"></div>
+          <div className="right"></div>
+          <div className="left"></div>
+        </div>
         <div className="">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
+
         {toggle === "play" ? (
           <div className="flex flex-col-reverse gap-4 w-full px-4 py-2 ">
             <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 "></div>
+                <div className="absolute inset-0 z-10"></div>
               )}
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
@@ -201,19 +210,24 @@ function MobileResponsive2({ betStatus }) {
                 </div>
               </div>
             </div>
-            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
+
+            <div className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-2 bg-gray-50 rounded-lg ${Blink}`}>
+              {/* Your content */}
               <p>select a color:</p>
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 "></div>
+                <div className="absolute inset-0 z-10">
+                </div>
               )}
               <ColorInputGrid
                 selectedButton={selectedButton}
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />
+
             </div>
           </div>
+
         ) : (
           <div className="h-[90%] w-full py-2 px-4 rounded-lg">
             <LiveChat />
