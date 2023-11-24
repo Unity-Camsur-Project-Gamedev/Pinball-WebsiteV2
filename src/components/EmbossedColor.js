@@ -14,15 +14,23 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
   const [isPressed, setIsPressed] = useState(false);
   const [animate, setAnimate] = useState(false);
 
-  const status = localStorage.getItem("betStatus");
 
   useEffect(() => {
+    console.log("test");
     const timeout = setTimeout(() => {
       setAnimate(true);
     }, index * 200);
-
-    return () => clearTimeout(timeout);
-  }, [clearBetsOnColor]); //ito yon
+  
+    const clearAnimateTimeout = setTimeout(() => {
+      setAnimate(false);
+    }, 5000); 
+  
+    // Clean up function to clear the timeouts 
+    return () => {
+      clearTimeout(timeout);
+      clearTimeout(clearAnimateTimeout);
+    };
+  }, [clearBetsOnColor, index]);
 
   const handleHover = () => {
     setIsHovered(true);

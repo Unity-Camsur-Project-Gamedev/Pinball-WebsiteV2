@@ -25,7 +25,7 @@
       transform: scale(1);
     }
     50% {
-      transform: scale(1.1); /* Change the scaling factor as needed */
+      transform: scale(1.2); /* Change the scaling factor as needed */
     }
     100% {
         transform: scale(1); /* Change the scaling factor as needed */
@@ -33,5 +33,5 @@
   }
   
   .button-animation {
-    animation: scaleAnimation 0.5s forwards; /* Add 'infinite' for infinite animation */
+    animation: scaleAnimation 0.5s forwards; 
   }

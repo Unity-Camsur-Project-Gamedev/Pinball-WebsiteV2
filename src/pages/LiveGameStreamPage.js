@@ -92,9 +92,11 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingStatusUpdate", (data) => {
       // console.log("Betting Status:", data.status);
-      setBetStatus(data.status); //set the bet status to 'Closed'
+      setTimeout(() => {
+        setBetStatus(data.status);
+        setEmpty(true); 
+      }, 3000);
       localStorage.setItem("betStatus", data.status);
-      setEmpty(true);
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
