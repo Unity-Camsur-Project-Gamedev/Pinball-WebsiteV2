@@ -89,13 +89,13 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           </div>
         </div>
       </div>
-      <div className="relative w-full pb-[56.25%] border-2 border-yellow-600">
+      <div className="relative w-full pb-[56.25%]">
         <div class="absolute right-0 top-4 flex items-center">
           <div class="relative">
             <div class="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
-            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-16 h-10 shadow-md flex items-center justify-center">
-              <p class="font-bold text-lg mr-2">{userCount}</p>
-              <img src={icon} alt="#" class="w-6 h-6" />
+            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md p-1 shadow-md flex items-center justify-center">
+              <p class="font-bold text-md mr-2">{userCount}</p>
+              <img src={icon} alt="#" class="w-4 h-4" />
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
+      <div className="flex flex-col w-full h-[64vh] pt-4 pb-4 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
         <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
           <p className={`font-bold uppercase ${shouldBlink}`}>{betStatus} BETTING</p>
           <div className="top"></div>
