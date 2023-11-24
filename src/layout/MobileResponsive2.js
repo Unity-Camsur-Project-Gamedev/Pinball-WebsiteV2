@@ -79,8 +79,8 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     } `;
 
   return (
-    <div className="lg:gap-0 h-auto w-full flex flex-col items-center  bg-white ">
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
+    <div className="lg:gap-0 h-auto w-full flex flex-col items-center head-div">
+      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
             <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
@@ -108,7 +108,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
-      <div className="flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold bg-white">
+      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[90%] flex">
           <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] ">
             <p className="w-full text-md font-bold">credits:</p>
@@ -145,7 +145,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl bg-[#a0dfff] relative">
+      <div className="flex flex-col w-full h-[62vh] pt-4 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
         <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
           <p className={`font-bold uppercase ${shouldBlink}`}>{betStatus} BETTING</p>
           <div className="top"></div>
