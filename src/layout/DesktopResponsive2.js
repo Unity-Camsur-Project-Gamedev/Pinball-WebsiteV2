@@ -94,10 +94,10 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   } `;
 
   return (
-    <div className="border-2 border-black h-full w-full">
-      <div className="flex justify-center items-center h-full border-2 border-green-600">
-        <div className="main-container flex flex-col w-full h-full border-2 border-blue-600">
-          <div className="sub-container w-full  flex justify-center items-center bg-[#b0ecfa]">
+    <div className=" h-full w-full">
+      <div className="flex justify-center items-center h-full ">
+        <div className="main-container flex flex-col w-full h-full ">
+          <div className="sub-container w-full  flex justify-center items-center backdrop-blur-md bg-white/30">
             <LiveStreamFrame />
           </div>
 
@@ -128,7 +128,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
               />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className="border-2 border-green-600 relative">
+              <div className=" relative px-2 py-2">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
@@ -143,7 +143,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   handleMaxButton={handleMaxButton}
                 />
               </div>
-              <div className="bet-info border-2 border-green-600 p-2 relative">
+              <div className="bet-info  p-2 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
@@ -295,7 +295,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   </div>
                 </div>
               </div>
-              <div className="border-2 border-green-600 ">
+              <div className=" ">
                 <LiveChat />
               </div>
             </div>

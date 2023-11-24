@@ -182,6 +182,8 @@ export const LiveStreamProvider = ({
           })
         );
         setToBeConfirmedBetArray([]);
+
+        localStorage.setItem("onGoingBets", JSON.stringify(updatedArray));
         return updatedArray;
       });
 
@@ -294,6 +296,10 @@ export const LiveStreamProvider = ({
 
   useEffect(() => {
     console.log("mirrorArray:", mirrorArray);
+    console.log(
+      "localStorage:",
+      JSON.parse(localStorage.getItem("onGoingBets"))
+    );
   }, [mirrorArray]);
 
   useEffect(() => {

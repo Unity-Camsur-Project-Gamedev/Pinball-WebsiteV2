@@ -330,11 +330,11 @@ const BetHistory = ({ userToken, rows }) => {
   return (
     <div className="w-full h-full lg:w-full flex items-center justify-center ">
       <div className="w-[90%] lg:w-full flex flex-col gap-6">
-        <h1 className="text-center text-dynamicMid font-bold uppercase font-['Poppins']">
+        <h1 className="text-center text-white text-dynamicMid font-bold uppercase font-['Poppins']">
           bet history
         </h1>
         <Box sx={{ width: "100%" }}>
-          <Paper sx={{ width: "100%", mb: 2 }}>
+          <Paper sx={{ width: "100%", mb: 2, padding: 5 }}>
             {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
             <TableContainer>
               <Table

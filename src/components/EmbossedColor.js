@@ -14,18 +14,20 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
   const [isPressed, setIsPressed] = useState(false);
   const [animate, setAnimate] = useState(false);
 
+  const onGoingBets = localStorage.getItem("onGoingBets");
+  const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
 
   useEffect(() => {
     console.log("test");
     const timeout = setTimeout(() => {
       setAnimate(true);
     }, index * 200);
-  
+
     const clearAnimateTimeout = setTimeout(() => {
       setAnimate(false);
-    }, 5000); 
-  
-    // Clean up function to clear the timeouts 
+    }, 5000);
+
+    // Clean up function to clear the timeouts
     return () => {
       clearTimeout(timeout);
       clearTimeout(clearAnimateTimeout);
@@ -47,7 +49,7 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     }, 100);
   };
 
-  const buttonClassName = `flex gap-1 font-['Poppins'] justify-center items-center h-full w-full hover:-translate-y-1 duration-300 transition ease-in-out rounded-md relative ${
+  const buttonClassName = `flex gap-1 font-['Poppins'] justify-center items-center h-full w-full hover:-translate-y-1 duration-100 transition ease-in-out rounded-md relative ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } ${animate ? "button-animation" : ""}`;
 
@@ -67,26 +69,19 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
       <div
         variant="contained"
         className={buttonClassName}
-        style={
-          selectedButton === index
-            ? {
-                backgroundColor: colorHex[index],
-
-                borderStyle: "solid",
-                borderWidth: "2px",
-                borderColor: "black",
-              }
-            : {
-                backgroundColor: colorHex[index],
-              }
-        }
+        style={{
+          backgroundColor: colorHex[index],
+        }}
         onClick={() => handleBetOnColor(index)}
       >
-        {mirrorArray.find((bet) => bet.colorIndex === index) && (
-          <div className="flex flex-col justify-center items-center gap-1 border-2 border-black relative w-full h-full">
+        {(mirrorArray.find((bet) => bet.colorIndex === index) ||
+          parsedOnGoingBets.find((bet) => bet.colorIndex === index)) && (
+          <div className="flex flex-col justify-center items-center gap-1 relative w-full h-full">
             <div className="rounded-full p-1 z-10">
               <p className="text-xl text-white font-bold">
-                {mirrorArray.find((bet) => bet.colorIndex === index)?.amount}
+                {mirrorArray.find((bet) => bet.colorIndex === index)?.amount ||
+                  parsedOnGoingBets.find((bet) => bet.colorIndex === index)
+                    ?.amount}
               </p>
             </div>
             <img src={pokerChip} className="absolute w-[80%]" />

@@ -7,6 +7,7 @@ import { io } from "socket.io-client";
 import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import websiteBg from "../assets/website-bg.png";
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -57,7 +58,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   }, []);
 
   useEffect(() => {
-    console.log(clearBetsOnColor);
+    console.log("BetStatus: ", clearBetsOnColor);
   }, [clearBetsOnColor]);
 
   // FETCH SOCKETS
@@ -94,7 +95,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       // console.log("Betting Status:", data.status);
       setTimeout(() => {
         setBetStatus(data.status);
-        setEmpty(true); 
+        setEmpty(true);
       }, 3000);
       localStorage.setItem("betStatus", data.status);
     });
@@ -108,6 +109,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       // console.log("bet history", data.combinedDetails)
       // console.log("clearbet counts");
       setClearBetsOnColor((prevClearBetsOnColor) => !prevClearBetsOnColor);
+      localStorage.clear();
       // console.log("listening clear bet counts");
     });
 
@@ -133,7 +135,15 @@ const LiveGameStreamPage = ({ userToken }) => {
   }, []);
 
   return (
-    <div className="h-auto flex flex-col gap-10 items-center border-2 border-green-600 ">
+    <div
+      className="h-screen flex flex-col gap-10 items-center bg-scroll overflow-y-auto relative"
+      style={{
+        backgroundImage: `url(${websiteBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
       <ModalProvider
         userToken={userToken}
         isOpen={isOpen}
@@ -149,7 +159,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         totalCredits={totalCredits}
         clearBetsOnColor={clearBetsOnColor}
       >
-        <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 border-2 border-blue-600">
+        <div className="hidden max-h-[150vh] w-[80%] lg:flex flex-col gap-10 ">
           {confetti && <Confetti />}
           <DesktopResponsive2
             betStatus={betStatus}
