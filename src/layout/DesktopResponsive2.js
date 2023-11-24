@@ -94,9 +94,14 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   } `;
 
   return (
-    <div className=" h-full w-full">
+    <div
+      className=" h-full w-full"
+      style={{
+        boxShadow: "0px 15px 30px 0px rgba(0,0,0,0.7)",
+      }}
+    >
       <div className="flex justify-center items-center h-full ">
-        <div className="main-container flex flex-col w-full h-full ">
+        <div className="main-container flex flex-col w-full h-full">
           <div className="sub-container w-full  flex justify-center items-center backdrop-blur-md bg-white/30">
             <LiveStreamFrame />
           </div>
@@ -220,7 +225,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                       }}
                       onClick={() => {
                         handlePress("repeat");
-                        handleRepeatBet();
+                        // handleRepeatBet();
                       }}
                       onMouseEnter={() => handleHover("repeat")}
                       onMouseLeave={() => handleLeave("repeat")}
@@ -295,7 +300,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   </div>
                 </div>
               </div>
-              <div className=" ">
+              <div className="">
                 <LiveChat />
               </div>
             </div>

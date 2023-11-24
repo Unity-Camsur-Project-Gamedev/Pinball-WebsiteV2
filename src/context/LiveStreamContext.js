@@ -92,6 +92,9 @@ export const LiveStreamProvider = ({
 
   const [totalBetAmount, setTotalBetAmount] = useState(0);
 
+  const onGoingBets = localStorage.getItem("onGoingBets");
+  const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
+
   //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
     setMirrorArray([]);
@@ -183,7 +186,10 @@ export const LiveStreamProvider = ({
         );
         setToBeConfirmedBetArray([]);
 
+        // parsedOnGoingBets.push(...updatedArray);
+        // localStorage.setItem("onGoingBets", JSON.stringify(parsedOnGoingBets));
         localStorage.setItem("onGoingBets", JSON.stringify(updatedArray));
+
         return updatedArray;
       });
 
@@ -262,11 +268,11 @@ export const LiveStreamProvider = ({
 
   //THIS IS USED TO TOTAL THE UNCONFIRMED BETS
   useEffect(() => {
-    if (confirmedBetArray.length > 0 || toBeConfirmedBetArray.length > 0) {
+    if (parsedOnGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
       // Combine array1 and array2 into array3 with incrementing amounts
       const combinedArray = [
         ...toBeConfirmedBetArray,
-        ...confirmedBetArray,
+        ...parsedOnGoingBets,
       ].reduce((accumulator, currentValue) => {
         const existingItem = accumulator.find(
           (item) => item.colorIndex === currentValue.colorIndex
@@ -284,6 +290,7 @@ export const LiveStreamProvider = ({
       const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
 
       // Set the state
+      // parsedOnGoingBets DITO NA KO ASSIGN
       setMirrorArray(combinedArray);
       setTotalBetAmount(total);
     }

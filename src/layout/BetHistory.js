@@ -334,7 +334,12 @@ const BetHistory = ({ userToken, rows }) => {
           bet history
         </h1>
         <Box sx={{ width: "100%" }}>
-          <Paper sx={{ width: "100%", mb: 2, padding: 5 }}>
+          <Paper
+            sx={{ width: "100%", mb: 2, padding: 5 }}
+            style={{
+              boxShadow: "0px 15px 30px 0px rgba(0,0,0,0.7)",
+            }}
+          >
             {/* <EnhancedTableToolbar numSelected={selected.length} /> */}
             <TableContainer>
               <Table

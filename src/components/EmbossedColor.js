@@ -78,13 +78,13 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
           parsedOnGoingBets.find((bet) => bet.colorIndex === index)) && (
           <div className="flex flex-col justify-center items-center gap-1 relative w-full h-full">
             <div className="rounded-full p-1 z-10">
-              <p className="text-xl text-white font-bold">
+              <p className="text-xl text-black font-bold">
                 {mirrorArray.find((bet) => bet.colorIndex === index)?.amount ||
                   parsedOnGoingBets.find((bet) => bet.colorIndex === index)
                     ?.amount}
               </p>
             </div>
-            <img src={pokerChip} className="absolute w-[80%]" />
+            <img src={pokerChip} className="absolute w-[35%]" />
           </div>
         )}
       </div>
