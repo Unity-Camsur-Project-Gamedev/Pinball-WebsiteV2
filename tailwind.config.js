@@ -17,6 +17,7 @@ module.exports = {
       boxShadow: {
         unpressed: "inset -5px -5px 5px 1px rgb(0 0 0 / 0.3)",
         pressed: "inset 5px 5px 5px 1px rgb(0 0 0 / 0.3)",
+        chipUnpressed: "inset -5px -5px 5px 1px rgb(0 0 0 / 0.2)",
       },
     },
   },

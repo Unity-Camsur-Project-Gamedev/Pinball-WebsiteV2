@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import pokerChip from "../assets/pokerChip.png";
 
 function EmbossedMobile({ button, handlerFunction }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -20,7 +21,7 @@ function EmbossedMobile({ button, handlerFunction }) {
   };
 
   const buttonClassName = `p-3 rounded-full ${
-    isPressed ? "shadow-pressed" : "shadow-unpressed"
+    isPressed ? "shadow-pressed" : "shadow-chipUnpressed"
   } `;
   return (
     <>

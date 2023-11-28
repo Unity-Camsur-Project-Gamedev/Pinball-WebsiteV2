@@ -243,7 +243,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
             </div>
           </div>
         ) : (
-          <div className="h-[90%] w-full py-2 px-4 rounded-lg">
+          <div className="h-[61vh] w-full py-2 px-4 rounded-lg">
             <LiveChat />
           </div>
         )}
