@@ -95,6 +95,10 @@ export const LiveStreamProvider = ({
   const onGoingBets = localStorage.getItem("onGoingBets");
   const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
 
+  // useEffect(() => {
+  //   console.log("parsedOnGoingBets:", parsedOnGoingBets);
+  // }, [parsedOnGoingBets]);
+
   //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
     setMirrorArray([]);
@@ -169,7 +173,7 @@ export const LiveStreamProvider = ({
       }
       //INSERT BETS THAT ARE CONFIRMED
       setConfirmedBetArray((prevArray) => {
-        const combinedArray = [...prevArray, ...toBeConfirmedBetArray];
+        const combinedArray = [...parsedOnGoingBets, ...toBeConfirmedBetArray];
         const aggregatedAmounts = {};
 
         combinedArray.forEach((bet) => {
@@ -290,7 +294,7 @@ export const LiveStreamProvider = ({
       const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
 
       // Set the state
-      // parsedOnGoingBets DITO NA KO ASSIGN
+      // parsedOnGoingBets
       setMirrorArray(combinedArray);
       setTotalBetAmount(total);
     }
