@@ -28,7 +28,7 @@ const LiveStreamFrame = () => {
   }, [userId]);
 
   return (
-    <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
+    <>
       <div className="absolute right-0 top-4 flex items-center">
         <div className="relative">
           <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
@@ -47,7 +47,7 @@ const LiveStreamFrame = () => {
         height="720"
         src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
       ></iframe>
-    </div>
+    </>
   );
 };
 
