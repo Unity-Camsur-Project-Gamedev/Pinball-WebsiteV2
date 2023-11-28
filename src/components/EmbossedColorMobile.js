@@ -59,7 +59,7 @@ function EmbossedColorMobile({ index, color, onClick }) {
       )} */}
       {(mirrorArray.find((bet) => bet.colorIndex === index) ||
         parsedOnGoingBets.find((bet) => bet.colorIndex === index)) && (
-        <div className="flex flex-col justify-center items-center gap-1 relative w-full h-full border-2 border-red-600">
+        <div className="flex flex-col justify-center items-center gap-1 relative w-full h-full ">
           <div className="rounded-full p-1 z-10">
             <p className="text-xs text-black font-bold">
               {mirrorArray.find((bet) => bet.colorIndex === index)?.amount ||

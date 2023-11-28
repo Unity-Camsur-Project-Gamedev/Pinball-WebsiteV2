@@ -138,7 +138,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           <div className="flex flex-1 items-center justify-end gap-2 font-['Poppins']">
             <p className="text-md font-bold">color:</p>
             <div
-              className="w-16 h-8 rounded-sm"
+              className="w-14 h-7 rounded-full"
               style={{
                 backgroundColor: colorHex[selectedButton] || "#FFFFFF",
                 boxShadow: "inset gray 0px 0px 20px -12px",
@@ -243,7 +243,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
             </div>
           </div>
         ) : (
-          <div className="h-[90%] w-full py-2 px-4 rounded-lg">
+          <div className="h-[61vh] w-full py-2 px-4 rounded-lg">
             <LiveChat />
           </div>
         )}

@@ -158,7 +158,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         totalCredits={totalCredits}
         clearBetsOnColor={clearBetsOnColor}
       >
-        <div className="hidden max-h-[150vh] xl:w-[85%] 2xl:w-[80%] lg:flex flex-col gap-10">
+        <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
           <DesktopResponsive2
             betStatus={betStatus}
@@ -168,7 +168,7 @@ const LiveGameStreamPage = ({ userToken }) => {
           />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
-        <div className="lg:hidden flex flex-col gap-10  h-auto w-full">
+        <div className="lg:hidden flex flex-col gap-10  h-auto w-full pb-10">
           <MobileResponsive2 betStatus={betStatus} />
           <BetHistory userToken={userToken} rows={rows} />
         </div>

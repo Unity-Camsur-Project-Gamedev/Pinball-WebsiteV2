@@ -181,7 +181,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
                 </div>
               )}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50">
+                <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed">
                   <p className="text-center text-3xl font-bold text-yellow-50 animate-blink">
                     BET IS CLOSED
                   </p>
