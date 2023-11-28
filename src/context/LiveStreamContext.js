@@ -322,6 +322,7 @@ export const LiveStreamProvider = ({
       value={{
         isOpen,
         colorHex,
+        colorName,
         numGroup1,
         numGroup2,
         numGroup3,

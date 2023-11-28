@@ -32,6 +32,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [betStatus, setBetStatus] = useState("");
   const [empty, setEmpty] = useState(true);
   const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
+  const [history, setHistory] = useState([])
 
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
@@ -84,15 +85,12 @@ const LiveGameStreamPage = ({ userToken }) => {
         setTotalCredits(data.balance);
         toast.success(`You win a total of ${data.winningAmount}! 🎉`);
       }, 2000);
-      // Check if the window width is above a certain threshold for desktop
       if (window.innerWidth > 768) {
-        // Adjust the threshold as needed
         setConfetti(true);
       }
     });
 
     socket.on("bettingStatusUpdate", (data) => {
-      // console.log("Betting Status:", data.status);
       setTimeout(() => {
         setBetStatus(data.status);
         setEmpty(true);
@@ -101,17 +99,18 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
-      // console.log("bet history", data.combinedDetails)
       setRows(data.combinedDetails);
     });
 
     socket.on("clearBetCounts", () => {
-      // console.log("bet history", data.combinedDetails)
-      // console.log("clearbet counts");
       setClearBetsOnColor((prevClearBetsOnColor) => !prevClearBetsOnColor);
       localStorage.clear();
-      // console.log("listening clear bet counts");
     });
+
+    socket.on("historyUpdated", (data) => {
+      setHistory(data.resultData)
+      console.log("test", data.resultData)
+    })
 
     return () => {
       socket.disconnect();
@@ -165,6 +164,7 @@ const LiveGameStreamPage = ({ userToken }) => {
             betStatus={betStatus}
             empty={empty}
             setEmpty={setEmpty}
+            history={history}
           />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
