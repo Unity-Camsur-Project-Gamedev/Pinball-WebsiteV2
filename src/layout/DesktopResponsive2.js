@@ -103,9 +103,11 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
       <div className="flex justify-center items-center h-full ">
         <div className="main-container flex flex-col w-full h-full">
           <div className="sub-container w-full  flex justify-center items-center backdrop-blur-md bg-white/30 border-2 border-red-600">
+            <div className="flex flex-1 border-2 border-green-600 h-full"></div>
             <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
               <LiveStreamFrame />
             </div>
+            <div className="flex flex-1 border-2 border-green-600 h-full"></div>
           </div>
 
           <div className="sub-container flex flex-col flex-1  ">
