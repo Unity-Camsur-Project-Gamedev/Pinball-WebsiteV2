@@ -4,13 +4,8 @@ import Coin from "../assets/coin.png";
 import useLiveStream from "../context/LiveStreamContext";
 
 function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
-  const {
-    toBeConfirmedBetArray,
-    confirmedBetArray,
-    mirrorArray,
-    clearBetsOnColor,
-  } = useLiveStream();
-  const [isHovered, setIsHovered] = useState(false);
+  const { mirrorArray, clearBetsOnColor } = useLiveStream();
+
   const [isPressed, setIsPressed] = useState(false);
   const [animate, setAnimate] = useState(false);
 
@@ -34,14 +29,6 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     };
   }, [clearBetsOnColor, index]);
 
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
-
   const handlePress = () => {
     setIsPressed(true);
     setTimeout(() => {
@@ -53,17 +40,6 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } ${animate ? "button-animation" : ""}`;
 
-  // const bothEmpty =
-  //   mirrorArray.length === 0 && toBeConfirmedBetArray.length === 0;
-
-  const unconfirmed =
-    confirmedBetArray.length === 0 && toBeConfirmedBetArray.length > 0;
-  const confirmed =
-    confirmedBetArray.length > 0 && toBeConfirmedBetArray.length === 0;
-
-  const bothFilled =
-    confirmedBetArray.length > 0 && toBeConfirmedBetArray.length > 0;
-
   return (
     <>
       <div
@@ -72,7 +48,10 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
         style={{
           backgroundColor: colorHex[index],
         }}
-        onClick={() => handleBetOnColor(index)}
+        onClick={() => {
+          handlePress();
+          handleBetOnColor(index);
+        }}
       >
         {(mirrorArray.find((bet) => bet.colorIndex === index) ||
           parsedOnGoingBets.find((bet) => bet.colorIndex === index)) && (

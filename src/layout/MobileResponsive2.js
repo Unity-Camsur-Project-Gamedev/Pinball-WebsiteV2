@@ -38,8 +38,9 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
   const [toggle, setToggle] = useState("play");
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
-  const shouldBlink = betStatus === 'Open' ? 'animate-blink2 text-green-700' : 'text-red-700';
-  const Blink = betStatus === 'Open' ? `border-pulse` : '';
+  const shouldBlink =
+    betStatus === "Open" ? "animate-blink2 text-green-700" : "text-red-700";
+  const Blink = betStatus === "Open" ? `border-pulse` : "";
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -75,8 +76,9 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     }, 100);
   };
 
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${isPressed ? "shadow-pressed" : "shadow-unpressed"
-    } `;
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
 
   return (
     <div className="lg:gap-0 h-auto w-full flex flex-col items-center head-div">
@@ -108,7 +110,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
-      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
+      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30 ">
         <div className="w-[90%] flex">
           <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] ">
             <p className="w-full text-md font-bold">credits:</p>
@@ -145,15 +147,17 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full h-[64vh] pt-4 pb-4 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
+      <div className="flex flex-col w-full py-5 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
         <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
-          <p className={`font-bold uppercase ${shouldBlink}`}>{betStatus} BETTING</p>
+          <p className={`font-bold uppercase ${shouldBlink}`}>
+            {betStatus} BETTING
+          </p>
           <div className="top"></div>
           <div className="bottom"></div>
           <div className="right"></div>
           <div className="left"></div>
         </div>
-        <div className="">
+        <div className="pb-2">
           <ChatPlayToggle setToggle={setToggle} />
         </div>
 
@@ -211,23 +215,22 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
               </div>
             </div>
 
-            <div className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-2 bg-gray-50 rounded-lg ${Blink}`}>
+            <div
+              className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-4 bg-gray-50 rounded-lg ${Blink}`}
+            >
               {/* Your content */}
               <p>select a color:</p>
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10">
-                </div>
+                <div className="absolute inset-0 z-10"></div>
               )}
               <ColorInputGrid
                 selectedButton={selectedButton}
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />
-
             </div>
           </div>
-
         ) : (
           <div className="h-[90%] w-full py-2 px-4 rounded-lg">
             <LiveChat />
