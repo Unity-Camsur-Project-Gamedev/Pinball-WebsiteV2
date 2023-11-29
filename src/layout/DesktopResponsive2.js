@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
@@ -9,6 +9,8 @@ import NumberInput from "./NumberInput";
 import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
 import LiveChat from "../components/LiveChat";
+import GameHistory from "./GameHistory";
+import HotCold from "./HotCold";
 
 function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
   const {
@@ -43,24 +45,9 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
   const [isPressed, setIsPressed] = useState(false);
   const [repeatIsPressed, setRepeatIsPressed] = useState(false);
   const [clearIsPressed, setClearIsPressed] = useState(false);
-  const [displayedHistory, setDisplayedHistory] = useState([]);
 
-  useEffect(() => {
-    const updatedHistory = history.map((item) => {
-      const colorIndex = colorName.indexOf(item);
-      if (colorIndex !== -1) {
-        return {
-          colorName: item,
-          colorHex: colorHex[colorIndex],
-        };
-      }
-      return {
-        colorName: item,
-        colorHex: 'No matching color',
-      };
-    });
-    setDisplayedHistory(updatedHistory);
-  }, [history, colorName, colorHex]);
+  const [displayedHistory, setDisplayedHistory] = useState([]);
+  const messagesListRef = useRef(null);
 
   const handleHover = (button) => {
     if (button === "confirm") {
@@ -101,39 +88,15 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
     }
   };
 
-  const confirmButtonClassName = `w-[70%]  ${isPressed ? "shadow-pressed" : "shadow-unpressed"
-    } `;
-  const repeatButtonClassName = `w-[20%]  ${repeatIsPressed ? "shadow-pressed" : "shadow-unpressed"
-    } `;
-  const clearButtonClassName = `w-[20%]  ${clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
-    } `;
-
-  const groupConsecutiveColors = (historyItems) => {
-    const groupedColors = [];
-    let currentGroup = [];
-    for (let i = 0; i < historyItems.length; i++) {
-      if (i === 0 || historyItems[i].colorName === historyItems[i - 1].colorName) {
-        currentGroup.push(historyItems[i]);
-      } else {
-        if (currentGroup.length > 6) {
-          groupedColors.push(currentGroup.slice(0, 6));
-          currentGroup = currentGroup.slice(6);
-        }
-        groupedColors.push(currentGroup);
-        currentGroup = [historyItems[i]];
-      }
-    }
-    if (currentGroup.length > 6) {
-      groupedColors.push(currentGroup.slice(0, 6));
-      currentGroup = currentGroup.slice(6);
-    }
-    if (currentGroup.length > 0) {
-      groupedColors.push(currentGroup);
-    }
-    return groupedColors;
-  };
-
-  const groupedColors = groupConsecutiveColors(displayedHistory);
+  const confirmButtonClassName = `w-[70%]  ${
+    isPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+  const repeatButtonClassName = `w-[20%]  ${
+    repeatIsPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+  const clearButtonClassName = `w-[20%]  ${
+    clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
 
   return (
     <div
@@ -144,27 +107,21 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
     >
       <div className="flex justify-center items-center h-full ">
         <div className="main-container flex flex-col w-full h-full">
-          <div className="sub-container w-full  flex justify-center items-center backdrop-blur-md bg-white/30 border-2 border-red-600">
-            <div className="flex flex-1 flex-col items-center border-2 border-green-600 h-full">
-              <p className="text-lg font-bold text-gray-100">Game History:</p>
-              <div className="grid grid-cols-auto grid-flow-col gap-2 h-fit max-h-[30vh] w-[20vh] overflow-x-auto custom-scrollbar px-2 bg-white/50">
-                {groupedColors.map((group, index) => (
-                  <div key={index} className="flex flex-col items-center">
-                    {group.map((item, idx) => (
-                      <div
-                        key={idx}
-                        style={{ backgroundColor: item.colorHex }}
-                        className="mb-1 border-2 w-[40px] h-[40px]"
-                      ></div>
-                    ))}
-                  </div>
-                ))}
+          <div className="sub-container w-full flex justify-center items-center backdrop-blur-md bg-white/30 border-2 border-red-600">
+            <div className="left-panel flex flex-1 flex-col items-center border-2 border-green-600 h-full">
+              <div className="container-left max-w-[12vw] h-full flex flex-col gap-2 items-center rounded-md py-4">
+                <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg items-center p-2 bg-white/50">
+                  <GameHistory history={history} />
+                </div>
+                <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg p-2 bg-white/50">
+                  <HotCold />
+                </div>
               </div>
             </div>
             <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
               <LiveStreamFrame />
             </div>
-            <div className="flex flex-1 border-2 border-green-600 h-full"></div>
+            <div className="right-panel flex flex-1 border-2 border-green-600 h-full"></div>
           </div>
 
           <div className="sub-container flex flex-col flex-1  ">
@@ -292,10 +249,11 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
                       onMouseLeave={() => handleLeave("repeat")}
                     >
                       <p
-                        className={`${repeatIsPressed
-                          ? "transition translate-x-[3px] translate-y-[3px] "
-                          : ""
-                          } `}
+                        className={`${
+                          repeatIsPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
                       >
                         repeat bet
                       </p>
@@ -319,10 +277,11 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
                       onMouseLeave={() => handleLeave("confirm")}
                     >
                       <p
-                        className={`${isPressed
-                          ? "transition translate-x-[3px] translate-y-[3px] "
-                          : ""
-                          } `}
+                        className={`${
+                          isPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
                       >
                         confirm
                       </p>
@@ -347,10 +306,11 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
                       onMouseLeave={() => handleLeave("clear")}
                     >
                       <p
-                        className={`${clearIsPressed
-                          ? "transition translate-x-[3px] translate-y-[3px] "
-                          : ""
-                          } `}
+                        className={`${
+                          clearIsPressed
+                            ? "transition translate-x-[3px] translate-y-[3px] "
+                            : ""
+                        } `}
                       >
                         clear bet
                       </p>
