@@ -11,8 +11,9 @@ import useLiveStream from "../context/LiveStreamContext";
 import LiveChat from "../components/LiveChat";
 import GameHistory from "./GameHistory";
 import HotCold from "./HotCold";
+import GameWinners from "./GameWinners";
 
-function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
+function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   const {
     isOpen,
     colorHex,
@@ -111,7 +112,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
             <div className="left-panel flex flex-1 flex-col items-center border-2 border-green-600 h-full">
               <div className="container-left max-w-[12vw] h-full flex flex-col gap-2 items-center rounded-md py-4">
                 <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg items-center p-2 bg-white/50">
-                  <GameHistory history={history} />
+                  <GameHistory />
                 </div>
                 <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg p-2 bg-white/50">
                   <HotCold />
@@ -121,7 +122,13 @@ function DesktopResponsive2({ betStatus, empty, setEmpty, history }) {
             <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
               <LiveStreamFrame />
             </div>
-            <div className="right-panel flex flex-1 border-2 border-green-600 h-full"></div>
+            <div className="right-panel flex flex-1 flex-col items-center justify-center border-2 border-green-600 h-full">
+              <div className="container-right flex flex-col gap-2 items-center rounded-md py-4">
+                <div className="w-full flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
+                  <GameWinners />
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="sub-container flex flex-col flex-1  ">

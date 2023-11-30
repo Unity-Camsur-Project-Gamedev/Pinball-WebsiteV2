@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import useLiveStream from "../context/LiveStreamContext";
 
-function GameHistory({ history }) {
-  const { colorHex, colorName } = useLiveStream();
+function GameHistory() {
+  const { colorHex, colorName, history } = useLiveStream();
   const [displayedHistory, setDisplayedHistory] = useState([]);
   const messagesListRef = useRef(null);
 
@@ -61,6 +61,10 @@ function GameHistory({ history }) {
       messagesListRef.current.scrollLeft = messagesListRef.current.scrollWidth;
     }
   }, [groupedColors]);
+
+  // useEffect(() => {
+  //   console.log("history:", history);
+  // }, [history]);
 
   return (
     <>

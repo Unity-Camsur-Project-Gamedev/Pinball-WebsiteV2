@@ -13,7 +13,7 @@ function EmbossedColor({ index, selectedButton, colorHex, handleBetOnColor }) {
   const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
 
   useEffect(() => {
-    console.log("test");
+    // console.log("test");
     const timeout = setTimeout(() => {
       setAnimate(true);
     }, index * 200);

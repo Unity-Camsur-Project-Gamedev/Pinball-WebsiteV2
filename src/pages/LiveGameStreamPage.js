@@ -32,7 +32,9 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [betStatus, setBetStatus] = useState("");
   const [empty, setEmpty] = useState(true);
   const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState([]);
+  const [percentages, setPercentages] = useState([]);
+  const [winnersArray, setWinnersArray] = useState([]);
 
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
@@ -58,6 +60,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
+  // BET STATUS CLEANER
   useEffect(() => {
     console.log("BetStatus: ", clearBetsOnColor);
   }, [clearBetsOnColor]);
@@ -108,9 +111,14 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("historyUpdated", (data) => {
-      setHistory(data.resultData)
-      console.log("test", data.resultData)
-    })
+      setHistory(data.resultData);
+      setPercentages(data.percentages);
+    });
+
+    socket.on("Winners:", (data) => {
+      setWinnersArray(data.formattedWinners);
+      // console.log("Winners:", data.formattedWinners);
+    });
 
     return () => {
       socket.disconnect();
@@ -157,6 +165,9 @@ const LiveGameStreamPage = ({ userToken }) => {
         setIsOpen={setIsOpen}
         totalCredits={totalCredits}
         clearBetsOnColor={clearBetsOnColor}
+        history={history}
+        percentages={percentages}
+        winnersArray={winnersArray}
       >
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
@@ -164,7 +175,6 @@ const LiveGameStreamPage = ({ userToken }) => {
             betStatus={betStatus}
             empty={empty}
             setEmpty={setEmpty}
-            history={history}
           />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
