@@ -250,7 +250,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                       }}
                       onClick={() => {
                         handlePress("repeat");
-                        // handleRepeatBet();
+                        handleRepeatBet();
                       }}
                       onMouseEnter={() => handleHover("repeat")}
                       onMouseLeave={() => handleLeave("repeat")}

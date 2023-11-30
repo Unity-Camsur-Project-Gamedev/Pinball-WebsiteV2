@@ -11,6 +11,9 @@ import icon from "../assets/group.png";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
+import GameWinners from "./GameWinners";
+import GameHistory from "./GameHistory";
+import HotCold from "./HotCold";
 
 function MobileResponsive2({ betStatus, empty, setEmpty }) {
   const {
@@ -147,18 +150,20 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col w-full py-5 items-center rounded-t-3xl backdrop-blur-md bg-white/50  relative ">
-        <div className="card mt-1 absolute left-3 top-3 p-1 text-sm rounded-md">
-          <p className={`font-bold uppercase ${shouldBlink}`}>
-            {betStatus} BETTING
-          </p>
-          <div className="top"></div>
-          <div className="bottom"></div>
-          <div className="right"></div>
-          <div className="left"></div>
-        </div>
-        <div className="pb-2">
-          <ChatPlayToggle setToggle={setToggle} />
+      <div className="flex flex-col w-full py-5 items-center rounded-t-3xl backdrop-blur-md bg-white/50 relative ">
+        <div className="flex justify-between items-center w-full px-4">
+          <div className="card text-sm rounded-md">
+            <p className={`font-bold uppercase ${shouldBlink}`}>
+              {betStatus} betting
+            </p>
+            <div className="top"></div>
+            <div className="bottom"></div>
+            <div className="right"></div>
+            <div className="left"></div>
+          </div>
+          <div className="pb-2">
+            <ChatPlayToggle setToggle={setToggle} />
+          </div>
         </div>
 
         {toggle === "play" ? (
@@ -240,6 +245,20 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />
+            </div>
+          </div>
+        ) : toggle === "stats" ? (
+          <div className="h-[61vh] w-full py-2 px-4 rounded-lg">
+            <div className="flex flex-col justify-center items-center gap-2 h-full w-full py-10">
+              {/* <div className="w-[80%] flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
+                <GameWinners />
+              </div> */}
+              <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg items-center py-3 px-4 bg-white/50">
+                <GameHistory />
+              </div>
+              <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg py-4 px-4 bg-white/50">
+                <HotCold />
+              </div>
             </div>
           </div>
         ) : (

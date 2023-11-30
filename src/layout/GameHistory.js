@@ -96,7 +96,7 @@ function GameHistory() {
                           : "none",
                       boxShadow: "-4px 4px 4px 0px rgba(0,0,0,0.5)",
                     }}
-                    className="rounded-md w-[2vw] h-[4vh]"
+                    className="rounded-md w-[10vw] h-[5vh] lg:w-[2vw] lg:h-[4vh]"
                   ></div>
                 ))}
               </div>

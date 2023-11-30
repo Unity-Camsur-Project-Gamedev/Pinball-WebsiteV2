@@ -30,6 +30,18 @@ export default function ChatPlayToggle({ setToggle }) {
         Play
       </ToggleButton>
       <ToggleButton
+        value="statistics"
+        style={{
+          fontSize: ".8rem",
+          // border: "2px solid red",
+          // padding: "0",
+          height: "1.5rem",
+        }}
+        onClick={() => setToggle("stats")}
+      >
+        Stats
+      </ToggleButton>
+      <ToggleButton
         value="chat"
         style={{
           fontSize: ".8rem",

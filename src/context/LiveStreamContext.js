@@ -132,7 +132,34 @@ export const LiveStreamProvider = ({
 
   const handleRepeatBet = async () => {
     try {
-      await repeatBet(userToken);
+      const response = await repeatBet(userToken);
+      const lastBet = response.userBetsLastGame;
+
+      if (lastBet.length > 0) {
+        const colors = colorName.map((name, index) => ({
+          name,
+          index: index,
+        }));
+
+        const updatedLastBetArray = lastBet.map((bet) => {
+          const colorObject = colors.find(
+            (color) => color.name === bet.bet_data
+          );
+          const colorIndex = colorObject ? colorObject.index : null;
+
+          return { colorIndex, amount: parseInt(bet.amount, 10) };
+        });
+
+        // console.log(updatedLastBetArray);
+
+        updatedLastBetArray.forEach((bet) => {
+          setToBeConfirmedBetArray((prev) => [...prev, bet]);
+        });
+      } else {
+        toast.error("You have no bet in the last game ID.", {
+          autoClose: 3000,
+        });
+      }
     } catch (error) {
       // Show a toast notification indicating the user needs to make a bet first
       toast.error("No bets found in the last game.", {

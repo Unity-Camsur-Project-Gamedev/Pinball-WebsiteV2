@@ -43,7 +43,7 @@ function HotCold() {
           return (
             <div
               key={key}
-              className="w-[3vw] h-[4.5vh] rounded-md flex justify-center items-center"
+              className="w-[10vw] h-[5vh] lg:w-[3vw] lg:h-[4.5vh] rounded-md flex justify-center items-center cursor-pointer hover:scale-110 transition ease-in-out"
               style={{
                 backgroundColor: colorHex,
                 boxShadow: "-3px 4px 2px 0px rgba(0,0,0,0.4)",
@@ -70,7 +70,7 @@ function HotCold() {
           return (
             <div
               key={key}
-              className="w-[3vw] h-[4.5vh] rounded-md flex justify-center items-center"
+              className="w-[10vw] h-[5vh] lg:w-[3vw] lg:h-[4.5vh] rounded-md flex justify-center items-center cursor-pointer hover:scale-110 transition ease-in-out"
               style={{
                 backgroundColor: colorHex,
                 boxShadow: "-3px 4px 2px 0px rgba(0,0,0,0.4)",
