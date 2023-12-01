@@ -8,7 +8,7 @@ import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
-import newGame from "../assets/NEWGAME.gif";
+import newGame from "../assets/newGame.gif";
 import pinball from "../assets/PINBALL.gif";
 
 //LAYOUTS FOLDER
