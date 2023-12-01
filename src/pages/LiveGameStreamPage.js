@@ -8,6 +8,8 @@ import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
+import newGame from "../assets/NEWGAME.gif"
+import pinball from "../assets/PINBALL.gif"
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -38,6 +40,15 @@ const LiveGameStreamPage = ({ userToken }) => {
 
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
+  const [showContent, setShowContent] = useState(false);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setShowContent(false); 
+  //   }, 2000); 
+
+  //   return () => clearTimeout(timer); 
+  // }, []);
 
   //USER LOGIN CREDENTIAL
   useEffect(() => {
@@ -94,11 +105,16 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("bettingStatusUpdate", (data) => {
+      setBetStatus(data.status);
       setTimeout(() => {
-        setBetStatus(data.status);
         setEmpty(true);
+
       }, 3000);
+      setShowContent(true);
       localStorage.setItem("betStatus", data.status);
+      setTimeout(() => {
+        setShowContent(false);
+      }, 1500);
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
@@ -151,6 +167,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
+
       <ModalProvider
         userToken={userToken}
         isOpen={isOpen}
@@ -169,6 +186,16 @@ const LiveGameStreamPage = ({ userToken }) => {
         percentages={percentages}
         winnersArray={winnersArray}
       >
+        {betStatus === "Open" && showContent && (
+          <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
+            <img src={newGame} alt="#" className="mb-20"></img>
+          </div>
+        )}
+        {betStatus === "Closed" && showContent && (
+          <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
+            <img src={pinball} alt="#" className="mb-20"></img>
+          </div>
+        )}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
           <DesktopResponsive2
