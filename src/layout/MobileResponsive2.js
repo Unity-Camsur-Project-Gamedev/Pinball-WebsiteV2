@@ -32,6 +32,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     handleBetOnColor,
     handleButtonClick,
     handleClearButton,
+    handleClearButtonMobile,
     handleMaxButton,
     handleInputButtonClick,
     handleRepeatBet,
@@ -196,7 +197,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                   onChange={handleInputChange}
                 />
                 <p
-                  onClick={() => handleClearButton()}
+                  onClick={() => handleClearButtonMobile()}
                   style={{
                     fontWeight: 100,
                     fontSize: ".75rem",

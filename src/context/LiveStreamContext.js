@@ -43,6 +43,7 @@ const initialState = {
   handleBetOnColor: () => {},
   handleButtonClick: () => {},
   handleClearButton: () => {},
+  handleClearButtonMobile: () => {},
   handleMaxButton: () => {},
   handleInputButtonClick: () => {},
 };
@@ -264,6 +265,12 @@ export const LiveStreamProvider = ({
     setBetAmount("0");
   };
 
+  const handleClearButtonMobile = () => {
+    setBetAmount("0");
+    setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
+  };
+
   // const handleBetOnColor = (key) => {
   //   setSelectedButton(key);
 
@@ -385,6 +392,7 @@ export const LiveStreamProvider = ({
         handleBetOnColor,
         handleButtonClick,
         handleClearButton,
+        handleClearButtonMobile,
         handleMaxButton,
         handleInputButtonClick,
       }}
