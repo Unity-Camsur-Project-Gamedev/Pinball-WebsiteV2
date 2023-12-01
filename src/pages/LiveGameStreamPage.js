@@ -8,8 +8,8 @@ import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
-import newGame from "../assets/NEWGAME.gif"
-import pinball from "../assets/PINBALL.gif"
+import newGame from "../assets/NEWGAME.gif";
+import pinball from "../assets/PINBALL.gif";
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -44,10 +44,10 @@ const LiveGameStreamPage = ({ userToken }) => {
 
   // useEffect(() => {
   //   const timer = setTimeout(() => {
-  //     setShowContent(false); 
-  //   }, 2000); 
+  //     setShowContent(false);
+  //   }, 2000);
 
-  //   return () => clearTimeout(timer); 
+  //   return () => clearTimeout(timer);
   // }, []);
 
   //USER LOGIN CREDENTIAL
@@ -108,7 +108,6 @@ const LiveGameStreamPage = ({ userToken }) => {
       setBetStatus(data.status);
       setTimeout(() => {
         setEmpty(true);
-
       }, 3000);
       setShowContent(true);
       localStorage.setItem("betStatus", data.status);
@@ -167,7 +166,6 @@ const LiveGameStreamPage = ({ userToken }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
-
       <ModalProvider
         userToken={userToken}
         isOpen={isOpen}
