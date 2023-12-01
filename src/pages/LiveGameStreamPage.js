@@ -8,8 +8,8 @@ import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
-import newGame from "../assets/newGame.gif";
-import pinball from "../assets/PINBALL.gif";
+import newGame from "../assets/newGame.gif"
+import pinball from "../assets/pinBall.gif"
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -41,13 +41,14 @@ const LiveGameStreamPage = ({ userToken }) => {
   const obsAddress = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
   const [showContent, setShowContent] = useState(false);
+  const [showContentClosed, setShowContentClosed] = useState(false);
 
   // useEffect(() => {
   //   const timer = setTimeout(() => {
-  //     setShowContent(false);
-  //   }, 2000);
+  //     setShowContent(false); 
+  //   }, 2000); 
 
-  //   return () => clearTimeout(timer);
+  //   return () => clearTimeout(timer); 
   // }, []);
 
   //USER LOGIN CREDENTIAL
@@ -71,10 +72,10 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
-  // BET STATUS CLEANER
-  useEffect(() => {
-    console.log("BetStatus: ", clearBetsOnColor);
-  }, [clearBetsOnColor]);
+  // // BET STATUS CLEANER
+  // useEffect(() => {
+  //   console.log("BetStatus: ", clearBetsOnColor);
+  // }, [clearBetsOnColor]);
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -106,14 +107,30 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingStatusUpdate", (data) => {
       setBetStatus(data.status);
+      console.log("betStat", data.status)
       setTimeout(() => {
         setEmpty(true);
-      }, 3000);
-      setShowContent(true);
-      localStorage.setItem("betStatus", data.status);
+
+      }, 6000);
       setTimeout(() => {
-        setShowContent(false);
-      }, 1500);
+        setShowContent(true);
+        
+        setTimeout(() => {
+          setShowContent(false);
+        }, 1500);
+        
+      }, 6000);
+
+      setTimeout(() => {
+        setShowContentClosed(true);
+        
+        setTimeout(() => {
+          setShowContentClosed(false);
+        }, 1500);
+        
+      }, 2500);
+
+      localStorage.setItem("betStatus", data.status);
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
@@ -166,6 +183,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
+
       <ModalProvider
         userToken={userToken}
         isOpen={isOpen}
@@ -189,7 +207,7 @@ const LiveGameStreamPage = ({ userToken }) => {
             <img src={newGame} alt="#" className="mb-20"></img>
           </div>
         )}
-        {betStatus === "Closed" && showContent && (
+        {betStatus === "Closed" && showContentClosed && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
             <img src={pinball} alt="#" className="mb-20"></img>
           </div>
