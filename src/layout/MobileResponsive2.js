@@ -110,7 +110,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           allow="fullscreen"
           // width="1280"
           // height="720"
-          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=94396fd0-0e85-435e-8392-bbe3c8b7908e&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
+          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=85cafc04-d52d-4bd1-970d-540dfd706832&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
         ></iframe>
       </div>
       <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30 ">
