@@ -34,6 +34,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     handleClearButton,
     handleMaxButton,
     handleInputButtonClick,
+    handleRepeatBet,
   } = useLiveStream();
 
   const [isHovered, setIsHovered] = useState(false);
@@ -174,7 +175,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
                 <p
-                  // onClick={() => handleRepeatBet()}
+                  onClick={() => handleRepeatBet()}
                   style={{
                     fontWeight: 100,
                     fontSize: ".75rem",

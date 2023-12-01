@@ -29,6 +29,7 @@ const initialState = {
   history: [],
   percentages: [],
   winnersArray: [],
+  handleRepeatBet: () => {},
   setMirrorArray: () => {},
   setConfirmedBetArray: () => {},
   setToBeConfirmedBetArray: () => {},

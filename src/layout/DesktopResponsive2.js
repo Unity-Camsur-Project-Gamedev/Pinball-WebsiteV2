@@ -114,7 +114,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
         <div className="main-container flex flex-col w-full h-full">
           <div className="sub-container w-full flex justify-center items-center backdrop-blur-md bg-white/30 border-2 border-red-600">
             <div className="left-panel flex flex-1 flex-col items-center border-2 border-green-600 h-full">
-              <div className="container-left min-w-[12vw] h-full flex flex-col gap-2 items-center rounded-md py-4">
+              <div className="container-left w-[12vw] h-full flex flex-col gap-2 items-center rounded-md py-4">
                 <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg items-center p-2 bg-white/50">
                   <GameHistory />
                 </div>
@@ -128,7 +128,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
             </div>
             <div className="right-panel flex flex-1 flex-col items-center justify-center border-2 border-green-600 h-full">
               <div className="container-right flex flex-col gap-2 items-center rounded-md py-4">
-                <div className="w-full flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
+                <div className="w-[12vw] flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
                   <GameWinners />
                 </div>
               </div>

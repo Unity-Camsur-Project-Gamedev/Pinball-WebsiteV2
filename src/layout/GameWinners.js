@@ -1,28 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
+import useLiveStream from "../context/LiveStreamContext";
 
 function GameWinners() {
+  const { winnersArray } = useLiveStream();
   const winners = [
-    { name: "Josh Mojica", amount: 752 },
-    { name: "Alice Johnson", amount: 421 },
-    { name: "Bob Smith", amount: 593 },
-    { name: "Emma Davis", amount: 168 },
-    { name: "John Doe", amount: 899 },
-    { name: "Josh Mojica", amount: 315 },
-    { name: "Alice Johnson", amount: 725 },
-    { name: "Bob Smith", amount: 482 },
-    { name: "Emma Davis", amount: 638 },
-    { name: "John Doe", amount: 244 },
-    { name: "Josh Mojica", amount: 507 },
-    { name: "Alice Johnson", amount: 913 },
-    { name: "Bob Smith", amount: 761 },
-    { name: "Emma Davis", amount: 128 },
-    { name: "John Doe", amount: 379 },
+    { username: "Josh Mojica", amountWon: 752 },
+    { username: "Alice Johnson", amountWon: 421 },
+    { username: "Bob Smith", amountWon: 593 },
+    { username: "Emma Davis", amountWon: 168 },
+    { username: "John Doe", amountWon: 899 },
+    { username: "Josh Mojica", amountWon: 315 },
+    { username: "Alice Johnson", amountWon: 725 },
+    { username: "Bob Smith", amountWon: 482 },
+    { username: "Emma Davis", amountWon: 638 },
+    { username: "John Doe", amountWon: 244 },
+    { username: "Josh Mojica", amountWon: 507 },
+    { username: "Alice Johnson", amountWon: 913 },
+    { username: "Bob Smith", amountWon: 761 },
+    { username: "Emma Davis", amountWon: 128 },
+    { username: "John Doe", amountWon: 379 },
   ];
+
+  useEffect(() => {
+    console.log("winnersArray:", winnersArray);
+  }, [winnersArray]);
+
   return (
     <>
       <p className="text-xl font-bold text-black font-['Poppins']">Winners:</p>
       <div className="w-full h-[45vh] flex flex-col items-start gap-4 overflow-y-auto ">
-        {winners.slice(0, 10).map((winner, index) => (
+        {winnersArray.slice(0, 10).map((winner, index) => (
           <div
             key={index}
             className="w-full flex justify-between items-center gap-5 text-sm "
@@ -57,9 +64,9 @@ function GameWinners() {
               >
                 {index < 3 ? index + 1 : null}
               </p>
-              <p className="text-lg font-semibold">{winner.name}</p>
+              <p className="text-lg font-semibold">{winner.username}</p>
             </div>
-            <p className="text-green-600">+{winner.amount}</p>
+            <p className="text-green-600">+{winner.amountWon}</p>
           </div>
         ))}
       </div>
