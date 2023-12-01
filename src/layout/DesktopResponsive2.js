@@ -4,14 +4,16 @@ import React, { useEffect, useState, useRef } from "react";
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
+import NumberInput from "../layout/NumberInput";
 import ColorInputs from "./ColorInputs";
-import NumberInput from "./NumberInput";
 import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
 import LiveChat from "../components/LiveChat";
 import GameHistory from "./GameHistory";
 import HotCold from "./HotCold";
 import GameWinners from "./GameWinners";
+import NumberInputGrid from "../components/NumberInputGrid";
+import NumberAndSlider from "../components/NumberAndSlider";
 
 function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   const {
@@ -162,7 +164,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
               />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className=" relative px-2 py-2">
+              <div className=" relative flex flex-col justify-center items-center px-2 py-2 border-2 border-red-600">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
@@ -176,6 +178,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   handleClearButton={handleClearButton}
                   handleMaxButton={handleMaxButton}
                 />
+                {/* <NumberAndSlider /> */}
               </div>
               <div className="bet-info  p-2 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
