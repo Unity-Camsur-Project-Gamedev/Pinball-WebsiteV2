@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
 import newGame from "../assets/newGame.gif";
-import pinBall from "../assets/pinball.gif";
+import pinBall from "../assets/pinBall.gif";
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
