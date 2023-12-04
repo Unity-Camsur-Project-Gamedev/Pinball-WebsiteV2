@@ -114,8 +114,8 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
     >
       <div className="flex justify-center items-center h-full ">
         <div className="main-container flex flex-col w-full h-full">
-          <div className="sub-container w-full flex justify-center items-center backdrop-blur-md bg-white/30 border-2 border-red-600">
-            <div className="left-panel flex flex-1 flex-col items-center border-2 border-green-600 h-full">
+          <div className="sub-container w-full flex justify-center items-center backdrop-blur-md bg-white/30 ">
+            <div className="left-panel flex flex-1 flex-col items-center  h-full">
               <div className="container-left w-[12vw] h-full flex flex-col gap-2 items-center rounded-md py-4">
                 <div className=" w-full flex-1 flex flex-col gap-2 rounded-lg items-center p-2 bg-white/50">
                   <GameHistory />
@@ -128,7 +128,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
             <div className="relative lg:w-[70%] xl:w-[65%] 2xl:w-[67%] aspect-video">
               <LiveStreamFrame />
             </div>
-            <div className="right-panel flex flex-1 flex-col items-center justify-center border-2 border-green-600 h-full">
+            <div className="right-panel flex flex-1 flex-col items-center justify-center  h-full">
               <div className="container-right flex flex-col gap-2 items-center rounded-md py-4">
                 <div className="w-[12vw] flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
                   <GameWinners />
@@ -164,12 +164,12 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
               />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className=" relative flex flex-col justify-center items-center px-2 py-2 border-2 border-red-600">
+              <div className=" relative flex flex-col gap-1 2xl:gap-0 justify-center items-center p-2 2xl:p-5">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
                 )}
-                <NumberInput
+                {/* <NumberInput
                   numGroup1={numGroup1}
                   numGroup2={numGroup2}
                   numGroup3={numGroup3}
@@ -177,8 +177,8 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   handleButtonClick={handleButtonClick}
                   handleClearButton={handleClearButton}
                   handleMaxButton={handleMaxButton}
-                />
-                {/* <NumberAndSlider /> */}
+                /> */}
+                <NumberAndSlider />
               </div>
               <div className="bet-info  p-2 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
@@ -235,8 +235,11 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                           color:{" "}
                         </p>
                         <div
-                          className="w-1/2 h-5 bg-white rounded-full 2xl:p-6 xl:p-4 shadow-inner"
-                          style={{ backgroundColor: colorHex[selectedButton] }}
+                          className="w-1/2 h-5 bg-white rounded-full 2xl:p-6 xl:p-4"
+                          style={{
+                            backgroundColor: colorHex[selectedButton],
+                            boxShadow: "0px 0px 15px 2px rgba(0,0,0,0.3) inset",
+                          }}
                         ></div>
                       </div>
                     </div>

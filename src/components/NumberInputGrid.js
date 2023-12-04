@@ -20,7 +20,7 @@ function NumberInputGrid({ button, handlerFunction }) {
     }, 100);
   };
 
-  const buttonClassName = `py-2 rounded-full ${
+  const buttonClassName = `py-2 rounded-full select-none cursor-pointer ${
     isPressed ? "shadow-pressed" : "shadow-chipUnpressed"
   } `;
   return (

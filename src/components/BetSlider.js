@@ -1,98 +1,130 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Slider } from "@mui/material";
-
-const followersMarks = [
-  {
-    value: 0,
-    scaledValue: 1000,
-    label: "1k",
-  },
-  {
-    value: 25,
-    scaledValue: 5000,
-    label: "5k",
-  },
-  {
-    value: 50,
-    scaledValue: 10000,
-    label: "10k",
-  },
-  {
-    value: 75,
-    scaledValue: 25000,
-    label: "25k",
-  },
-  {
-    value: 100,
-    scaledValue: 50000,
-    label: "50k",
-  },
-  {
-    value: 125,
-    scaledValue: 100000,
-    label: "100k",
-  },
-  {
-    value: 150,
-    scaledValue: 250000,
-    label: "250k",
-  },
-  {
-    value: 175,
-    scaledValue: 500000,
-    label: "500k",
-  },
-  {
-    value: 200,
-    scaledValue: 1000000,
-    label: "1M",
-  },
-];
-
-const scale = (value) => {
-  const previousMarkIndex = Math.floor(value / 25);
-  const previousMark = followersMarks[previousMarkIndex];
-  const remainder = value % 25;
-  if (remainder === 0) {
-    return previousMark.scaledValue;
-  }
-  const nextMark = followersMarks[previousMarkIndex + 1];
-  const increment = (nextMark.scaledValue - previousMark.scaledValue) / 25;
-  return remainder * increment + previousMark.scaledValue;
-};
-
-function numFormatter(num) {
-  if (num > 999 && num < 1000000) {
-    return (num / 1000).toFixed(0) + "K"; // convert to K for number from > 1000 < 1 million
-  } else if (num >= 1000000) {
-    return (num / 1000000).toFixed(0) + "M"; // convert to M for number from > 1 million
-  } else if (num < 900) {
-    return num; // if value < 1000, nothing to do
-  }
-}
+import useLiveStream from "../context/LiveStreamContext";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export default function BetSlider() {
+  const { totalCredits, setBetAmount } = useLiveStream();
   const [value, setValue] = React.useState(1);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const [minusIsPressed, setMinusIsPressed] = useState(false);
+  const [plusIsPressed, setPlusIsPressed] = useState(false);
+
+  const handlePress = (button) => {
+    if (button === "repeat") {
+      setMinusIsPressed(true);
+      setTimeout(() => {
+        setMinusIsPressed(false);
+      }, 100);
+    } else {
+      setPlusIsPressed(true);
+      setTimeout(() => {
+        setPlusIsPressed(false);
+      }, 100);
+    }
   };
 
+  const decrementButtonStyle = `w-[20%] rounded-full cursor-pointer ${
+    minusIsPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+  const incrementButtonStyle = `w-[20%]  rounded-full cursor-pointer ${
+    plusIsPressed ? "shadow-pressed" : "shadow-unpressed"
+  } `;
+
+  const handleChange = (event, newValue) => {
+    const roundedValue = Math.floor((newValue / 100) * totalCredits);
+    setValue(newValue);
+    // console.log(roundedValue);
+    setBetAmount(roundedValue); // toLocaleString adds commas to the number
+  };
+
+  const handleIncrement = () => {
+    // Increment the slider value by 25%
+    const newValue = Math.min(value + 25, 100); // Ensure the value doesn't exceed 100
+    handleChange(null, newValue); // Trigger the same handler as the slider
+  };
+
+  const handleDecrement = () => {
+    const newValue = Math.max(value - 25, 0);
+    handleChange(null, newValue);
+  };
+
+  const followersMarks = [
+    {
+      value: 0,
+      label: "0",
+    },
+    {
+      value: 25,
+      label: "25%",
+    },
+    {
+      value: 50,
+      label: "50%",
+    },
+    {
+      value: 75,
+      label: "75%",
+    },
+    {
+      value: 100,
+      label: "100%",
+    },
+  ];
+
+  const scaleCredits = (value) => {
+    return (value / 100) * totalCredits;
+  };
+
+  function numFormatter(num) {
+    if (num > 999 && num < 1000000) {
+      return (num / 1000).toFixed(0) + "K"; // convert to K for number from > 1000 < 1 million
+    } else if (num >= 1000000) {
+      return (num / 1000000).toFixed(0) + "M"; // convert to M for number from > 1 million
+    } else if (num < 900) {
+      return num; // if value < 1000, nothing to do
+    }
+  }
+
   return (
-    <div>
+    <>
+      <div
+        onClick={() => {
+          handleDecrement();
+          handlePress("repeat");
+        }}
+      >
+        <RemoveCircleIcon
+          style={{ color: "white", fontSize: "3rem" }}
+          className={decrementButtonStyle}
+        />
+      </div>
       <Slider
         style={{ maxWidth: 500 }}
         value={value}
         min={0}
         step={1}
-        max={200}
+        max={100}
         valueLabelFormat={numFormatter}
         marks={followersMarks}
-        scale={scale}
+        scale={scaleCredits}
         onChange={handleChange}
-        valueLabelDisplay="auto"
+        valueLabelDisplay="off"
         aria-labelledby="non-linear-slider"
+        size="large"
       />
-    </div>
+      <div
+        onClick={() => {
+          handleIncrement();
+          handlePress("clear");
+        }}
+      >
+        <AddCircleIcon
+          style={{ color: "white", fontSize: "3rem" }}
+          className={incrementButtonStyle}
+        />
+      </div>
+    </>
   );
 }

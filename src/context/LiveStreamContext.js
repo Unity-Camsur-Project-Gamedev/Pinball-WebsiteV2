@@ -29,6 +29,7 @@ const initialState = {
   history: [],
   percentages: [],
   winnersArray: [],
+  setBetAmount: () => {},
   handleRepeatBet: () => {},
   setMirrorArray: () => {},
   setConfirmedBetArray: () => {},
@@ -104,8 +105,8 @@ export const LiveStreamProvider = ({
   const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
 
   // useEffect(() => {
-  //   console.log("parsedOnGoingBets:", parsedOnGoingBets);
-  // }, [parsedOnGoingBets]);
+  //   console.log("BetAmount:", betAmount);
+  // }, [betAmount]);
 
   //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
@@ -254,6 +255,7 @@ export const LiveStreamProvider = ({
   const handleClearBet = () => {
     setToBeConfirmedBetArray([]);
     setMirrorArray([...confirmedBetArray]);
+    setBetAmount("0");
     // setUserBets([]);
   };
 
@@ -381,6 +383,7 @@ export const LiveStreamProvider = ({
         history,
         percentages,
         winnersArray,
+        setBetAmount,
         setMirrorArray,
         setConfirmedBetArray,
         setToBeConfirmedBetArray,
