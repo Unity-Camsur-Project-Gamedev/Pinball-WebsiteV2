@@ -335,11 +335,16 @@ export const LiveStreamProvider = ({
       }, []);
 
       const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
+      const unconfirmedTotal = toBeConfirmedBetArray.reduce(
+        (sum, item) => sum + item.amount,
+        0
+      );
 
       // Set the state
       // parsedOnGoingBets
       setMirrorArray(combinedArray);
-      setTotalBetAmount(total);
+      // setTotalBetAmount(total);
+      setTotalBetAmount(unconfirmedTotal);
     }
   }, [confirmedBetArray, toBeConfirmedBetArray]);
 
