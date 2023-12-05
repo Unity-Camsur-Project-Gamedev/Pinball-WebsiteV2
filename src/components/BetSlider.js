@@ -5,7 +5,7 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export default function BetSlider() {
-  const { totalCredits, setBetAmount } = useLiveStream();
+  const { totalCredits, setBetAmount, selectedButton } = useLiveStream();
   const [value, setValue] = React.useState(1);
 
   const [minusIsPressed, setMinusIsPressed] = useState(false);
@@ -86,6 +86,14 @@ export default function BetSlider() {
       return num; // if value < 1000, nothing to do
     }
   }
+
+  useEffect(() => {
+    const handleReset = () => {
+      handleChange(null, 0);
+    };
+
+    handleReset();
+  }, [selectedButton]);
 
   return (
     <>
