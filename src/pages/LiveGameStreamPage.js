@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import websiteBg from "../assets/website-bg.png";
 import newGame from "../assets/newGame.gif";
-// import pinBall from "../assets/pinBall.gif";
+import pinBall from "../assets/pinBall.gif";
 
 //LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
@@ -205,7 +205,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         )}
         {betStatus === "Closed" && showContentClosed && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
-            {/* <img src={pinBall} alt="#" className="mb-20"></img> */}
+            <img src={pinBall} alt="#" className="mb-20"></img> 
           </div>
         )}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
