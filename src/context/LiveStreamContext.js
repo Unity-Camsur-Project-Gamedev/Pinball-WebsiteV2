@@ -99,18 +99,8 @@ export const LiveStreamProvider = ({
   const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET TO POST
   const [confirmedBetArray, setConfirmedBetArray] = useState([]); //CONTAINS CONFIRMED BETS
   const [mirrorArray, setMirrorArray] = useState([]); //MIRROR ARRAY OF CBA
-
   const [totalBetAmount, setTotalBetAmount] = useState(0);
-
-  // const onGoingBets = localStorage.getItem("onGoingBets");
-  // const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
   const [onGoingBets, setOnGoingBets] = useState([]);
-
-  // window.addEventListener("beforeunload", function () {
-  //   // Remove the item from localStorage
-  //   console.log("bets are cleared");
-  //   localStorage.removeItem("onGoingBets");
-  // });
 
   const fetchData = async () => {
     try {
@@ -230,37 +220,29 @@ export const LiveStreamProvider = ({
     }
   };
 
-  // const handleConfirmBet = async () => {
-  //   if (selectedButton !== null) {
-  //     const betAmountInt = parseInt(betAmount);
-  //     if (!isNaN(betAmountInt) && betAmountInt > 0) {
-  //       if (totalCredits > 0) {
-  //         if (totalCredits >= betAmountInt) {
-  //           try {
-  //             await postBet(selectedColorName, betAmountInt, userToken);
-  //             //reset
-  //             setSelectedButton(null);
-  //             setBetAmount("0");
-  //           } catch (error) {
-  //             console.error("Error:", error.message);
-  //             window.alert(
-  //               "An error occurred while placing the bet. Please try again later."
-  //             );
-  //           }
-  //         } else {
-  //           window.alert("Insufficient Credits. Please enter a valid number.");
-  //         }
-  //       } else {
-  //         window.alert("Insufficient Credits. Please add credits to bet.");
-  //       }
-  //     } else {
-  //       window.alert("Invalid bet amount. Please enter a valid number.");
-  //     }
-  //   } else {
-  //     window.alert("Select a color bet first");
-  //   }
-  // };
+  //CLEAR THE UNCONFIRMED BETS
+  const handleClearBet = () => {
+    setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
+    setBetAmount("0");
+    // setUserBets([]);
+  };
 
+  const handleMaxButton = () => {
+    setBetAmount(totalCredits);
+  };
+
+  const handleClearButton = () => {
+    setBetAmount("0");
+  };
+
+  const handleClearButtonMobile = () => {
+    setBetAmount("0");
+    setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
+  };
+
+  //CONFIRM BUTTON
   const handleConfirmBet = async () => {
     if (totalBetAmount <= totalCreditsCopy) {
       for (const bet of toBeConfirmedBetArray) {
@@ -306,37 +288,7 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //CLEAR THE UNCONFIRMED BETS
-  const handleClearBet = () => {
-    setToBeConfirmedBetArray([]);
-    setMirrorArray([...confirmedBetArray]);
-    setBetAmount("0");
-    // setUserBets([]);
-  };
-
-  const handleMaxButton = () => {
-    setBetAmount(totalCredits);
-  };
-
-  const handleClearButton = () => {
-    setBetAmount("0");
-  };
-
-  const handleClearButtonMobile = () => {
-    setBetAmount("0");
-    setToBeConfirmedBetArray([]);
-    setMirrorArray([...confirmedBetArray]);
-  };
-
-  // const handleBetOnColor = (key) => {
-  //   setSelectedButton(key);
-
-  //   //console logs
-  //   setSelectedColorHex(colorHex[key]);
-  //   setSelectedColorName(colorName[key]);
-  // };
-
-  //STORE THE USER BETS TO THE UNCONFIRMED ARRAY FIRST
+  //COLOR BUTTON
   const handleBetOnColor = (key) => {
     setSelectedButton(key);
     const betAmountInt = parseInt(betAmount);
@@ -368,7 +320,7 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //THIS IS USED TO TOTAL THE UNCONFIRMED BETS
+  //USED TO CHECK IF THE BETS ARE VALID BEFORE CONFIRMING
   useEffect(() => {
     if (onGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
       // Combine array1 and array2 into array3 with incrementing amounts

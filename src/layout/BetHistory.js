@@ -239,31 +239,6 @@ const BetHistory = ({ userToken, rows }) => {
     fetchData();
   }, [rows]);
 
-  // const baseUrl = process.env.REACT_APP_BACKEND_URL;
-
-  //GET BET HISTORY OF THE PLAYER
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await getBetHistory(userToken);
-  //     const updatedRows = response.map((item) => ({
-  //       date: item.createdAt.slice(0, 10),
-  //       gameId: item.game_id,
-  //       bet: item.bet_data,
-  //       betAmount: item.amount,
-  //       winLose: item.status,
-  //       result: item.status === "Win" ? "+ " + item.amount * 8 : 0,
-  //     }));
-  //     setRows(updatedRows);
-  //     console.log(updatedRows)
-  //     setUserBets(updatedRows); //FOR COLOR INPUTS
-  //   } catch (error) {
-  //     console.error("Error:", error.message);
-  //     window.alert(
-  //       "An error occurred while fetching the bet history. Please try again later."
-  //     );
-  //   }
-  // };
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");

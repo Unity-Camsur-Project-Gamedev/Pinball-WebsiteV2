@@ -64,11 +64,6 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
-  // // BET STATUS CLEANER
-  // useEffect(() => {
-  //   console.log("BetStatus: ", clearBetsOnColor);
-  // }, [clearBetsOnColor]);
-
   // FETCH SOCKETS
   useEffect(() => {
     // console.log('userId changed:', userId);
@@ -90,6 +85,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       console.log(data);
       setTimeout(() => {
         setTotalCredits(data.balance);
+        console.log(data);
         toast.success(`You win a total of ${data.winningAmount}! 🎉`);
       }, 2000);
       if (window.innerWidth > 768) {

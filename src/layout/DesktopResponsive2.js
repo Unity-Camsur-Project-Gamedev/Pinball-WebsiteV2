@@ -273,7 +273,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                             : ""
                         } `}
                       >
-                        repeat bet
+                        repeat
                       </p>
                     </Button>
                     <Button
@@ -330,7 +330,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                             : ""
                         } `}
                       >
-                        clear bet
+                        clear
                       </p>
                     </Button>
                   </div>
