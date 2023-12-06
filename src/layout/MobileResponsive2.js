@@ -8,6 +8,7 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ChatPlayToggle from "../components/ChatPlayToggle";
 import LiveChat from "../components/LiveChat";
 import icon from "../assets/group.png";
+import pinBallLogo from "../assets/pinBallLogo.png";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
@@ -26,6 +27,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     betAmount,
     selectedButton,
     betButtons,
+    STEAM_URL,
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
@@ -90,9 +92,10 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
       <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
-            <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
+            {/* <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
               pinball game
-            </p>
+            </p> */}
+            <img src={pinBallLogo} className="h-14" />
           </div>
         </div>
       </div>
@@ -110,7 +113,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           //We'll use the padding bottom technique to maintain 16:9 ratio
           className=" absolute w-full h-full"
           allow="fullscreen"
-          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=85cafc04-d52d-4bd1-970d-540dfd706832&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
+          src={STEAM_URL}
         ></iframe>
       </div>
       <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30 ">

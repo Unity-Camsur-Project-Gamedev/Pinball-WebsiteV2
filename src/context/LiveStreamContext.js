@@ -29,6 +29,7 @@ const initialState = {
   history: [],
   percentages: [],
   winnersArray: [],
+  STEAM_URL: "",
   setBetAmount: () => {},
   handleRepeatBet: () => {},
   setMirrorArray: () => {},
@@ -90,6 +91,8 @@ export const LiveStreamProvider = ({
   const numGroup2 = ["4", "5", "6"];
   const numGroup3 = ["7", "8", "9"];
   const betButtons = ["5", "10", "20", "50", "100"];
+  const STEAM_URL =
+    "https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=85cafc04-d52d-4bd1-970d-540dfd706832&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic";
   const totalCreditsCopy = localStorage.getItem("totalCredits");
   const [selectedColorName, setSelectedColorName] = useState("");
   const [selectedColorHex, setSelectedColorHex] = useState("");
@@ -391,6 +394,7 @@ export const LiveStreamProvider = ({
         history,
         percentages,
         winnersArray,
+        STEAM_URL,
         setBetAmount,
         setMirrorArray,
         setConfirmedBetArray,
