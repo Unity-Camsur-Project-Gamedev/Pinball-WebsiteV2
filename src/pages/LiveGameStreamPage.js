@@ -43,14 +43,6 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [showContent, setShowContent] = useState(false);
   const [showContentClosed, setShowContentClosed] = useState(false);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowContent(false);
-  //   }, 2000);
-
-  //   return () => clearTimeout(timer);
-  // }, []);
-
   //USER LOGIN CREDENTIAL
   useEffect(() => {
     const baseUrl = process.env.REACT_APP_BACKEND_URL;
@@ -197,6 +189,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         history={history}
         percentages={percentages}
         winnersArray={winnersArray}
+        rows={rows}
       >
         {betStatus === "Open" && showContent && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
@@ -205,7 +198,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         )}
         {betStatus === "Closed" && showContentClosed && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
-            <img src={pinballTime} alt="#" className="mb-20"></img> 
+            <img src={pinballTime} alt="#" className="mb-20"></img>
           </div>
         )}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">

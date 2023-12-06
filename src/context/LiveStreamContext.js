@@ -62,6 +62,7 @@ export const LiveStreamProvider = ({
   history,
   percentages,
   winnersArray,
+  rows,
 }) => {
   const colorName = [
     "Red",
@@ -101,12 +102,70 @@ export const LiveStreamProvider = ({
 
   const [totalBetAmount, setTotalBetAmount] = useState(0);
 
-  const onGoingBets = localStorage.getItem("onGoingBets");
-  const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
+  // const onGoingBets = localStorage.getItem("onGoingBets");
+  // const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
+  const [onGoingBets, setOnGoingBets] = useState([]);
 
-  // useEffect(() => {
-  //   console.log("BetAmount:", betAmount);
-  // }, [betAmount]);
+  // window.addEventListener("beforeunload", function () {
+  //   // Remove the item from localStorage
+  //   console.log("bets are cleared");
+  //   localStorage.removeItem("onGoingBets");
+  // });
+
+  const fetchData = async () => {
+    try {
+      const updatedRows = rows.map((item) => ({
+        date: item.createdAt.slice(0, 10),
+        gameId: item.game_id,
+        bet: item.bet_data,
+        betAmount: item.amount,
+        winLose: item.status,
+        result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
+      }));
+
+      // Filter the array to get items with status "On going"
+      const onGoingRows = updatedRows.filter(
+        (row) => row.winLose === "On going"
+      );
+
+      // Create a new array with only "bet" and "betAmount" properties
+      const simplifiedOnGoingRows = onGoingRows.map(({ bet, betAmount }) => ({
+        colorIndex: colorName.indexOf(bet),
+        amount: Number(betAmount),
+      }));
+
+      // Combine objects with the same colorIndex and sum their amounts
+      const combinedOnGoingRows = simplifiedOnGoingRows.reduce((acc, curr) => {
+        const existing = acc.find(
+          (item) => item.colorIndex === curr.colorIndex
+        );
+        if (existing) {
+          existing.amount += curr.amount;
+        } else {
+          acc.push({ colorIndex: curr.colorIndex, amount: curr.amount });
+        }
+        return acc;
+      }, []);
+
+      // Convert the amount property back to a string
+      const resultRows = combinedOnGoingRows.map(({ colorIndex, amount }) => ({
+        colorIndex,
+        amount: amount.toString(),
+      }));
+
+      setOnGoingBets(resultRows);
+    } catch (error) {
+      console.error("Error:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [rows]);
+
+  useEffect(() => {
+    console.log("onGoingBets:", onGoingBets);
+  }, [onGoingBets]);
 
   //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
@@ -209,26 +268,22 @@ export const LiveStreamProvider = ({
       }
       //INSERT BETS THAT ARE CONFIRMED
       setConfirmedBetArray((prevArray) => {
-        const combinedArray = [...parsedOnGoingBets, ...toBeConfirmedBetArray];
+        const combinedArray = [...onGoingBets, ...toBeConfirmedBetArray];
         const aggregatedAmounts = {};
 
         combinedArray.forEach((bet) => {
           const { colorIndex, amount } = bet;
           aggregatedAmounts[colorIndex] =
-            (aggregatedAmounts[colorIndex] || 0) + amount;
+            (aggregatedAmounts[colorIndex] || 0) + Number(amount); // Convert amount to number
         });
 
         const updatedArray = Object.entries(aggregatedAmounts).map(
           ([colorIndex, amount]) => ({
             colorIndex: parseInt(colorIndex, 10),
-            amount,
+            amount: amount.toString(), // Convert amount back to string if necessary
           })
         );
         setToBeConfirmedBetArray([]);
-
-        // parsedOnGoingBets.push(...updatedArray);
-        // localStorage.setItem("onGoingBets", JSON.stringify(parsedOnGoingBets));
-        localStorage.setItem("onGoingBets", JSON.stringify(updatedArray));
 
         return updatedArray;
       });
@@ -315,24 +370,27 @@ export const LiveStreamProvider = ({
 
   //THIS IS USED TO TOTAL THE UNCONFIRMED BETS
   useEffect(() => {
-    if (parsedOnGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
+    if (onGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
       // Combine array1 and array2 into array3 with incrementing amounts
-      const combinedArray = [
-        ...toBeConfirmedBetArray,
-        ...parsedOnGoingBets,
-      ].reduce((accumulator, currentValue) => {
-        const existingItem = accumulator.find(
-          (item) => item.colorIndex === currentValue.colorIndex
-        );
 
-        if (existingItem) {
-          existingItem.amount += currentValue.amount;
-        } else {
-          accumulator.push({ ...currentValue });
-        }
+      const combinedArray = [...toBeConfirmedBetArray, ...onGoingBets].reduce(
+        (accumulator, currentValue) => {
+          const existingItem = accumulator.find(
+            (item) => item.colorIndex === currentValue.colorIndex
+          );
 
-        return accumulator;
-      }, []);
+          if (existingItem) {
+            // Convert amounts to numbers before addition
+            existingItem.amount =
+              Number(existingItem.amount) + Number(currentValue.amount);
+          } else {
+            accumulator.push({ ...currentValue });
+          }
+
+          return accumulator;
+        },
+        []
+      );
 
       const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
       const unconfirmedTotal = toBeConfirmedBetArray.reduce(
@@ -340,13 +398,10 @@ export const LiveStreamProvider = ({
         0
       );
 
-      // Set the state
-      // parsedOnGoingBets
       setMirrorArray(combinedArray);
-      // setTotalBetAmount(total);
       setTotalBetAmount(unconfirmedTotal);
     }
-  }, [confirmedBetArray, toBeConfirmedBetArray]);
+  }, [confirmedBetArray, toBeConfirmedBetArray, onGoingBets]);
 
   useEffect(() => {
     console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
@@ -355,10 +410,6 @@ export const LiveStreamProvider = ({
 
   useEffect(() => {
     console.log("mirrorArray:", mirrorArray);
-    console.log(
-      "localStorage:",
-      JSON.parse(localStorage.getItem("onGoingBets"))
-    );
   }, [mirrorArray]);
 
   useEffect(() => {

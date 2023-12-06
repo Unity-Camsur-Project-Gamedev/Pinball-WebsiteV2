@@ -175,7 +175,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
               )}
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
-                <p
+                <button
                   onClick={() => handleRepeatBet()}
                   style={{
                     fontWeight: 100,
@@ -183,9 +183,10 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                     fontWeight: "bold",
                     fontFamily: "Poppins",
                   }}
+                  className="select-none uppercase"
                 >
                   repeat
-                </p>
+                </button>
                 <input
                   type="text"
                   value={
@@ -196,7 +197,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                   className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
                   onChange={handleInputChange}
                 />
-                <p
+                <button
                   onClick={() => handleClearButtonMobile()}
                   style={{
                     fontWeight: 100,
@@ -204,9 +205,10 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                     fontWeight: "bold",
                     fontFamily: "Poppins",
                   }}
+                  className="select-none uppercase"
                 >
                   clear
-                </p>
+                </button>
               </div>
               <div className="grid grid-cols-3 gap-2 w-full text-center">
                 {betButtons.map((button, key) => (
