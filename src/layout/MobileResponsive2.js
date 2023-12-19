@@ -56,7 +56,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     const socket = io(baseUrl, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("numberOfUsers", (data) => {

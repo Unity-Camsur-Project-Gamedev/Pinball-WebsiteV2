@@ -71,7 +71,7 @@ const LiveGameStreamPage = ({ userToken }) => {
     const socket = io(baseUrl, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("walletUpdate", (data) => {
@@ -95,7 +95,7 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingStatusUpdate", (data) => {
       setBetStatus(data.status);
-      console.log("betStat", data.status);
+      // console.log("betStat", data.status);
       setTimeout(() => {
         setEmpty(true);
       }, 6000);

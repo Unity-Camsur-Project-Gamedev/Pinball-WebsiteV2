@@ -156,9 +156,9 @@ export const LiveStreamProvider = ({
     fetchData();
   }, [rows]);
 
-  useEffect(() => {
-    console.log("onGoingBets:", onGoingBets);
-  }, [onGoingBets]);
+  // useEffect(() => {
+  //   console.log("onGoingBets:", onGoingBets);
+  // }, [onGoingBets]);
 
   //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
   useEffect(() => {
@@ -358,18 +358,18 @@ export const LiveStreamProvider = ({
     }
   }, [confirmedBetArray, toBeConfirmedBetArray, onGoingBets]);
 
-  useEffect(() => {
-    console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
-    console.log("confirmedBetArray: ", confirmedBetArray);
-  }, [toBeConfirmedBetArray, confirmedBetArray]);
+  // useEffect(() => {
+  //   console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
+  //   console.log("confirmedBetArray: ", confirmedBetArray);
+  // }, [toBeConfirmedBetArray, confirmedBetArray]);
 
-  useEffect(() => {
-    console.log("mirrorArray:", mirrorArray);
-  }, [mirrorArray]);
+  // useEffect(() => {
+  //   console.log("mirrorArray:", mirrorArray);
+  // }, [mirrorArray]);
 
-  useEffect(() => {
-    console.log("totalBetAmount:", totalBetAmount);
-  }, [totalBetAmount]);
+  // useEffect(() => {
+  //   console.log("totalBetAmount:", totalBetAmount);
+  // }, [totalBetAmount]);
 
   return (
     <LiveStreamContext.Provider
