@@ -87,12 +87,12 @@ export const LiveStreamProvider = ({
     "#DC63D0",
     "#33C5ED",
   ];
+  const STEAM_URL =
+    "https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=e8169394-9c9e-402a-aada-00dc3797ecef&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic";
   const numGroup1 = ["1", "2", "3"];
   const numGroup2 = ["4", "5", "6"];
   const numGroup3 = ["7", "8", "9"];
   const betButtons = ["5", "10", "20", "50", "100"];
-  const STEAM_URL =
-    "https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=e8169394-9c9e-402a-aada-00dc3797ecef&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic";
   const totalCreditsCopy = localStorage.getItem("totalCredits");
   const [selectedColorName, setSelectedColorName] = useState("");
   const [selectedColorHex, setSelectedColorHex] = useState("");
@@ -105,54 +105,59 @@ export const LiveStreamProvider = ({
   const [totalBetAmount, setTotalBetAmount] = useState(0);
   const [onGoingBets, setOnGoingBets] = useState([]);
 
-  const fetchData = async () => {
-    try {
-      const updatedRows = rows.map((item) => ({
-        date: item.createdAt.slice(0, 10),
-        gameId: item.game_id,
-        bet: item.bet_data,
-        betAmount: item.amount,
-        winLose: item.status,
-        result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
-      }));
-
-      // Filter the array to get items with status "On going"
-      const onGoingRows = updatedRows.filter(
-        (row) => row.winLose === "On going"
-      );
-
-      // Create a new array with only "bet" and "betAmount" properties
-      const simplifiedOnGoingRows = onGoingRows.map(({ bet, betAmount }) => ({
-        colorIndex: colorName.indexOf(bet),
-        amount: Number(betAmount),
-      }));
-
-      // Combine objects with the same colorIndex and sum their amounts
-      const combinedOnGoingRows = simplifiedOnGoingRows.reduce((acc, curr) => {
-        const existing = acc.find(
-          (item) => item.colorIndex === curr.colorIndex
-        );
-        if (existing) {
-          existing.amount += curr.amount;
-        } else {
-          acc.push({ colorIndex: curr.colorIndex, amount: curr.amount });
-        }
-        return acc;
-      }, []);
-
-      // Convert the amount property back to a string
-      const resultRows = combinedOnGoingRows.map(({ colorIndex, amount }) => ({
-        colorIndex,
-        amount: amount.toString(),
-      }));
-
-      setOnGoingBets(resultRows);
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const updatedRows = rows.map((item) => ({
+          date: item.createdAt.slice(0, 10),
+          gameId: item.game_id,
+          bet: item.bet_data,
+          betAmount: item.amount,
+          winLose: item.status,
+          result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
+        }));
+
+        // Filter the array to get items with status "On going"
+        const onGoingRows = updatedRows.filter(
+          (row) => row.winLose === "On going"
+        );
+
+        // Create a new array with only "bet" and "betAmount" properties
+        const simplifiedOnGoingRows = onGoingRows.map(({ bet, betAmount }) => ({
+          colorIndex: colorName.indexOf(bet),
+          amount: Number(betAmount),
+        }));
+
+        // Combine objects with the same colorIndex and sum their amounts
+        const combinedOnGoingRows = simplifiedOnGoingRows.reduce(
+          (acc, curr) => {
+            const existing = acc.find(
+              (item) => item.colorIndex === curr.colorIndex
+            );
+            if (existing) {
+              existing.amount += curr.amount;
+            } else {
+              acc.push({ colorIndex: curr.colorIndex, amount: curr.amount });
+            }
+            return acc;
+          },
+          []
+        );
+
+        // Convert the amount property back to a string
+        const resultRows = combinedOnGoingRows.map(
+          ({ colorIndex, amount }) => ({
+            colorIndex,
+            amount: amount.toString(),
+          })
+        );
+
+        setOnGoingBets(resultRows);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+
     fetchData();
   }, [rows]);
 
