@@ -26,7 +26,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
-  const [empty, setEmpty] = useState(true);
+  const [empty, setEmpty] = useState(false);
   const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
   const [history, setHistory] = useState([]);
   const [percentages, setPercentages] = useState([]);
@@ -90,9 +90,9 @@ const LiveGameStreamPage = ({ userToken }) => {
     socket.on("bettingStatusUpdate", (data) => {
       setBetStatus(data.status);
       // console.log("betStat", data.status);
-      setTimeout(() => {
-        setEmpty(true);
-      }, 6000);
+      // setTimeout(() => {
+      //   setEmpty(true);
+      // }, 6000);
       setTimeout(() => {
         setShowContent(true);
 

@@ -30,6 +30,7 @@ const initialState = {
   percentages: [],
   winnersArray: [],
   STEAM_URL: "",
+  onGoingBets: [],
   setBetAmount: () => {},
   handleRepeatBet: () => {},
   setMirrorArray: () => {},
@@ -212,9 +213,13 @@ export const LiveStreamProvider = ({
 
         // console.log(updatedLastBetArray);
 
-        updatedLastBetArray.forEach((bet) => {
-          setToBeConfirmedBetArray((prev) => [...prev, bet]);
-        });
+        if (toBeConfirmedBetArray.length === 0) {
+          updatedLastBetArray.forEach((bet) => {
+            setToBeConfirmedBetArray((prev) => [...prev, bet]);
+          });
+        } else {
+          window.alert("You have bets already in placed.");
+        }
       } else {
         toast.error("You have no bet in the last game ID.", {
           autoClose: 3000,
@@ -363,10 +368,10 @@ export const LiveStreamProvider = ({
     }
   }, [confirmedBetArray, toBeConfirmedBetArray, onGoingBets]);
 
-  // useEffect(() => {
-  //   console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
-  //   console.log("confirmedBetArray: ", confirmedBetArray);
-  // }, [toBeConfirmedBetArray, confirmedBetArray]);
+  useEffect(() => {
+    console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
+    // console.log("confirmedBetArray: ", confirmedBetArray);
+  }, [toBeConfirmedBetArray, confirmedBetArray]);
 
   // useEffect(() => {
   //   console.log("mirrorArray:", mirrorArray);
@@ -400,6 +405,7 @@ export const LiveStreamProvider = ({
         percentages,
         winnersArray,
         STEAM_URL,
+        onGoingBets,
         setBetAmount,
         setMirrorArray,
         setConfirmedBetArray,
