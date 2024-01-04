@@ -7,7 +7,7 @@ import "@fontsource/roboto/700.css";
 // import Player from './components/Player';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LiveGameStreamPage from "./pages/LiveGameStreamPage";
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
 import Login from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -20,7 +20,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<RegisterPage />} />
-          {/* <Route path="/game/pinball" element={<LiveGameStreamPage />} /> */}
           <Route exact path="/game/pinball" element={<ProtectedRoute />} />
         </Routes>
       </Router>

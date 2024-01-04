@@ -18,11 +18,11 @@ import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 
 const LiveGameStreamPage = ({ userToken }) => {
+  localStorage.setItem("totalCredits", totalCredits);
   const [isOpen, setIsOpen] = useState(false); //modal state*
   const [userId, setUserId] = useState(""); //user id state*
   const [rows, setRows] = useState([]);
   const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
-  localStorage.setItem("totalCredits", totalCredits);
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
@@ -181,6 +181,7 @@ const LiveGameStreamPage = ({ userToken }) => {
         winnersArray={winnersArray}
         rows={rows}
       >
+        {/* BANNERS */}
         {betStatus === "Open" && showContent && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
             <img src={newGame} alt="#" className="mb-20"></img>
@@ -191,6 +192,7 @@ const LiveGameStreamPage = ({ userToken }) => {
             <img src={pinballTime} alt="#" className="mb-20"></img>
           </div>
         )}
+        {/* DESKTOP UI */}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
           <DesktopResponsive2
@@ -200,6 +202,7 @@ const LiveGameStreamPage = ({ userToken }) => {
           />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
+        {/* MOBILE UI */}
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full pb-10">
           <MobileResponsive2 betStatus={betStatus} />
           <BetHistory userToken={userToken} rows={rows} />

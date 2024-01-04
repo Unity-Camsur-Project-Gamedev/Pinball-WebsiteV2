@@ -95,17 +95,17 @@ export const LiveStreamProvider = ({
   const numGroup3 = ["7", "8", "9"];
   const betButtons = ["5", "10", "20", "50", "100"];
   const totalCreditsCopy = localStorage.getItem("totalCredits");
-  const [selectedColorName, setSelectedColorName] = useState("");
-  const [selectedColorHex, setSelectedColorHex] = useState("");
+
   const [betAmount, setBetAmount] = useState("0"); //BET AMOUNT TEXT
   const [selectedButton, setSelectedButton] = useState(null); //INDEX OF THE COLOR BUTTON
   const [userBets, setUserBets] = useState([]);
-  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET TO POST
+  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET POSTED
   const [confirmedBetArray, setConfirmedBetArray] = useState([]); //CONTAINS CONFIRMED BETS
   const [mirrorArray, setMirrorArray] = useState([]); //MIRROR ARRAY OF CBA
   const [totalBetAmount, setTotalBetAmount] = useState(0);
   const [onGoingBets, setOnGoingBets] = useState([]);
 
+  //FETCH DATA THAT ARE LABELED 'ON GOING'
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -162,35 +162,34 @@ export const LiveStreamProvider = ({
     fetchData();
   }, [rows]);
 
-  // useEffect(() => {
-  //   console.log("onGoingBets:", onGoingBets);
-  // }, [onGoingBets]);
-
-  //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
+  //RESET WHEN THE RESULT WAS GENERATED
   useEffect(() => {
     setMirrorArray([]);
     setConfirmedBetArray([]);
     setToBeConfirmedBetArray([]);
   }, [clearBetsOnColor]);
 
+  //NUMPAD INPUT HANDLER
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
     setBetAmount(newValue);
   };
 
-  //KEYBOARD INPUT
+  //KEYBOARD INPUT HANDLER
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const numericValue = inputValue.replace(/\D/g, "");
     setBetAmount(numericValue);
   };
 
+  //PRE-DEFINED BUTTON INPUT HANDLER
   const handleInputButtonClick = (buttonText) => {
     setBetAmount((prevAmount) =>
       String(parseInt(prevAmount, 10) + parseInt(buttonText, 10))
     );
   };
 
+  //REPEAT BET HANDLER
   const handleRepeatBet = async () => {
     try {
       const response = await repeatBet(userToken);
@@ -233,7 +232,7 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //CLEAR THE UNCONFIRMED BETS
+  //CLEAR BET HANDLER
   const handleClearBet = () => {
     setToBeConfirmedBetArray([]);
     setMirrorArray([...confirmedBetArray]);
@@ -241,21 +240,24 @@ export const LiveStreamProvider = ({
     // setUserBets([]);
   };
 
+  //MAX BUTTON HANDLER
   const handleMaxButton = () => {
     setBetAmount(totalCredits);
   };
 
+  //OLD CLEAR BUTTON HANDLER
   const handleClearButton = () => {
     setBetAmount("0");
   };
 
+  //CLEAR BUTTON HANDLER MOBILE
   const handleClearButtonMobile = () => {
     setBetAmount("0");
     setToBeConfirmedBetArray([]);
     setMirrorArray([...confirmedBetArray]);
   };
 
-  //CONFIRM BUTTON
+  //CONFIRM BUTTON HANDLER
   const handleConfirmBet = async () => {
     if (totalBetAmount <= totalCreditsCopy) {
       for (const bet of toBeConfirmedBetArray) {
@@ -301,7 +303,7 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //COLOR BUTTON
+  //COLOR BUTTON HANDLER
   const handleBetOnColor = (key) => {
     setSelectedButton(key);
     const betAmountInt = parseInt(betAmount);
@@ -368,15 +370,13 @@ export const LiveStreamProvider = ({
     }
   }, [confirmedBetArray, toBeConfirmedBetArray, onGoingBets]);
 
-  useEffect(() => {
-    console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
-    // console.log("confirmedBetArray: ", confirmedBetArray);
-  }, [toBeConfirmedBetArray, confirmedBetArray]);
-
+  // useEffect(() => {
+  //   console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
+  //   // console.log("confirmedBetArray: ", confirmedBetArray);
+  // }, [toBeConfirmedBetArray, confirmedBetArray]);
   // useEffect(() => {
   //   console.log("mirrorArray:", mirrorArray);
   // }, [mirrorArray]);
-
   // useEffect(() => {
   //   console.log("totalBetAmount:", totalBetAmount);
   // }, [totalBetAmount]);
