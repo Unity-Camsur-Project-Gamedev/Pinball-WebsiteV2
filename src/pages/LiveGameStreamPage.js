@@ -18,11 +18,11 @@ import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 
 const LiveGameStreamPage = ({ userToken }) => {
-  localStorage.setItem("totalCredits", totalCredits);
   const [isOpen, setIsOpen] = useState(false); //modal state*
   const [userId, setUserId] = useState(""); //user id state*
   const [rows, setRows] = useState([]);
   const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
+  localStorage.setItem("totalCredits", totalCredits);
   const [currentProgramScene, setCurrentProgramScene] = useState(); //*
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
