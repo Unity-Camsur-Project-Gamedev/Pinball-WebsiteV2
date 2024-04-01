@@ -24,12 +24,12 @@ import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 
 const LiveGameStreamPage = ({ userToken }) => {
-  const [isOpen, setIsOpen] = useState(false); //modal state*
-  const [userId, setUserId] = useState(""); //user id state*
+  const [isOpen, setIsOpen] = useState(false); 
+  const [userId, setUserId] = useState(""); 
   const [rows, setRows] = useState([]);
-  const [totalCredits, setTotalCredits] = useState(0); //total credits amount*
+  const [totalCredits, setTotalCredits] = useState(0);
   localStorage.setItem("totalCredits", totalCredits);
-  const [currentProgramScene, setCurrentProgramScene] = useState(); //*
+  const [currentProgramScene, setCurrentProgramScene] = useState(); 
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
   const [empty, setEmpty] = useState(true);
@@ -43,13 +43,7 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [showContent, setShowContent] = useState(false);
   const [showContentClosed, setShowContentClosed] = useState(false);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setShowContent(false);
-  //   }, 2000);
 
-  //   return () => clearTimeout(timer);
-  // }, []);
 
   //USER LOGIN CREDENTIAL
   useEffect(() => {
@@ -72,10 +66,6 @@ const LiveGameStreamPage = ({ userToken }) => {
       });
   }, []);
 
-  // // BET STATUS CLEANER
-  // useEffect(() => {
-  //   console.log("BetStatus: ", clearBetsOnColor);
-  // }, [clearBetsOnColor]);
 
   // FETCH SOCKETS
   useEffect(() => {
