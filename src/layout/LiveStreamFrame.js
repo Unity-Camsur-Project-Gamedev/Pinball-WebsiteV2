@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import icon from "../assets/group.png";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
+import useLiveStream from "../context/LiveStreamContext";
 
 const LiveStreamFrame = () => {
+  const { STEAM_URL } = useLiveStream();
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
 
@@ -15,7 +17,7 @@ const LiveStreamFrame = () => {
     const socket = io(baseUrl, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("numberOfUsers", (data) => {
@@ -34,7 +36,7 @@ const LiveStreamFrame = () => {
           <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
           <div className="relative z-10 text-black border-2 bg-gray-50 rounded-l-md w-auto p-2 h-10 shadow-md flex items-center justify-center">
             <p className="font-bold text-lg mr-2">{userCount}</p>
-            <img src={icon} alt="#" class="w-6 h-6" />
+            <img src={icon} alt="#" className="w-6 h-6" />
           </div>
         </div>
       </div>

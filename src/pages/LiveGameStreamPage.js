@@ -3,23 +3,17 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import OBSWebSocket from "obs-websocket-js";
 import { io } from "socket.io-client";
-// import jwt from 'jsonwebtoken';
-import Confetti from "../components/Confetti ";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import Confetti from "../components/Confetti ";
 import websiteBg from "../assets/website-bg.png";
 import newGame from "../assets/newGame.gif";
 import pinballTime from "../assets/pinballTime.gif";
-
-//LAYOUTS FOLDER
 import BetHistory from "../layout/BetHistory";
-
-//SERVICES API FOLDER
 import TopUpModal from "../layout/TopUpModal";
 import DesktopResponsive2 from "../layout/DesktopResponsive2";
 import MobileResponsive2 from "../layout/MobileResponsive2";
-
-//CONTEXT
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 
@@ -32,13 +26,13 @@ const LiveGameStreamPage = ({ userToken }) => {
   const [currentProgramScene, setCurrentProgramScene] = useState(); 
   const [confetti, setConfetti] = useState(false);
   const [betStatus, setBetStatus] = useState("");
-  const [empty, setEmpty] = useState(true);
+  const [empty, setEmpty] = useState(false);
   const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
   const [history, setHistory] = useState([]);
   const [percentages, setPercentages] = useState([]);
   const [winnersArray, setWinnersArray] = useState([]);
 
-  const obsAddress = "ws://127.0.0.1:4455";
+  const OBS_ADDRESS = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
   const [showContent, setShowContent] = useState(false);
   const [showContentClosed, setShowContentClosed] = useState(false);
@@ -47,12 +41,12 @@ const LiveGameStreamPage = ({ userToken }) => {
 
   //USER LOGIN CREDENTIAL
   useEffect(() => {
-    const baseUrl = process.env.REACT_APP_BACKEND_URL;
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
     const headers = {
       Authorization: `Bearer ${userToken}`,
     };
     axios
-      .get(`${baseUrl}/user/check/session`, { headers })
+      .get(`${BASE_URL}/user/check/session`, { headers })
       .then((response) => {
         if (response.status === 200) {
           setUserId(response.data.userSessionDets.user_id);
@@ -70,11 +64,11 @@ const LiveGameStreamPage = ({ userToken }) => {
   // FETCH SOCKETS
   useEffect(() => {
     // console.log('userId changed:', userId);
-    const baseUrl = process.env.REACT_APP_BACKEND_URL;
-    const socket = io(baseUrl, { query: { userId } });
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const socket = io(BASE_URL, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("walletUpdate", (data) => {
@@ -88,6 +82,7 @@ const LiveGameStreamPage = ({ userToken }) => {
       console.log(data);
       setTimeout(() => {
         setTotalCredits(data.balance);
+        console.log(data);
         toast.success(`You win a total of ${data.winningAmount}! 🎉`);
       }, 2000);
       if (window.innerWidth > 768) {
@@ -97,10 +92,10 @@ const LiveGameStreamPage = ({ userToken }) => {
 
     socket.on("bettingStatusUpdate", (data) => {
       setBetStatus(data.status);
-      console.log("betStat", data.status);
-      setTimeout(() => {
-        setEmpty(true);
-      }, 6000);
+      // console.log("betStat", data.status);
+      // setTimeout(() => {
+      //   setEmpty(true);
+      // }, 6000);
       setTimeout(() => {
         setShowContent(true);
 
@@ -149,7 +144,7 @@ const LiveGameStreamPage = ({ userToken }) => {
     (async () => {
       try {
         //OBS websocket connection
-        await obs.connect(obsAddress);
+        await obs.connect(OBS_ADDRESS);
         console.log(`Connected to OBS`);
 
         //Scene change listener
@@ -187,7 +182,9 @@ const LiveGameStreamPage = ({ userToken }) => {
         history={history}
         percentages={percentages}
         winnersArray={winnersArray}
+        rows={rows}
       >
+        {/* BANNERS */}
         {betStatus === "Open" && showContent && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
             <img src={newGame} alt="#" className="mb-20"></img>
@@ -195,9 +192,10 @@ const LiveGameStreamPage = ({ userToken }) => {
         )}
         {betStatus === "Closed" && showContentClosed && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
-            <img src={pinballTime} alt="#" className="mb-20"></img> 
+            <img src={pinballTime} alt="#" className="mb-20"></img>
           </div>
         )}
+        {/* DESKTOP UI */}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
           <DesktopResponsive2
@@ -207,6 +205,7 @@ const LiveGameStreamPage = ({ userToken }) => {
           />
           <BetHistory userToken={userToken} rows={rows} />
         </div>
+        {/* MOBILE UI */}
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full pb-10">
           <MobileResponsive2 betStatus={betStatus} />
           <BetHistory userToken={userToken} rows={rows} />

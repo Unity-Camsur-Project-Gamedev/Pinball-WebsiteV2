@@ -27,6 +27,8 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
     betAmount,
     selectedButton,
     betButtons,
+    onGoingBets,
+    toBeConfirmedBetArray,
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
@@ -102,8 +104,16 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
   } `;
 
   useEffect(() => {
-    setEmpty(false);
-  }, [betAmount]);
+    if (
+      parseInt(betAmount) > 0 ||
+      toBeConfirmedBetArray.length !== 0 ||
+      onGoingBets.length !== 0
+    ) {
+      setEmpty(false);
+    } else {
+      setEmpty(true);
+    }
+  }, [betAmount, toBeConfirmedBetArray, onGoingBets]);
 
   return (
     <div
@@ -273,7 +283,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                             : ""
                         } `}
                       >
-                        repeat bet
+                        repeat
                       </p>
                     </Button>
                     <Button
@@ -330,7 +340,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                             : ""
                         } `}
                       >
-                        clear bet
+                        clear
                       </p>
                     </Button>
                   </div>

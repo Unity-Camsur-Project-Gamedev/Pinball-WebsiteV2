@@ -8,6 +8,7 @@ import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import ChatPlayToggle from "../components/ChatPlayToggle";
 import LiveChat from "../components/LiveChat";
 import icon from "../assets/group.png";
+import pinBallLogo from "../assets/pinBallLogo.png";
 
 import ColorInputGrid from "./ColorInputGrid";
 import useLiveStream from "../context/LiveStreamContext";
@@ -26,6 +27,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     betAmount,
     selectedButton,
     betButtons,
+    STEAM_URL,
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
@@ -54,7 +56,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
     const socket = io(baseUrl, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("numberOfUsers", (data) => {
@@ -90,19 +92,20 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
       <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
         <div className="w-[85%] flex justify-center items-center">
           <div className="flex flex-2 items-center justify-between gap-2 ">
-            <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
+            {/* <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
               pinball game
-            </p>
+            </p> */}
+            <img src={pinBallLogo} className="h-14" />
           </div>
         </div>
       </div>
       <div className="relative w-full pb-[56.25%]">
-        <div class="absolute right-0 top-4 flex items-center">
-          <div class="relative">
-            <div class="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
-            <div class="relative z-10 text-black border-2 bg-gray-50 rounded-l-md p-1 shadow-md flex items-center justify-center">
-              <p class="font-bold text-md mr-2">{userCount}</p>
-              <img src={icon} alt="#" class="w-4 h-4" />
+        <div className="absolute right-0 top-4 flex items-center">
+          <div className="relative">
+            <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
+            <div className="relative z-10 text-black border-2 bg-gray-50 rounded-l-md p-1 shadow-md flex items-center justify-center">
+              <p className="font-bold text-md mr-2">{userCount}</p>
+              <img src={icon} alt="#" className="w-4 h-4" />
             </div>
           </div>
         </div>
@@ -174,7 +177,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
               )}
               <p>enter bet amount:</p>
               <div className="flex items-center justify-center px-2 gap-2">
-                <p
+                <button
                   onClick={() => handleRepeatBet()}
                   style={{
                     fontWeight: 100,
@@ -182,9 +185,10 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                     fontWeight: "bold",
                     fontFamily: "Poppins",
                   }}
+                  className="select-none uppercase"
                 >
                   repeat
-                </p>
+                </button>
                 <input
                   type="text"
                   value={
@@ -195,7 +199,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                   className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
                   onChange={handleInputChange}
                 />
-                <p
+                <button
                   onClick={() => handleClearButtonMobile()}
                   style={{
                     fontWeight: 100,
@@ -203,9 +207,10 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                     fontWeight: "bold",
                     fontFamily: "Poppins",
                   }}
+                  className="select-none uppercase"
                 >
                   clear
-                </p>
+                </button>
               </div>
               <div className="grid grid-cols-3 gap-2 w-full text-center">
                 {betButtons.map((button, key) => (

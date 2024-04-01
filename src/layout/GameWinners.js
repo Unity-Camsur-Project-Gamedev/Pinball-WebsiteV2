@@ -22,7 +22,7 @@ function GameWinners() {
   ];
 
   useEffect(() => {
-    console.log("winnersArray:", winnersArray);
+    // console.log("winnersArray:", winnersArray);
   }, [winnersArray]);
 
   return (

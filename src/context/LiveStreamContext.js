@@ -29,6 +29,8 @@ const initialState = {
   history: [],
   percentages: [],
   winnersArray: [],
+  STEAM_URL: "",
+  onGoingBets: [],
   setBetAmount: () => {},
   handleRepeatBet: () => {},
   setMirrorArray: () => {},
@@ -62,6 +64,7 @@ export const LiveStreamProvider = ({
   history,
   percentages,
   winnersArray,
+  rows,
 }) => {
   const colorName = [
     "Red",
@@ -85,54 +88,108 @@ export const LiveStreamProvider = ({
     "#DC63D0",
     "#33C5ED",
   ];
+  const STEAM_URL =
+    "https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=e8169394-9c9e-402a-aada-00dc3797ecef&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic";
   const numGroup1 = ["1", "2", "3"];
   const numGroup2 = ["4", "5", "6"];
   const numGroup3 = ["7", "8", "9"];
   const betButtons = ["5", "10", "20", "50", "100"];
   const totalCreditsCopy = localStorage.getItem("totalCredits");
-  const [selectedColorName, setSelectedColorName] = useState("");
-  const [selectedColorHex, setSelectedColorHex] = useState("");
+
   const [betAmount, setBetAmount] = useState("0"); //BET AMOUNT TEXT
   const [selectedButton, setSelectedButton] = useState(null); //INDEX OF THE COLOR BUTTON
   const [userBets, setUserBets] = useState([]);
-  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET TO POST
+  const [toBeConfirmedBetArray, setToBeConfirmedBetArray] = useState([]); //CONTAINS BETS THAT ARE YET POSTED
   const [confirmedBetArray, setConfirmedBetArray] = useState([]); //CONTAINS CONFIRMED BETS
   const [mirrorArray, setMirrorArray] = useState([]); //MIRROR ARRAY OF CBA
-
   const [totalBetAmount, setTotalBetAmount] = useState(0);
+  const [onGoingBets, setOnGoingBets] = useState([]);
 
-  const onGoingBets = localStorage.getItem("onGoingBets");
-  const parsedOnGoingBets = onGoingBets ? JSON.parse(onGoingBets) : [];
+  //FETCH DATA THAT ARE LABELED 'ON GOING'
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const updatedRows = rows.map((item) => ({
+          date: item.createdAt.slice(0, 10),
+          gameId: item.game_id,
+          bet: item.bet_data,
+          betAmount: item.amount,
+          winLose: item.status,
+          result: item.status === "Win" ? "+ " + item.amount * 7 : 0,
+        }));
 
-  // useEffect(() => {
-  //   console.log("BetAmount:", betAmount);
-  // }, [betAmount]);
+        // Filter the array to get items with status "On going"
+        const onGoingRows = updatedRows.filter(
+          (row) => row.winLose === "On going"
+        );
 
-  //CLEAR ARRAYS WHEN THE RESULT WAS GENERATED
+        // Create a new array with only "bet" and "betAmount" properties
+        const simplifiedOnGoingRows = onGoingRows.map(({ bet, betAmount }) => ({
+          colorIndex: colorName.indexOf(bet),
+          amount: Number(betAmount),
+        }));
+
+        // Combine objects with the same colorIndex and sum their amounts
+        const combinedOnGoingRows = simplifiedOnGoingRows.reduce(
+          (acc, curr) => {
+            const existing = acc.find(
+              (item) => item.colorIndex === curr.colorIndex
+            );
+            if (existing) {
+              existing.amount += curr.amount;
+            } else {
+              acc.push({ colorIndex: curr.colorIndex, amount: curr.amount });
+            }
+            return acc;
+          },
+          []
+        );
+
+        // Convert the amount property back to a string
+        const resultRows = combinedOnGoingRows.map(
+          ({ colorIndex, amount }) => ({
+            colorIndex,
+            amount: amount.toString(),
+          })
+        );
+
+        setOnGoingBets(resultRows);
+      } catch (error) {
+        console.error("Error:", error.message);
+      }
+    };
+
+    fetchData();
+  }, [rows]);
+
+  //RESET WHEN THE RESULT WAS GENERATED
   useEffect(() => {
     setMirrorArray([]);
     setConfirmedBetArray([]);
     setToBeConfirmedBetArray([]);
   }, [clearBetsOnColor]);
 
+  //NUMPAD INPUT HANDLER
   const handleButtonClick = (value) => {
     const newValue = betAmount + value;
     setBetAmount(newValue);
   };
 
-  //KEYBOARD INPUT
+  //KEYBOARD INPUT HANDLER
   const handleInputChange = (e) => {
     const inputValue = e.target.value;
     const numericValue = inputValue.replace(/\D/g, "");
     setBetAmount(numericValue);
   };
 
+  //PRE-DEFINED BUTTON INPUT HANDLER
   const handleInputButtonClick = (buttonText) => {
     setBetAmount((prevAmount) =>
       String(parseInt(prevAmount, 10) + parseInt(buttonText, 10))
     );
   };
 
+  //REPEAT BET HANDLER
   const handleRepeatBet = async () => {
     try {
       const response = await repeatBet(userToken);
@@ -155,9 +212,13 @@ export const LiveStreamProvider = ({
 
         // console.log(updatedLastBetArray);
 
-        updatedLastBetArray.forEach((bet) => {
-          setToBeConfirmedBetArray((prev) => [...prev, bet]);
-        });
+        if (toBeConfirmedBetArray.length === 0) {
+          updatedLastBetArray.forEach((bet) => {
+            setToBeConfirmedBetArray((prev) => [...prev, bet]);
+          });
+        } else {
+          window.alert("You have bets already in placed.");
+        }
       } else {
         toast.error("You have no bet in the last game ID.", {
           autoClose: 3000,
@@ -171,37 +232,32 @@ export const LiveStreamProvider = ({
     }
   };
 
-  // const handleConfirmBet = async () => {
-  //   if (selectedButton !== null) {
-  //     const betAmountInt = parseInt(betAmount);
-  //     if (!isNaN(betAmountInt) && betAmountInt > 0) {
-  //       if (totalCredits > 0) {
-  //         if (totalCredits >= betAmountInt) {
-  //           try {
-  //             await postBet(selectedColorName, betAmountInt, userToken);
-  //             //reset
-  //             setSelectedButton(null);
-  //             setBetAmount("0");
-  //           } catch (error) {
-  //             console.error("Error:", error.message);
-  //             window.alert(
-  //               "An error occurred while placing the bet. Please try again later."
-  //             );
-  //           }
-  //         } else {
-  //           window.alert("Insufficient Credits. Please enter a valid number.");
-  //         }
-  //       } else {
-  //         window.alert("Insufficient Credits. Please add credits to bet.");
-  //       }
-  //     } else {
-  //       window.alert("Invalid bet amount. Please enter a valid number.");
-  //     }
-  //   } else {
-  //     window.alert("Select a color bet first");
-  //   }
-  // };
+  //CLEAR BET HANDLER
+  const handleClearBet = () => {
+    setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
+    setBetAmount("0");
+    // setUserBets([]);
+  };
 
+  //MAX BUTTON HANDLER
+  const handleMaxButton = () => {
+    setBetAmount(totalCredits);
+  };
+
+  //OLD CLEAR BUTTON HANDLER
+  const handleClearButton = () => {
+    setBetAmount("0");
+  };
+
+  //CLEAR BUTTON HANDLER MOBILE
+  const handleClearButtonMobile = () => {
+    setBetAmount("0");
+    setToBeConfirmedBetArray([]);
+    setMirrorArray([...confirmedBetArray]);
+  };
+
+  //CONFIRM BUTTON HANDLER
   const handleConfirmBet = async () => {
     if (totalBetAmount <= totalCreditsCopy) {
       for (const bet of toBeConfirmedBetArray) {
@@ -209,26 +265,22 @@ export const LiveStreamProvider = ({
       }
       //INSERT BETS THAT ARE CONFIRMED
       setConfirmedBetArray((prevArray) => {
-        const combinedArray = [...parsedOnGoingBets, ...toBeConfirmedBetArray];
+        const combinedArray = [...onGoingBets, ...toBeConfirmedBetArray];
         const aggregatedAmounts = {};
 
         combinedArray.forEach((bet) => {
           const { colorIndex, amount } = bet;
           aggregatedAmounts[colorIndex] =
-            (aggregatedAmounts[colorIndex] || 0) + amount;
+            (aggregatedAmounts[colorIndex] || 0) + Number(amount); // Convert amount to number
         });
 
         const updatedArray = Object.entries(aggregatedAmounts).map(
           ([colorIndex, amount]) => ({
             colorIndex: parseInt(colorIndex, 10),
-            amount,
+            amount: amount.toString(), // Convert amount back to string if necessary
           })
         );
         setToBeConfirmedBetArray([]);
-
-        // parsedOnGoingBets.push(...updatedArray);
-        // localStorage.setItem("onGoingBets", JSON.stringify(parsedOnGoingBets));
-        localStorage.setItem("onGoingBets", JSON.stringify(updatedArray));
 
         return updatedArray;
       });
@@ -251,37 +303,7 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //CLEAR THE UNCONFIRMED BETS
-  const handleClearBet = () => {
-    setToBeConfirmedBetArray([]);
-    setMirrorArray([...confirmedBetArray]);
-    setBetAmount("0");
-    // setUserBets([]);
-  };
-
-  const handleMaxButton = () => {
-    setBetAmount(totalCredits);
-  };
-
-  const handleClearButton = () => {
-    setBetAmount("0");
-  };
-
-  const handleClearButtonMobile = () => {
-    setBetAmount("0");
-    setToBeConfirmedBetArray([]);
-    setMirrorArray([...confirmedBetArray]);
-  };
-
-  // const handleBetOnColor = (key) => {
-  //   setSelectedButton(key);
-
-  //   //console logs
-  //   setSelectedColorHex(colorHex[key]);
-  //   setSelectedColorName(colorName[key]);
-  // };
-
-  //STORE THE USER BETS TO THE UNCONFIRMED ARRAY FIRST
+  //COLOR BUTTON HANDLER
   const handleBetOnColor = (key) => {
     setSelectedButton(key);
     const betAmountInt = parseInt(betAmount);
@@ -313,26 +335,29 @@ export const LiveStreamProvider = ({
     }
   };
 
-  //THIS IS USED TO TOTAL THE UNCONFIRMED BETS
+  //USED TO CHECK IF THE BETS ARE VALID BEFORE CONFIRMING
   useEffect(() => {
-    if (parsedOnGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
+    if (onGoingBets.length > 0 || toBeConfirmedBetArray.length > 0) {
       // Combine array1 and array2 into array3 with incrementing amounts
-      const combinedArray = [
-        ...toBeConfirmedBetArray,
-        ...parsedOnGoingBets,
-      ].reduce((accumulator, currentValue) => {
-        const existingItem = accumulator.find(
-          (item) => item.colorIndex === currentValue.colorIndex
-        );
 
-        if (existingItem) {
-          existingItem.amount += currentValue.amount;
-        } else {
-          accumulator.push({ ...currentValue });
-        }
+      const combinedArray = [...toBeConfirmedBetArray, ...onGoingBets].reduce(
+        (accumulator, currentValue) => {
+          const existingItem = accumulator.find(
+            (item) => item.colorIndex === currentValue.colorIndex
+          );
 
-        return accumulator;
-      }, []);
+          if (existingItem) {
+            // Convert amounts to numbers before addition
+            existingItem.amount =
+              Number(existingItem.amount) + Number(currentValue.amount);
+          } else {
+            accumulator.push({ ...currentValue });
+          }
+
+          return accumulator;
+        },
+        []
+      );
 
       const total = combinedArray.reduce((sum, item) => sum + item.amount, 0);
       const unconfirmedTotal = toBeConfirmedBetArray.reduce(
@@ -340,30 +365,21 @@ export const LiveStreamProvider = ({
         0
       );
 
-      // Set the state
-      // parsedOnGoingBets
       setMirrorArray(combinedArray);
-      // setTotalBetAmount(total);
       setTotalBetAmount(unconfirmedTotal);
     }
-  }, [confirmedBetArray, toBeConfirmedBetArray]);
+  }, [confirmedBetArray, toBeConfirmedBetArray, onGoingBets]);
 
-  useEffect(() => {
-    console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
-    console.log("confirmedBetArray: ", confirmedBetArray);
-  }, [toBeConfirmedBetArray, confirmedBetArray]);
-
-  useEffect(() => {
-    console.log("mirrorArray:", mirrorArray);
-    console.log(
-      "localStorage:",
-      JSON.parse(localStorage.getItem("onGoingBets"))
-    );
-  }, [mirrorArray]);
-
-  useEffect(() => {
-    console.log("totalBetAmount:", totalBetAmount);
-  }, [totalBetAmount]);
+  // useEffect(() => {
+  //   console.log("toBeConfirmedBetArray: ", toBeConfirmedBetArray);
+  //   // console.log("confirmedBetArray: ", confirmedBetArray);
+  // }, [toBeConfirmedBetArray, confirmedBetArray]);
+  // useEffect(() => {
+  //   console.log("mirrorArray:", mirrorArray);
+  // }, [mirrorArray]);
+  // useEffect(() => {
+  //   console.log("totalBetAmount:", totalBetAmount);
+  // }, [totalBetAmount]);
 
   return (
     <LiveStreamContext.Provider
@@ -388,6 +404,8 @@ export const LiveStreamProvider = ({
         history,
         percentages,
         winnersArray,
+        STEAM_URL,
+        onGoingBets,
         setBetAmount,
         setMirrorArray,
         setConfirmedBetArray,
