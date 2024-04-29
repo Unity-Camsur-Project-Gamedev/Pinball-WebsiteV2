@@ -7,8 +7,9 @@ import BetSlider from "./BetSlider";
 import EmbossedButton from "./EmbossedButton";
 
 function NumberAndSlider() {
-  const { betButtons, handleInputButtonClick, handleMaxButton } =
-    useLiveStream();
+  const { handleInputButtonClick, handleMaxButton } = useLiveStream();
+
+  const betButtons = ["5", "10", "20", "50", "100"];
 
   return (
     <>

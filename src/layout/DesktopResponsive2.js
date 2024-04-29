@@ -15,31 +15,29 @@ import GameWinners from "./GameWinners";
 import NumberInputGrid from "../components/NumberInputGrid";
 import NumberAndSlider from "../components/NumberAndSlider";
 
-function DesktopResponsive2({ betStatus, empty, setEmpty }) {
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { handleWalletOpen } from "../Slice/ModalSlice";
+
+function DesktopResponsive2({ empty, setEmpty }) {
   const {
-    isOpen,
-    colorHex,
-    colorName,
-    numGroup1,
-    numGroup2,
-    numGroup3,
-    totalCredits,
-    betAmount,
-    selectedButton,
-    betButtons,
     onGoingBets,
-    toBeConfirmedBetArray,
-    setIsOpen,
     handleInputChange,
     handleConfirmBet,
     handleRepeatBet,
     handleClearBet,
-    handleBetOnColor,
-    handleButtonClick,
-    handleClearButton,
-    handleMaxButton,
-    handleInputButtonClick,
   } = useLiveStream();
+
+  //redux
+  const dispatch = useDispatch();
+  const credits = useSelector((state) => state.user.credits);
+  const colorHex = useSelector((state) => state.button.colorHex);
+  const betStatus = useSelector((state) => state.betting.betStatus);
+  const betAmount = useSelector((state) => state.betting.betAmount);
+  const initialBet = useSelector((state) => state.betting.initialBet);
+  const selectedColorIndex = useSelector(
+    (state) => state.button.selectedColorIndex
+  );
 
   const [popUp, setPopUp] = useState(false);
 
@@ -103,17 +101,18 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
     clearIsPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
 
-  useEffect(() => {
-    if (
-      parseInt(betAmount) > 0 ||
-      toBeConfirmedBetArray.length !== 0 ||
-      onGoingBets.length !== 0
-    ) {
-      setEmpty(false);
-    } else {
-      setEmpty(true);
-    }
-  }, [betAmount, toBeConfirmedBetArray, onGoingBets]);
+  //TODO: uncomment this after
+  // useEffect(() => {
+  //   if (
+  //     parseInt(betAmount) > 0 ||
+  //     initialBet.length !== 0 ||
+  //     onGoingBets.length !== 0
+  //   ) {
+  //     setEmpty(false);
+  //   } else {
+  //     setEmpty(true);
+  //   }
+  // }, [betAmount, initialBet, onGoingBets]);
 
   return (
     <div
@@ -167,30 +166,17 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   </p>
                 </div>
               )}
-              <ColorInputs
-                selectedButton={selectedButton}
-                colorHex={colorHex}
-                handleBetOnColor={handleBetOnColor}
-              />
+              <ColorInputs />
             </div>
             <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
-              <div className=" relative flex flex-col gap-1 2xl:gap-0 justify-center items-center p-2 2xl:p-5">
+              <div className="relative flex flex-col gap-1 2xl:gap-0 justify-center items-center p-2 2xl:p-5">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
                 )}
-                {/* <NumberInput
-                  numGroup1={numGroup1}
-                  numGroup2={numGroup2}
-                  numGroup3={numGroup3}
-                  betAmount={betAmount}
-                  handleButtonClick={handleButtonClick}
-                  handleClearButton={handleClearButton}
-                  handleMaxButton={handleMaxButton}
-                /> */}
                 <NumberAndSlider />
               </div>
-              <div className="bet-info  p-2 relative">
+              <div className="bet-info p-2 relative">
                 {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
                 {betStatus === "Closed" && (
                   <div className="absolute inset-0 z-10 "></div>
@@ -208,24 +194,24 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                             color="primary"
                             size="small"
                             onClick={() => {
-                              setIsOpen(!isOpen);
+                              dispatch(handleWalletOpen());
                             }}
                           >
                             <AddCircleRoundedIcon />
                           </IconButton>
                         </div>
                         <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
-                          credits:{" "}
+                          credits:
                         </p>
                         <div className="flex items-center font-bold 2xl:text-2xl xl:text-xl lg:text-md text-[#E26226] 2xl:px-2 xl:px-1 w-1/2">
-                          {totalCredits !== 0
-                            ? `₱ ${parseFloat(totalCredits).toLocaleString()}`
+                          {credits && credits !== 0
+                            ? `₱ ${parseFloat(credits).toLocaleString()}`
                             : "0"}
                         </div>
                       </div>
                       <div className="flex items-center justify-between w-full  ">
                         <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
-                          Bet Amount:{" "}
+                          Bet Amount:
                         </p>
                         <div className="text-[#E26226] w-1/2 font-['Poppins'] rounded-full shadow-inner">
                           <input
@@ -242,12 +228,12 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                       </div>
                       <div className="flex items-center justify-between w-full  ">
                         <p className="font-bold text-[#1057a8] 2xl:text-2xl xl:text-xl lg:text-md">
-                          color:{" "}
+                          color:
                         </p>
                         <div
                           className="w-1/2 h-5 bg-white rounded-full 2xl:p-6 xl:p-4"
                           style={{
-                            backgroundColor: colorHex[selectedButton],
+                            backgroundColor: colorHex[selectedColorIndex],
                             boxShadow: "0px 0px 15px 2px rgba(0,0,0,0.3) inset",
                           }}
                         ></div>
@@ -346,7 +332,7 @@ function DesktopResponsive2({ betStatus, empty, setEmpty }) {
                   </div>
                 </div>
               </div>
-              <div className="">
+              <div className="chat-panel">
                 <LiveChat />
               </div>
             </div>

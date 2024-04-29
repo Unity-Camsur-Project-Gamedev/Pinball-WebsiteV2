@@ -3,7 +3,7 @@ import React from "react";
 import { Alert, Button, ButtonGroup } from "@mui/material";
 import EmbossedColorMobile from "../components/EmbossedColorMobile";
 
-const ColorInputGrid = ({ selectedButton, colorHex, handleBetOnColor }) => {
+const ColorInputGrid = ({ colorHex, handleBetOnColor }) => {
   return (
     <div className="flex-1 grid grid-cols-3 gap-2 w-full ">
       <EmbossedColorMobile

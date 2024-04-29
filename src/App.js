@@ -1,9 +1,10 @@
 /* eslint-disable */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+
 // import Player from './components/Player';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LiveGameStreamPage from "./pages/LiveGameStreamPage";
@@ -20,7 +21,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route exact path="/game/pinball" element={<ProtectedRoute />} />
+          {/* <Route exact path="/game/pinball" element={<ProtectedRoute />} /> */}
+          <Route
+            path="game/pinball"
+            element={
+              <ProtectedRoute>
+                <LiveGameStreamPage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Router>
     </div>

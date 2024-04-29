@@ -3,8 +3,13 @@ import { useEffect } from "react";
 import { getColorPercentage } from "../services/getColorPercentage";
 import useLiveStream from "../context/LiveStreamContext";
 
+//redux
+import { useSelector } from "react-redux";
+
 function HotCold() {
-  const { colorHex, colorName, percentages } = useLiveStream();
+  const colorHex = useSelector((state) => state.button.colorHex);
+  const colorName = useSelector((state) => state.button.colorName);
+  const colorPercentage = useSelector((state) => state.betting.colorPercentage);
 
   const [count, setCount] = useState(false);
   const [colorNameHex, setColorNameHex] = useState([]);
@@ -16,19 +21,12 @@ function HotCold() {
       hex: colorHex[index],
     }));
     setColorNameHex(colors);
-    const sortedPercentages = percentages.sort(
+
+    const sortedPercentages = [...colorPercentage].sort(
       (a, b) => b.percentage - a.percentage
     );
     setSortedColorPercentage(sortedPercentages);
-  }, [percentages]);
-
-  // useEffect(() => {
-  //   console.log("sortedColorPercentage:", sortedColorPercentage);
-  // }, [sortedColorPercentage]);
-
-  // useEffect(() => {
-  //   console.log("count:", count);
-  // }, [count]);
+  }, [colorPercentage]);
 
   return (
     <>

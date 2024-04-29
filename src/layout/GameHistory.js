@@ -1,14 +1,20 @@
 import React, { useEffect, useState, useRef } from "react";
 import useLiveStream from "../context/LiveStreamContext";
 
+//redux
+import { useSelector } from "react-redux";
+
 function GameHistory() {
-  const { colorHex, colorName, history } = useLiveStream();
+  const colorHex = useSelector((state) => state.button.colorHex);
+  const colorName = useSelector((state) => state.button.colorName);
+  const gameHistory = useSelector((state) => state.betting.gameHistory);
+
   const [displayedHistory, setDisplayedHistory] = useState([]);
   const messagesListRef = useRef(null);
 
   //Fetch color history
   useEffect(() => {
-    const updatedHistory = history.map((item) => {
+    const updatedHistory = gameHistory.map((item) => {
       const colorIndex = colorName.indexOf(item);
       if (colorIndex !== -1) {
         return {
@@ -22,7 +28,7 @@ function GameHistory() {
       };
     });
     setDisplayedHistory(updatedHistory);
-  }, [history, colorName, colorHex]);
+  }, [gameHistory, colorName, colorHex]);
 
   //Group same colors
   const groupConsecutiveColors = (historyItems) => {
@@ -61,10 +67,6 @@ function GameHistory() {
       messagesListRef.current.scrollLeft = messagesListRef.current.scrollWidth;
     }
   }, [groupedColors]);
-
-  // useEffect(() => {
-  //   console.log("history:", history);
-  // }, [history]);
 
   return (
     <>

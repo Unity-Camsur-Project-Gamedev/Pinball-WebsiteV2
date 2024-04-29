@@ -16,29 +16,29 @@ import GameWinners from "./GameWinners";
 import GameHistory from "./GameHistory";
 import HotCold from "./HotCold";
 
-function MobileResponsive2({ betStatus, empty, setEmpty }) {
+//redux
+import { useSelector } from "react-redux";
+
+function MobileResponsive2() {
   const {
     isOpen,
-    colorHex,
-    numGroup1,
-    numGroup2,
-    numGroup3,
-    totalCredits,
-    betAmount,
-    selectedButton,
-    betButtons,
-    STEAM_URL,
     setIsOpen,
     handleInputChange,
     handleConfirmBet,
     handleBetOnColor,
-    handleButtonClick,
-    handleClearButton,
     handleClearButtonMobile,
-    handleMaxButton,
     handleInputButtonClick,
     handleRepeatBet,
   } = useLiveStream();
+
+  //redux
+  const credits = useSelector((state) => state.user.credits);
+  const colorHex = useSelector((state) => state.button.colorHex);
+  const betStatus = useSelector((state) => state.betting.betStatus);
+  const betAmount = useSelector((state) => state.betting.betAmount);
+  const selectedColorIndex = useSelector(
+    (state) => state.button.selectedColorIndex
+  );
 
   const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
@@ -48,6 +48,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
   const shouldBlink =
     betStatus === "Open" ? "animate-blink2 text-green-700" : "text-red-700";
   const Blink = betStatus === "Open" ? `border-pulse` : "";
+  const betButtons = ["5", "10", "20", "50", "100"];
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -113,7 +114,8 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
           //We'll use the padding bottom technique to maintain 16:9 ratio
           className=" absolute w-full h-full"
           allow="fullscreen"
-          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=8c017f99-1128-44c1-af13-e20d7118e303&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"></iframe>
+          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=8c017f99-1128-44c1-af13-e20d7118e303&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
+        ></iframe>
       </div>
       <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30 ">
         <div className="w-[90%] flex">
@@ -121,8 +123,8 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
             <p className="w-full text-md font-bold">credits:</p>
             <div className="flex justify-center items-center">
               <div className="text-[#e26629] text-md ">
-                {totalCredits !== 0
-                  ? ` ${parseFloat(totalCredits).toLocaleString()}.00`
+                {credits !== 0
+                  ? ` ${parseFloat(credits).toLocaleString()}.00`
                   : "0.00"}
               </div>
               <div>
@@ -145,7 +147,7 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
             <div
               className="w-14 h-7 rounded-full"
               style={{
-                backgroundColor: colorHex[selectedButton] || "#FFFFFF",
+                backgroundColor: colorHex[selectedColorIndex] || "#FFFFFF",
                 boxShadow: "inset gray 0px 0px 20px -12px",
               }}
             ></div>
@@ -245,7 +247,6 @@ function MobileResponsive2({ betStatus, empty, setEmpty }) {
                 <div className="absolute inset-0 z-10"></div>
               )}
               <ColorInputGrid
-                selectedButton={selectedButton}
                 colorHex={colorHex}
                 handleBetOnColor={handleBetOnColor}
               />

@@ -1,89 +1,74 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Alert, Button, ButtonGroup } from "@mui/material";
 import { getBetHistory } from "../services/getBetHistory";
-import useLiveStream from "../context/LiveStreamContext";
 import EmbossedColor from "../components/EmbossedColor";
+import useLiveStream from "../context/LiveStreamContext";
 
-const ColorInputs = ({ selectedButton, colorHex, handleBetOnColor }) => {
-  const { userBets, toBeConfirmedBetArray, setToBeConfirmedBetArray } =
-    useLiveStream();
+//redux
+import { useSelector } from "react-redux";
 
-  //ADD ALL THE BET OF THE SPECIFIC COLOR ARRAY
-  const handleSum = (array) => {
-    const numericArray = array.map(Number);
-    const sum = numericArray.reduce(
-      (accumulator, currentValue) => accumulator + currentValue,
-      0
-    );
-    return sum;
+const ColorInputs = () => {
+  const { handleBetOnColor } = useLiveStream();
+  const initialBet = useSelector((state) => state.betting.initialBet);
+  const confirmedBet = useSelector((state) => state.betting.confirmedBet);
+
+  //formatted versions
+  const [incrementingBets, setIncrementingBets] = useState([]);
+  const [formattedConfirmed, setFormattedConfirmed] = useState([]);
+
+  //This will eliminate duplicated initialbets and will sum it
+  useEffect(() => {
+    const totalAmounts = initialBet.reduce((acc, bet) => {
+      const { colorIndex, amount } = bet;
+      if (!acc[colorIndex]) {
+        acc[colorIndex] = { colorIndex, amount: 0 };
+      }
+      acc[colorIndex].amount += amount;
+      return acc;
+    }, {});
+
+    const result = Object.values(totalAmounts);
+
+    setIncrementingBets(result);
+  }, [initialBet]);
+
+  //This will eliminate duplicated confirmedbets and will sum it
+  useEffect(() => {
+    const totalAmounts = confirmedBet.reduce((acc, bet) => {
+      const { colorIndex, amount } = bet;
+      if (!acc[colorIndex]) {
+        acc[colorIndex] = { colorIndex, amount: 0 };
+      }
+      acc[colorIndex].amount += amount;
+      return acc;
+    }, {});
+
+    const result = Object.values(totalAmounts);
+
+    setFormattedConfirmed(result);
+  }, [confirmedBet]);
+
+  const renderColorInputs = () => {
+    return Array.from({ length: 9 }, (_, index) => (
+      <div
+        onClick={() => {
+          handleBetOnColor(index);
+        }}
+        key={index}
+      >
+        <EmbossedColor
+          index={index}
+          incrementingBets={
+            initialBet.length > 0 ? incrementingBets : formattedConfirmed
+          }
+        />
+      </div>
+    ));
   };
 
   return (
     <div className="grid grid-cols-9 h-full border-2 cursor-pointer">
-      <EmbossedColor
-        index={0}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(redBetArray)}
-      />
-      <EmbossedColor
-        index={1}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(blueBetArray)}
-      />
-      <EmbossedColor
-        index={2}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(yellowBetArray)}
-      />
-      <EmbossedColor
-        index={3}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(greenBetArray)}
-      />
-      <EmbossedColor
-        index={4}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(goldBetArray)}
-      />
-      <EmbossedColor
-        index={5}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(violetBetArray)}
-      />
-      <EmbossedColor
-        index={6}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(orangeBetArray)}
-      />
-      <EmbossedColor
-        index={7}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(pinkBetArray)}
-      />
-      <EmbossedColor
-        index={8}
-        selectedButton={selectedButton}
-        colorHex={colorHex}
-        handleBetOnColor={handleBetOnColor}
-        // totalBetOnColor={handleSum(cyanBetArray)}
-      />
+      {renderColorInputs()}
     </div>
   );
 };

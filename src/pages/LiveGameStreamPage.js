@@ -4,84 +4,91 @@ import axios from "axios";
 import OBSWebSocket from "obs-websocket-js";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import "react-toastify/dist/ReactToastify.css";
+
+//API
+import authService from "../services/auth/auth.service";
+
+//redux
+import { useDispatch, useSelector } from "react-redux";
+import { setCredits, setUser, setBetHistory } from "../Slice/UserSlice";
+import {
+  setBetStatus,
+  setGameHistory,
+  setColorPercentage,
+  setWinners,
+} from "../Slice/BettingSlice";
 
 import Confetti from "../components/Confetti ";
 import websiteBg from "../assets/website-bg.png";
 import newGame from "../assets/newGame.gif";
 import pinballTime from "../assets/pinballTime.gif";
 import BetHistory from "../layout/BetHistory";
+import BetHistory2 from "../layout/BetHistory2";
 import TopUpModal from "../layout/TopUpModal";
 import DesktopResponsive2 from "../layout/DesktopResponsive2";
 import MobileResponsive2 from "../layout/MobileResponsive2";
 import { ModalProvider } from "../context/AddCreditsModalContext";
 import { LiveStreamProvider } from "../context/LiveStreamContext";
 
-const LiveGameStreamPage = ({ userToken }) => {
-  const [isOpen, setIsOpen] = useState(false); 
-  const [userId, setUserId] = useState(""); 
-  const [rows, setRows] = useState([]);
-  const [totalCredits, setTotalCredits] = useState(0);
-  localStorage.setItem("totalCredits", totalCredits);
-  const [currentProgramScene, setCurrentProgramScene] = useState(); 
-  const [confetti, setConfetti] = useState(false);
-  const [betStatus, setBetStatus] = useState("");
-  const [empty, setEmpty] = useState(false);
+const LiveGameStreamPage = () => {
+  const userToken = Cookies.get("token");
+  const dispatch = useDispatch();
+  const betStatus = useSelector((state) => state.betting.betStatus);
+  const userId = useSelector((state) => state.user.uid);
   const [clearBetsOnColor, setClearBetsOnColor] = useState(false);
-  const [history, setHistory] = useState([]);
-  const [percentages, setPercentages] = useState([]);
-  const [winnersArray, setWinnersArray] = useState([]);
+
+  const [showContent, setShowContent] = useState(false);
+  const [showContentClosed, setShowContentClosed] = useState(false);
+  const [confetti, setConfetti] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   const OBS_ADDRESS = "ws://127.0.0.1:4455";
   const obs = new OBSWebSocket();
-  const [showContent, setShowContent] = useState(false);
-  const [showContentClosed, setShowContentClosed] = useState(false);
 
-
-
-  //USER LOGIN CREDENTIAL
+  //DECODE TOKEN EVERY RENDER
   useEffect(() => {
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-    const headers = {
-      Authorization: `Bearer ${userToken}`,
-    };
-    axios
-      .get(`${BASE_URL}/user/check/session`, { headers })
-      .then((response) => {
-        if (response.status === 200) {
-          setUserId(response.data.userSessionDets.user_id);
-        } else {
-          console.log("User session is not active.");
-        }
+    const decodedToken = jwtDecode(userToken);
+    const { uid, username, email, number } = decodedToken;
+
+    dispatch(
+      setUser({
+        uid,
+        username,
+        email,
+        number,
       })
-      .catch((error) => {
-        console.error("Error checking user session:", error);
-        console.log("Error checking user session.");
-      });
+    );
   }, []);
 
+  //CHECK USER SESSION
+  useEffect(() => {
+    const checkSession = async () => {
+      const response = await authService.checkSession(userToken);
+    };
+    checkSession();
+  }, []);
 
   // FETCH SOCKETS
   useEffect(() => {
-    // console.log('userId changed:', userId);
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
     const socket = io(BASE_URL, { query: { userId } });
 
     socket.on("connect", () => {
-      // console.log("Socket connected!");
+      console.log("Socket connected!");
     });
 
     socket.on("walletUpdate", (data) => {
-      // console.log("Received wallet update:", data.balance);
       setConfetti(false);
-      setTotalCredits(data.balance);
+      dispatch(setCredits(data.balance));
     });
 
     socket.on("walletUpdateWin", (data) => {
-      console.log("UpdatedWalletBalance:", data);
-      console.log(data);
       setTimeout(() => {
-        setTotalCredits(data.balance);
+        dispatch(setCredits(data.balance));
         console.log(data);
         toast.success(`You win a total of ${data.winningAmount}! 🎉`);
       }, 2000);
@@ -91,11 +98,8 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("bettingStatusUpdate", (data) => {
-      setBetStatus(data.status);
-      // console.log("betStat", data.status);
-      // setTimeout(() => {
-      //   setEmpty(true);
-      // }, 6000);
+      dispatch(setBetStatus(data.status));
+
       setTimeout(() => {
         setShowContent(true);
 
@@ -116,7 +120,7 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("bettingHistoryUpdate", (data) => {
-      setRows(data.combinedDetails);
+      dispatch(setBetHistory(data.combinedDetails));
     });
 
     socket.on("clearBetCounts", () => {
@@ -125,13 +129,12 @@ const LiveGameStreamPage = ({ userToken }) => {
     });
 
     socket.on("historyUpdated", (data) => {
-      setHistory(data.resultData);
-      setPercentages(data.percentages);
+      dispatch(setGameHistory(data.resultData));
+      dispatch(setColorPercentage(data.percentages));
     });
 
     socket.on("Winners:", (data) => {
-      setWinnersArray(data.formattedWinners);
-      // console.log("Winners:", data.formattedWinners);
+      dispatch(setWinners(data.formattedWinners));
     });
 
     return () => {
@@ -165,25 +168,11 @@ const LiveGameStreamPage = ({ userToken }) => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <ModalProvider
-        userToken={userToken}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-      >
+      <ModalProvider>
         <TopUpModal />
       </ModalProvider>
 
-      <LiveStreamProvider
-        userToken={userToken}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        totalCredits={totalCredits}
-        clearBetsOnColor={clearBetsOnColor}
-        history={history}
-        percentages={percentages}
-        winnersArray={winnersArray}
-        rows={rows}
-      >
+      <LiveStreamProvider clearBetsOnColor={clearBetsOnColor}>
         {/* BANNERS */}
         {betStatus === "Open" && showContent && (
           <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
@@ -198,17 +187,13 @@ const LiveGameStreamPage = ({ userToken }) => {
         {/* DESKTOP UI */}
         <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
           {confetti && <Confetti />}
-          <DesktopResponsive2
-            betStatus={betStatus}
-            empty={empty}
-            setEmpty={setEmpty}
-          />
-          <BetHistory userToken={userToken} rows={rows} />
+          <DesktopResponsive2 empty={empty} setEmpty={setEmpty} />
+          <BetHistory2 />
         </div>
         {/* MOBILE UI */}
         <div className="lg:hidden flex flex-col gap-10  h-auto w-full pb-10">
-          <MobileResponsive2 betStatus={betStatus} />
-          <BetHistory userToken={userToken} rows={rows} />
+          <MobileResponsive2 />
+          <BetHistory2 />
         </div>
       </LiveStreamProvider>
     </div>

@@ -4,11 +4,17 @@ import useLiveStream from "../context/LiveStreamContext";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-export default function BetSlider() {
-  const { totalCredits, setBetAmount, selectedButton, betAmount } =
-    useLiveStream();
-  const [value, setValue] = React.useState(1);
+//REDUX
+import { useSelector, useDispatch } from "react-redux";
+import { setBetAmount } from "../Slice/BettingSlice";
 
+export default function BetSlider() {
+  //redux states
+  const dispatch = useDispatch();
+  const credits = useSelector((state) => state.user.credits);
+  const betAmount = useSelector((state) => state.betting.betAmount);
+
+  const [value, setValue] = React.useState(1);
   const [minusIsPressed, setMinusIsPressed] = useState(false);
   const [plusIsPressed, setPlusIsPressed] = useState(false);
 
@@ -34,10 +40,10 @@ export default function BetSlider() {
   } `;
 
   const handleChange = (event, newValue) => {
-    const roundedValue = Math.floor((newValue / 100) * totalCredits);
+    const roundedValue = Math.floor((newValue / 100) * credits);
     setValue(newValue);
     // console.log(roundedValue);
-    setBetAmount(roundedValue); // toLocaleString adds commas to the number
+    dispatch(setBetAmount(roundedValue)); // toLocaleString adds commas to the number
   };
 
   const handleIncrement = () => {
@@ -75,7 +81,7 @@ export default function BetSlider() {
   ];
 
   const scaleCredits = (value) => {
-    return (value / 100) * totalCredits;
+    return (value / 100) * credits;
   };
 
   function numFormatter(num) {

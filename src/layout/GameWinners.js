@@ -1,35 +1,17 @@
 import React, { useEffect } from "react";
 import useLiveStream from "../context/LiveStreamContext";
 
-function GameWinners() {
-  const { winnersArray } = useLiveStream();
-  const winners = [
-    { username: "Josh Mojica", amountWon: 752 },
-    { username: "Alice Johnson", amountWon: 421 },
-    { username: "Bob Smith", amountWon: 593 },
-    { username: "Emma Davis", amountWon: 168 },
-    { username: "John Doe", amountWon: 899 },
-    { username: "Josh Mojica", amountWon: 315 },
-    { username: "Alice Johnson", amountWon: 725 },
-    { username: "Bob Smith", amountWon: 482 },
-    { username: "Emma Davis", amountWon: 638 },
-    { username: "John Doe", amountWon: 244 },
-    { username: "Josh Mojica", amountWon: 507 },
-    { username: "Alice Johnson", amountWon: 913 },
-    { username: "Bob Smith", amountWon: 761 },
-    { username: "Emma Davis", amountWon: 128 },
-    { username: "John Doe", amountWon: 379 },
-  ];
+//redux
+import { useSelector } from "react-redux";
 
-  useEffect(() => {
-    // console.log("winnersArray:", winnersArray);
-  }, [winnersArray]);
+function GameWinners() {
+  const winners = useSelector((state) => state.betting.winners);
 
   return (
     <>
       <p className="text-xl font-bold text-black font-['Poppins']">Winners:</p>
       <div className="w-full h-[45vh] flex flex-col items-start gap-4 overflow-y-auto ">
-        {winnersArray.slice(0, 10).map((winner, index) => (
+        {winners.slice(0, 10).map((winner, index) => (
           <div
             key={index}
             className="w-full flex justify-between items-center gap-5 text-sm "

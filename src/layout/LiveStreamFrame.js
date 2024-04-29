@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 import useLiveStream from "../context/LiveStreamContext";
 
 const LiveStreamFrame = () => {
-  const { STEAM_URL } = useLiveStream();
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
 
