@@ -16,8 +16,12 @@ import GameWinners from "./GameWinners";
 import GameHistory from "./GameHistory";
 import HotCold from "./HotCold";
 
+// new imports
+import LiveStreamFrame from "./LiveStreamFrame";
+
 //redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { handleWalletOpen, handleWalletClose } from "../Slice/ModalSlice";
 
 function MobileResponsive2() {
   const {
@@ -32,50 +36,20 @@ function MobileResponsive2() {
   } = useLiveStream();
 
   //redux
+  const dispatch = useDispatch();
   const credits = useSelector((state) => state.user.credits);
   const colorHex = useSelector((state) => state.button.colorHex);
+  const betButtons = useSelector((state) => state.button.betButtons);
   const betStatus = useSelector((state) => state.betting.betStatus);
   const betAmount = useSelector((state) => state.betting.betAmount);
+  const toggle = useSelector((state) => state.button.toggle);
   const selectedColorIndex = useSelector(
     (state) => state.button.selectedColorIndex
   );
-
-  const [isHovered, setIsHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
-  const [toggle, setToggle] = useState("play");
-  const [userCount, setUserCount] = useState("");
-  const userId = Cookies.get("username");
   const shouldBlink =
     betStatus === "Open" ? "animate-blink2 text-green-700" : "text-red-700";
   const Blink = betStatus === "Open" ? `border-pulse` : "";
-  const betButtons = ["5", "10", "20", "50", "100"];
-
-  // FETCH SOCKETS
-  useEffect(() => {
-    // console.log('userId changed:', userId);
-    const baseUrl = process.env.REACT_APP_BACKEND_URL;
-    const socket = io(baseUrl, { query: { userId } });
-
-    socket.on("connect", () => {
-      // console.log("Socket connected!");
-    });
-
-    socket.on("numberOfUsers", (data) => {
-      // console.log("User's count", data)
-      setUserCount(data);
-    });
-    return () => {
-      socket.disconnect();
-    };
-  }, [userId]);
-
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
 
   const handlePress = () => {
     setIsPressed(true);
@@ -83,79 +57,56 @@ function MobileResponsive2() {
       setIsPressed(false);
     }, 100);
   };
-
-  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400  to-green-500 ${
+  const buttonClassName = `flex items-center justify-center rounded-full bg-gradient-to-r from-green-400 to-green-500 ${
     isPressed ? "shadow-pressed" : "shadow-unpressed"
   } `;
 
   return (
-    <div className="lg:gap-0 h-auto w-full flex flex-col items-center head-div">
-      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
-        <div className="w-[85%] flex justify-center items-center">
-          <div className="flex flex-2 items-center justify-between gap-2 ">
-            {/* <p className="w-full text-2xl font-bold font-[Poppins] uppercase">
-              pinball game
-            </p> */}
-            <img src={pinBallLogo} className="h-14" />
-          </div>
-        </div>
+    <div className="w-full flex flex-col items-center head-div">
+      <div className="logo-container head-div flex justify-center items-center py-4 w-full backdrop-blur-md bg-white/30">
+        <img src={pinBallLogo} className="h-14" />
       </div>
-      <div className="relative w-full pb-[56.25%]">
-        <div className="absolute right-0 top-4 flex items-center">
-          <div className="relative">
-            <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
-            <div className="relative z-10 text-black border-2 bg-gray-50 rounded-l-md p-1 shadow-md flex items-center justify-center">
-              <p className="font-bold text-md mr-2">{userCount}</p>
-              <img src={icon} alt="#" className="w-4 h-4" />
+      <div className="stream-panel w-full aspect-video">
+        <LiveStreamFrame />
+      </div>
+      <div className="credits-color-container head-div flex justify-around items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30">
+        <div className="credits-container flex items-center justify-between gap-2 font-['Poppins']">
+          <p className="w-full text-md font-bold">credits:</p>
+          <div className="flex justify-center items-center">
+            <div className="text-[#e26629] text-md ">
+              {credits !== 0
+                ? ` ${parseFloat(credits).toLocaleString()}.00`
+                : "0.00"}
+            </div>
+            <div>
+              <IconButton
+                aria-label="delete"
+                color="primary"
+                style={{ fontSize: "5rem" }}
+                onClick={() => {
+                  // setIsOpen(!isOpen);
+                  dispatch(handleWalletOpen());
+                  // console.log(isOpen);
+                }}
+              >
+                <AddCircleRoundedIcon style={{ fontSize: "1.2rem" }} />
+              </IconButton>
             </div>
           </div>
         </div>
-        <iframe
-          //We'll use the padding bottom technique to maintain 16:9 ratio
-          className=" absolute w-full h-full"
-          allow="fullscreen"
-          src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=8c017f99-1128-44c1-af13-e20d7118e303&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
-        ></iframe>
-      </div>
-      <div className="head-div flex justify-center items-center py-4 w-full h-auto uppercase text-dynamicSmall font-semibold backdrop-blur-md bg-white/30 ">
-        <div className="w-[90%] flex">
-          <div className="flex flex-2 items-center justify-between gap-2 font-['Poppins'] ">
-            <p className="w-full text-md font-bold">credits:</p>
-            <div className="flex justify-center items-center">
-              <div className="text-[#e26629] text-md ">
-                {credits !== 0
-                  ? ` ${parseFloat(credits).toLocaleString()}.00`
-                  : "0.00"}
-              </div>
-              <div>
-                <IconButton
-                  aria-label="delete"
-                  color="primary"
-                  style={{ fontSize: "5rem" }}
-                  onClick={() => {
-                    setIsOpen(!isOpen);
-                    // console.log(isOpen);
-                  }}
-                >
-                  <AddCircleRoundedIcon style={{ fontSize: "1.2rem" }} />
-                </IconButton>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-1 items-center justify-end gap-2 font-['Poppins']">
-            <p className="text-md font-bold">color:</p>
-            <div
-              className="w-14 h-7 rounded-full"
-              style={{
-                backgroundColor: colorHex[selectedColorIndex] || "#FFFFFF",
-                boxShadow: "inset gray 0px 0px 20px -12px",
-              }}
-            ></div>
-          </div>
+        <div className="color-container flex items-center gap-2 font-['Poppins']">
+          <p className="text-md font-bold">color:</p>
+          <div
+            className="w-14 h-7 rounded-full"
+            style={{
+              backgroundColor: colorHex[selectedColorIndex] || "#FFFFFF",
+              boxShadow: "inset gray 0px 0px 20px -12px",
+            }}
+          ></div>
         </div>
       </div>
-      <div className="flex flex-col w-full py-5 items-center rounded-t-3xl backdrop-blur-md bg-white/50 relative ">
-        <div className="flex justify-between items-center w-full px-4">
+      <div className="toggle-container flex flex-col w-full py-5 items-center rounded-t-3xl backdrop-blur-md bg-white/50 relative">
+        <div className="betInfo-toggle-container flex justify-between items-center w-full px-4">
           <div className="card text-sm rounded-md">
             <p className={`font-bold uppercase ${shouldBlink}`}>
               {betStatus} betting
@@ -166,19 +117,31 @@ function MobileResponsive2() {
             <div className="left"></div>
           </div>
           <div className="pb-2">
-            <ChatPlayToggle setToggle={setToggle} />
+            <ChatPlayToggle />
           </div>
         </div>
-
         {toggle === "play" ? (
-          <div className="flex flex-col-reverse gap-4 w-full px-4 py-2 ">
-            <div className="uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative">
+          <div className="play-toggle-container flex flex-col gap-4 w-full px-4 py-2">
+            <div
+              className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-4 bg-gray-50 rounded-lg ${Blink}`}
+            >
+              <p>select a color:</p>
               {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
               {betStatus === "Closed" && (
                 <div className="absolute inset-0 z-10"></div>
               )}
-              <p>enter bet amount:</p>
+              <ColorInputGrid />
+            </div>
+            <div className="bet-input-container flex flex-col items-center justify-center gap-3">
+              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
+              {betStatus === "Closed" && (
+                <div className="absolute inset-0 z-10"></div>
+              )}
+              <p className="uppercase text-dynamicSmall font-semibold">
+                enter bet amount:
+              </p>
               <div className="flex items-center justify-center px-2 gap-2">
+                {/* Repeat Bet Button */}
                 <button
                   onClick={() => handleRepeatBet()}
                   style={{
@@ -191,6 +154,7 @@ function MobileResponsive2() {
                 >
                   repeat
                 </button>
+                {/* Bet Amount Input */}
                 <input
                   type="text"
                   value={
@@ -201,6 +165,7 @@ function MobileResponsive2() {
                   className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
                   onChange={handleInputChange}
                 />
+                {/* Clear Bet Button */}
                 <button
                   onClick={() => handleClearButtonMobile()}
                   style={{
@@ -229,45 +194,25 @@ function MobileResponsive2() {
                     handleConfirmBet();
                     handlePress();
                   }}
-                  onMouseEnter={handleHover}
-                  onMouseLeave={handleLeave}
                 >
-                  <p className="text-white">confirm</p>
+                  <p className="text-white uppercase text-dynamicSmall font-semibold">
+                    confirm
+                  </p>
                 </div>
               </div>
             </div>
-
-            <div
-              className={`uppercase text-dynamicSmall font-semibold flex flex-col items-center justify-center gap-3 relative p-4 bg-gray-50 rounded-lg ${Blink}`}
-            >
-              {/* Your content */}
-              <p>select a color:</p>
-              {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
-              {betStatus === "Closed" && (
-                <div className="absolute inset-0 z-10"></div>
-              )}
-              <ColorInputGrid
-                colorHex={colorHex}
-                handleBetOnColor={handleBetOnColor}
-              />
-            </div>
           </div>
         ) : toggle === "stats" ? (
-          <div className="h-[61vh] w-full py-2 px-4 rounded-lg">
-            <div className="flex flex-col justify-center items-center gap-2 h-full w-full py-10">
-              {/* <div className="w-[80%] flex-1 flex flex-col gap-4 rounded-lg items-center p-2 px-2 2xl:px-3 bg-white/50">
-                <GameWinners />
-              </div> */}
-              <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg items-center py-3 px-4 bg-white/50">
-                <GameHistory />
-              </div>
-              <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg py-4 px-4 bg-white/50">
-                <HotCold />
-              </div>
+          <div className="h-[61vh] flex flex-col justify-center items-center gap-2 w-full p-4 rounded-lg">
+            <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg items-center py-3 px-4 bg-white/50">
+              <GameHistory />
+            </div>
+            <div className=" w-[90%] flex-1 flex flex-col gap-2 rounded-lg py-4 px-4 bg-white/50">
+              <HotCold />
             </div>
           </div>
         ) : (
-          <div className="h-[61vh] w-full py-2 px-4 rounded-lg">
+          <div className="h-[61vh] w-full p-4 rounded-lg">
             <LiveChat />
           </div>
         )}

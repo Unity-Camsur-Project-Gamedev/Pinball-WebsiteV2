@@ -8,6 +8,7 @@ import useLiveStream from "../context/LiveStreamContext";
 const LiveStreamFrame = () => {
   const [userCount, setUserCount] = useState("");
   const userId = Cookies.get("username");
+  const streamUrl = process.env.REACT_APP_STREAM_URL;
 
   // FETCH SOCKETS
   useEffect(() => {
@@ -29,7 +30,7 @@ const LiveStreamFrame = () => {
   }, [userId]);
 
   return (
-    <>
+    <div className="relative w-full h-full">
       <div className="absolute right-0 top-4 flex items-center">
         <div className="relative">
           <div className="absolute bg-gradient-to-r from-blue-400 to-purple-500 opacity-75 inset-0 rounded-l-md"></div>
@@ -40,14 +41,13 @@ const LiveStreamFrame = () => {
         </div>
       </div>
       <iframe
-        // We'll use the padding bottom technique to maintain 16:9 ratio
-        className="absolute w-full h-full"
+        className="w-full h-full"
         allow="fullscreen"
         width="1280"
         height="720"
-        src="https://demo.nanocosmos.de/nanoplayer/embed/1.3.3/nanoplayer.html?group.id=f39ebb0e-54e9-426f-908f-540925d2a58b&options.adaption.rule=deviationOfMean2&startIndex=0&playback.latencyControlMode=classic"
+        src={streamUrl}
       ></iframe>
-    </>
+    </div>
   );
 };
 

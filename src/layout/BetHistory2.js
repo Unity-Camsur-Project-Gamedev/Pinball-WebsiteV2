@@ -234,22 +234,20 @@ export default function BetHistory2() {
   };
 
   return (
-    <div className="w-full h-full lg:w-full flex items-center justify-center">
-      <div className="w-[90%] lg:w-full flex flex-col gap-6">
-        <h1 className="text-center text-white text-dynamicMid font-bold uppercase font-['Poppins']">
-          bet history
-        </h1>
-        <div
-          style={gridStyle}
-          className="ag-theme-quartz rounded-lg overflow-x-auto mb-10"
-        >
-          <div className="min-w-[600px] h-[30rem]">
-            <AgGridReact
-              rowData={betHistory}
-              columnDefs={columnDefs}
-              paginationAutoPageSize
-            />
-          </div>
+    <div className="w-[90%] lg:w-full flex flex-col py-10 gap-6">
+      <h1 className="text-center text-white text-dynamicMid font-bold uppercase font-['Poppins']">
+        bet history
+      </h1>
+      <div
+        style={gridStyle}
+        className="ag-theme-quartz rounded-lg overflow-x-auto"
+      >
+        <div className="min-w-[600px] h-[30rem]">
+          <AgGridReact
+            rowData={betHistory}
+            columnDefs={columnDefs}
+            paginationAutoPageSize
+          />
         </div>
       </div>
     </div>

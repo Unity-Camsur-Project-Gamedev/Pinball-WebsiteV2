@@ -10,7 +10,7 @@ function GameWinners() {
   return (
     <>
       <p className="text-xl font-bold text-black font-['Poppins']">Winners:</p>
-      <div className="w-full h-[45vh] flex flex-col items-start gap-4 overflow-y-auto ">
+      <div className="w-full flex-1 flex flex-col items-start gap-4 overflow-y-auto ">
         {winners.slice(0, 10).map((winner, index) => (
           <div
             key={index}

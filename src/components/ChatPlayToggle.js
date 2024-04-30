@@ -2,7 +2,12 @@ import * as React from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-export default function ChatPlayToggle({ setToggle }) {
+//redux
+import { setToggle } from "../Slice/ButtonSlice";
+import { useDispatch } from "react-redux";
+
+export default function ChatPlayToggle() {
+  const dispatch = useDispatch();
   const [alignment, setAlignment] = React.useState("play");
 
   const handleChange = (event, newAlignment) => {
@@ -25,7 +30,7 @@ export default function ChatPlayToggle({ setToggle }) {
           // padding: "0",
           height: "1.5rem",
         }}
-        onClick={() => setToggle("play")}
+        onClick={() => dispatch(setToggle("play"))}
       >
         Play
       </ToggleButton>
@@ -37,7 +42,7 @@ export default function ChatPlayToggle({ setToggle }) {
           // padding: "0",
           height: "1.5rem",
         }}
-        onClick={() => setToggle("stats")}
+        onClick={() => dispatch(setToggle("stats"))}
       >
         Stats
       </ToggleButton>
@@ -49,7 +54,7 @@ export default function ChatPlayToggle({ setToggle }) {
           // padding: "0",
           height: "1.5rem",
         }}
-        onClick={() => setToggle("chat")}
+        onClick={() => dispatch(setToggle("chat"))}
       >
         Chat
       </ToggleButton>

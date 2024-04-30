@@ -21,7 +21,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<RegisterPage />} />
-          {/* <Route exact path="/game/pinball" element={<ProtectedRoute />} /> */}
           <Route
             path="game/pinball"
             element={

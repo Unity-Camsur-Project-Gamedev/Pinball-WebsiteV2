@@ -1,56 +1,73 @@
 /* eslint-disable */
-import React from "react";
-import { Alert, Button, ButtonGroup } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import EmbossedColorMobile from "../components/EmbossedColorMobile";
+import useLiveStream from "../context/LiveStreamContext";
 
-const ColorInputGrid = ({ colorHex, handleBetOnColor }) => {
+//redux
+import { useSelector } from "react-redux";
+
+const ColorInputGrid = () => {
+  const { handleBetOnColor } = useLiveStream();
+  const initialBet = useSelector((state) => state.betting.initialBet);
+  const confirmedBet = useSelector((state) => state.betting.confirmedBet);
+
+  //formatted versions
+  const [incrementingBets, setIncrementingBets] = useState([]);
+  const [formattedConfirmed, setFormattedConfirmed] = useState([]);
+
+  //This will eliminate duplicated initialbets and will sum it
+  useEffect(() => {
+    const totalAmounts = initialBet.reduce((acc, bet) => {
+      const { colorIndex, amount } = bet;
+      if (!acc[colorIndex]) {
+        acc[colorIndex] = { colorIndex, amount: 0 };
+      }
+      acc[colorIndex].amount += amount;
+      return acc;
+    }, {});
+
+    const result = Object.values(totalAmounts);
+
+    setIncrementingBets(result);
+  }, [initialBet]);
+
+  //This will eliminate duplicated confirmedbets and will sum it
+  useEffect(() => {
+    const totalAmounts = confirmedBet.reduce((acc, bet) => {
+      const { colorIndex, amount } = bet;
+      if (!acc[colorIndex]) {
+        acc[colorIndex] = { colorIndex, amount: 0 };
+      }
+      acc[colorIndex].amount += amount;
+      return acc;
+    }, {});
+
+    const result = Object.values(totalAmounts);
+
+    setFormattedConfirmed(result);
+  }, [confirmedBet]);
+
+  const renderColorInputs = () => {
+    return Array.from({ length: 9 }, (_, index) => (
+      <div
+        onClick={() => {
+          handleBetOnColor(index);
+        }}
+        key={index}
+      >
+        <EmbossedColorMobile
+          index={index}
+          incrementingBets={
+            initialBet.length > 0 ? incrementingBets : formattedConfirmed
+          }
+        />
+      </div>
+    ));
+  };
+
   return (
     <div className="flex-1 grid grid-cols-3 gap-2 w-full ">
-      <EmbossedColorMobile
-        index={0}
-        color={colorHex[0]}
-        onClick={() => handleBetOnColor(0)}
-      />
-      <EmbossedColorMobile
-        index={1}
-        color={colorHex[1]}
-        onClick={() => handleBetOnColor(1)}
-      />
-      <EmbossedColorMobile
-        index={2}
-        color={colorHex[2]}
-        onClick={() => handleBetOnColor(2)}
-      />
-      <EmbossedColorMobile
-        index={3}
-        color={colorHex[3]}
-        onClick={() => handleBetOnColor(3)}
-      />
-      <EmbossedColorMobile
-        index={4}
-        color={colorHex[4]}
-        onClick={() => handleBetOnColor(4)}
-      />
-      <EmbossedColorMobile
-        index={5}
-        color={colorHex[5]}
-        onClick={() => handleBetOnColor(5)}
-      />
-      <EmbossedColorMobile
-        index={6}
-        color={colorHex[6]}
-        onClick={() => handleBetOnColor(6)}
-      />
-      <EmbossedColorMobile
-        index={7}
-        color={colorHex[7]}
-        onClick={() => handleBetOnColor(7)}
-      />
-      <EmbossedColorMobile
-        index={8}
-        color={colorHex[8]}
-        onClick={() => handleBetOnColor(8)}
-      />
+      {renderColorInputs()}
     </div>
   );
 };

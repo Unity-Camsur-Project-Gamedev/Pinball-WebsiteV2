@@ -25,7 +25,6 @@ import Confetti from "../components/Confetti ";
 import websiteBg from "../assets/website-bg.png";
 import newGame from "../assets/newGame.gif";
 import pinballTime from "../assets/pinballTime.gif";
-import BetHistory from "../layout/BetHistory";
 import BetHistory2 from "../layout/BetHistory2";
 import TopUpModal from "../layout/TopUpModal";
 import DesktopResponsive2 from "../layout/DesktopResponsive2";
@@ -45,8 +44,14 @@ const LiveGameStreamPage = () => {
   const [confetti, setConfetti] = useState(false);
   const [empty, setEmpty] = useState(false);
 
-  const OBS_ADDRESS = "ws://127.0.0.1:4455";
+  const OBS_ADDRESS = process.env.REACT_APP_OBS_URL;
   const obs = new OBSWebSocket();
+
+  const Overlay = ({ imageUrl }) => (
+    <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
+      <img src={imageUrl} alt="#" className="mb-20"></img>
+    </div>
+  );
 
   //DECODE TOKEN EVERY RENDER
   useEffect(() => {
@@ -173,25 +178,20 @@ const LiveGameStreamPage = () => {
       </ModalProvider>
 
       <LiveStreamProvider clearBetsOnColor={clearBetsOnColor}>
-        {/* BANNERS */}
-        {betStatus === "Open" && showContent && (
-          <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
-            <img src={newGame} alt="#" className="mb-20"></img>
-          </div>
-        )}
+        {betStatus === "Open" && showContent && <Overlay imageUrl={newGame} />}
         {betStatus === "Closed" && showContentClosed && (
-          <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
-            <img src={pinballTime} alt="#" className="mb-20"></img>
-          </div>
+          <Overlay imageUrl={pinballTime} />
         )}
+
         {/* DESKTOP UI */}
-        <div className="hidden max-h-[150vh] xl:w-[90%] 2xl:w-[80%] lg:flex flex-col gap-10">
+        <div className="hidden lg:block w-full h-full lg:w-[85%] lg:h-[95%]">
           {confetti && <Confetti />}
           <DesktopResponsive2 empty={empty} setEmpty={setEmpty} />
           <BetHistory2 />
         </div>
+
         {/* MOBILE UI */}
-        <div className="lg:hidden flex flex-col gap-10  h-auto w-full pb-10">
+        <div className="lg:hidden w-full flex flex-col justify-center items-center">
           <MobileResponsive2 />
           <BetHistory2 />
         </div>

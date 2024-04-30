@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
+  betButtons: ["5", "10", "20", "50", "100"],
   colorName: [
     "Red",
     "Blue",
@@ -24,6 +25,7 @@ const initialState = {
     "#33C5ED",
   ],
   selectedColorIndex: null,
+  toggle: "play",
 };
 
 const ButtonSlice = createSlice({
@@ -34,9 +36,12 @@ const ButtonSlice = createSlice({
       const selectedColorIndex = action.payload;
       state.selectedColorIndex = selectedColorIndex;
     },
+    setToggle: (state, action) => {
+      state.toggle = action.payload;
+    },
   },
 });
 
-export const { setSelectedColorIndex } = ButtonSlice.actions;
+export const { setSelectedColorIndex, setToggle } = ButtonSlice.actions;
 
 export default ButtonSlice.reducer;
