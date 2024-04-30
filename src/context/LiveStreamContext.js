@@ -43,7 +43,6 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
   const colorName = useSelector((state) => state.button.colorName);
   const initialBet = useSelector((state) => state.betting.initialBet);
   const betHistory = useSelector((state) => state.user.betHistory);
-  const confirmedBet = useSelector((state) => state.betting.confirmedBet);
 
   //RESET WHEN THE RESULT WAS GENERATED
   useEffect(() => {

@@ -1,11 +1,12 @@
 import React, { useState, useMemo, useEffect } from "react";
-
+import { io } from "socket.io-client";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 
 //redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setBetHistory } from "../Slice/UserSlice";
 
 const dateFilterParams = {
   comparator: (filterLocalDateAtMidnight, cellValue) => {
@@ -33,8 +34,29 @@ const asDate = (dateAsString) => {
 };
 
 export default function BetHistory2() {
+  const dispatch = useDispatch();
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const betHistory = useSelector((state) => state.user.betHistory);
+  const userId = useSelector((state) => state.user.uid);
+
+  // FETCH SOCKETS
+  useEffect(() => {
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+
+    const socket = io(BASE_URL, { query: { userId } });
+
+    socket.on("connect", () => {
+      console.log("Socket connected!");
+    });
+
+    socket.on("bettingHistoryUpdate", (data) => {
+      dispatch(setBetHistory(data.combinedDetails));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [userId]);
 
   const [columnDefs] = useState([
     {
