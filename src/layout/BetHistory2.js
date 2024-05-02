@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
@@ -35,27 +35,33 @@ const asDate = (dateAsString) => {
 
 export default function BetHistory2() {
   const dispatch = useDispatch();
+  const gridRef = useRef(null);
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
   const betHistory = useSelector((state) => state.user.betHistory);
   const userId = useSelector((state) => state.user.uid);
 
   // FETCH SOCKETS
   useEffect(() => {
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    if (gridRef) {
+      const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
-    const socket = io(BASE_URL, { query: { userId } });
+      const socket = io(BASE_URL, { query: { userId } });
 
-    socket.on("connect", () => {
-      console.log("Socket connected!");
-    });
+      socket.on("connect", () => {
+        console.log("loading...");
+        gridRef.current.showLoadingOverlay();
+      });
 
-    socket.on("bettingHistoryUpdate", (data) => {
-      dispatch(setBetHistory(data.combinedDetails));
-    });
+      socket.on("bettingHistoryUpdate", (data) => {
+        dispatch(setBetHistory(data.combinedDetails));
+        console.log("done loading");
+        gridRef.current.hideOverlay();
+      });
 
-    return () => {
-      socket.disconnect();
-    };
+      return () => {
+        socket.disconnect();
+      };
+    }
   }, [userId]);
 
   const [columnDefs] = useState([
@@ -255,6 +261,10 @@ export default function BetHistory2() {
       .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   };
 
+  const onGridReady = (params) => {
+    gridRef.current = params.api;
+  };
+
   return (
     <div className="w-[90%] lg:w-full flex flex-col py-10 gap-6">
       <h1 className="text-center text-white text-dynamicMid font-bold uppercase font-['Poppins']">
@@ -266,9 +276,11 @@ export default function BetHistory2() {
       >
         <div className="min-w-[600px] h-[30rem]">
           <AgGridReact
+            ref={gridRef}
             rowData={betHistory}
             columnDefs={columnDefs}
             paginationAutoPageSize
+            onGridReady={onGridReady}
           />
         </div>
       </div>
