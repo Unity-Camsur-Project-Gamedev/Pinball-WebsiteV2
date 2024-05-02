@@ -5,44 +5,33 @@ import Avatar from "@mui/material/Avatar";
 import { io } from "socket.io-client";
 import Cookies from "js-cookie";
 
+//redux
+import { useSelector } from "react-redux";
+
 function LiveChat() {
+  const userId = useSelector((state) => state.user.username);
   //chat states
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [socket, setSocket] = useState(null);
   const messagesListRef = useRef(null);
 
-  const userId = Cookies.get("username");
-
-  //chat hook
   useEffect(() => {
     // Connect to the Socket.IO server
     const baseURL = process.env.REACT_APP_BACKEND_URL;
     const newSocket = io(baseURL, { query: { userId } });
 
     setSocket(newSocket);
+
+    newSocket.on("chatMessage", ({ userId, message }) => {
+      // console.log("Received chat message from user", userId, ":", message);
+      setMessages((prevMessages) => [...prevMessages, { userId, message }]);
+    });
+
     return () => {
       newSocket.disconnect();
     };
-  }, []);
-
-  //chat hook
-  useEffect(() => {
-    if (socket) {
-      // Listen for 'chatMessage' events from the server
-      socket.on("chatMessage", ({ userId, message }) => {
-        console.log("Received chat message from user", userId, ":", message);
-        setMessages((prevMessages) => [...prevMessages, { userId, message }]);
-      });
-    }
-
-    // Clean up the socket listener when the component unmounts
-    return () => {
-      if (socket) {
-        socket.off("chatMessage");
-      }
-    };
-  }, [socket]); // Make sure to include socket in the dependency array
+  }, [userId]);
 
   //chat function
   const sendMessage = (e) => {
@@ -102,8 +91,46 @@ function LiveChat() {
   }, [messages]);
 
   return (
-    <>
-      <div className="h-full rounded-lg lg:rounded-none chat-feed flex flex-col gap-2  py-2 px-2 bg-[#0d4fa3]">
+    <div className="main-container h-full chat-panel  p-2 ">
+      <div className="padded-container h-full rounded-lg chat-feed flex flex-col gap-2 p-2 backdrop-blur-sm bg-white/30">
+        <ul
+          className="hmessages-container flex flex-col gap-2 h-full xl:h-[160px] 2xl:h-[210px]  overflow-y-auto"
+          ref={messagesListRef}
+        >
+          {messages.map((message, index) => (
+            <li key={index} className="p-1 w-fit rounded-md break-words">
+              <div className="flex justify-center items-center">
+                <Avatar
+                  {...stringAvatar(message.userId)}
+                  style={{ width: "2rem", height: "2rem" }}
+                />
+                <p>
+                  <strong className="ml-1 font-semibold">
+                    {message.userId}:{" "}
+                  </strong>{" "}
+                  <span className="">{message.message.message}</span>
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <form
+          onSubmit={sendMessage}
+          className="bg-white rounded-md border-2 border-blue-200"
+        >
+          <input
+            type="text"
+            className="w-5/6 decoration-transparent mr-2 h-full border-none p-2 rounded-md"
+            placeholder="Write a comment..."
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button type="submit" className="text-cyan-600 font-semibold">
+            Send
+          </button>
+        </form>
+      </div>
+      {/* <div className="h-full rounded-lg lg:rounded-none chat-feed flex flex-col gap-2 py-2 px-2 backdrop-blur-sm bg-white/30">
         <ul
           className="h-full xl:h-[160px] 2xl:h-[210px] w-full overflow-y-auto"
           ref={messagesListRef}
@@ -115,7 +142,6 @@ function LiveChat() {
                   {...stringAvatar(message.userId)}
                   style={{ width: "2rem", height: "2rem" }}
                 />
-                {/* <AccountCircleIcon style={{ color: "white" }} /> */}
                 <p>
                   <strong className="ml-1 text-white font-semibold">
                     {message.userId}:{" "}
@@ -141,8 +167,8 @@ function LiveChat() {
             Send
           </button>
         </form>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }
 

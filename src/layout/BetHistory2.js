@@ -48,13 +48,11 @@ export default function BetHistory2() {
       const socket = io(BASE_URL, { query: { userId } });
 
       socket.on("connect", () => {
-        console.log("loading...");
         gridRef.current.showLoadingOverlay();
       });
 
       socket.on("bettingHistoryUpdate", (data) => {
         dispatch(setBetHistory(data.combinedDetails));
-        console.log("done loading");
         gridRef.current.hideOverlay();
       });
 

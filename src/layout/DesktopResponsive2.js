@@ -4,7 +4,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { Alert, Button, ButtonGroup, IconButton } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
-import NumberInput from "../layout/NumberInput";
 import ColorInputs from "./ColorInputs";
 import LiveStreamFrame from "./LiveStreamFrame";
 import useLiveStream from "../context/LiveStreamContext";
@@ -12,7 +11,6 @@ import LiveChat from "../components/LiveChat";
 import GameHistory from "./GameHistory";
 import HotCold from "./HotCold";
 import GameWinners from "./GameWinners";
-import NumberInputGrid from "../components/NumberInputGrid";
 import NumberAndSlider from "../components/NumberAndSlider";
 
 //redux
@@ -39,8 +37,6 @@ function DesktopResponsive2({ empty, setEmpty }) {
     (state) => state.button.selectedColorIndex
   );
 
-  const [popUp, setPopUp] = useState(false);
-
   const [isHovered, setIsHovered] = useState(false);
   const [repeatIsHovered, setRepeatIsHovered] = useState(false);
   const [clearIsHovered, setClearIsHovered] = useState(false);
@@ -48,9 +44,6 @@ function DesktopResponsive2({ empty, setEmpty }) {
   const [isPressed, setIsPressed] = useState(false);
   const [repeatIsPressed, setRepeatIsPressed] = useState(false);
   const [clearIsPressed, setClearIsPressed] = useState(false);
-
-  const [displayedHistory, setDisplayedHistory] = useState([]);
-  const messagesListRef = useRef(null);
 
   const handleHover = (button) => {
     if (button === "confirm") {
@@ -161,7 +154,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
           <ColorInputs />
         </div>
 
-        <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff]">
+        <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff] ">
           <div className="flex flex-col relative gap-1 2xl:gap-0 justify-center items-center p-2 2xl:p-5">
             {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
             {betStatus === "Closed" && (
@@ -323,9 +316,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
               </div>
             </div>
           </div>
-          <div className="chat-panel">
-            <LiveChat />
-          </div>
+          <LiveChat />
         </div>
       </div>
     </div>

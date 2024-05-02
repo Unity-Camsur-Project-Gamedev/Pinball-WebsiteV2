@@ -48,7 +48,7 @@ const LiveGameStreamPage = () => {
   const obs = new OBSWebSocket();
 
   const Overlay = ({ imageUrl }) => (
-    <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-[100%]">
+    <div className="absolute inset-0 z-10 flex justify-center items-center bg-gray-400 bg-opacity-50 cursor-not-allowed h-full">
       <img src={imageUrl} alt="#" className="mb-20"></img>
     </div>
   );
@@ -83,7 +83,7 @@ const LiveGameStreamPage = () => {
     const socket = io(BASE_URL, { query: { userId } });
 
     socket.on("connect", () => {
-      console.log("Socket connected!");
+      // console.log("Socket connected!");
     });
 
     socket.on("walletUpdate", (data) => {
@@ -123,10 +123,6 @@ const LiveGameStreamPage = () => {
 
       localStorage.setItem("betStatus", data.status);
     });
-
-    // socket.on("bettingHistoryUpdate", (data) => {
-    //   dispatch(setBetHistory(data.combinedDetails));
-    // });
 
     socket.on("clearBetCounts", () => {
       setClearBetsOnColor((prevClearBetsOnColor) => !prevClearBetsOnColor);

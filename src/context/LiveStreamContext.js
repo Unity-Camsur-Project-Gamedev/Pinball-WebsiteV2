@@ -169,9 +169,15 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
       //reset initialbet
       dispatch(setInitialbet([]));
     } else {
-      toast.error("Your bet is invalid.", {
-        autoClose: 3000,
-      });
+      if (result.length === 0) {
+        toast.error("You have to place your bet.", {
+          autoClose: 3000,
+        });
+      } else {
+        toast.error("Insufficient credits. Please top up your credits.", {
+          autoClose: 3000,
+        });
+      }
     }
   };
 
