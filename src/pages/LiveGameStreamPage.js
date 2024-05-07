@@ -124,6 +124,10 @@ const LiveGameStreamPage = () => {
       localStorage.setItem("betStatus", data.status);
     });
 
+    socket.on("bettingHistoryUpdate", (data) => {
+      dispatch(setBetHistory(data.combinedDetails));
+    });
+
     socket.on("clearBetCounts", () => {
       setClearBetsOnColor((prevClearBetsOnColor) => !prevClearBetsOnColor);
       localStorage.clear();
