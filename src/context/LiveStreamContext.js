@@ -24,7 +24,6 @@ const initialState = {
   handleClearBet: () => {},
   handleConfirmBet: () => {},
   handleBetOnColor: () => {},
-  handleButtonClick: () => {},
   handleClearButton: () => {},
   handleClearButtonMobile: () => {},
   handleMaxButton: () => {},
@@ -49,12 +48,6 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
     dispatch(setInitialbet([]));
     dispatch(setConfirmedBet([]));
   }, [clearBetsOnColor]);
-
-  //NUMPAD INPUT HANDLER
-  const handleButtonClick = (value) => {
-    const newValue = betAmount + value;
-    dispatch(setBetAmount(newValue));
-  };
 
   //KEYBOARD INPUT HANDLER
   const handleInputChange = (e) => {
@@ -210,7 +203,6 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
         handleRepeatBet,
         handleClearBet,
         handleBetOnColor,
-        handleButtonClick,
         handleClearButton,
         handleClearButtonMobile,
         handleMaxButton,
