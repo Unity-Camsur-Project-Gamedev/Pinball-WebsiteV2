@@ -126,6 +126,7 @@ export default function BetSlider() {
         valueLabelDisplay="off"
         aria-labelledby="non-linear-slider"
         size="large"
+        data-cy="slider"
       />
       <div
         onClick={() => {

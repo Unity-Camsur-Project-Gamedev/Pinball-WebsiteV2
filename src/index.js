@@ -11,3 +11,7 @@ root.render(
     <App />
   </Provider>
 );
+
+if (window.Cypress) {
+  window.store = store;
+}

@@ -202,6 +202,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
                     <div className="text-[#E26226] w-1/2 font-['Poppins'] rounded-full shadow-inner">
                       <input
                         type="text"
+                        data-cy="type-bet"
                         value={
                           betAmount !== ""
                             ? `₱ ${parseFloat(betAmount).toLocaleString()}`

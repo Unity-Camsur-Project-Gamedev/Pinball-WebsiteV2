@@ -55,6 +55,7 @@ const ColorInputs = () => {
           handleBetOnColor(index);
         }}
         key={index}
+        data-index={index}
       >
         <EmbossedColor
           index={index}

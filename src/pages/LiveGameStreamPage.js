@@ -66,7 +66,7 @@ const LiveGameStreamPage = () => {
         number,
       })
     );
-  }, []);
+  }, [userToken]);
 
   //CHECK USER SESSION
   useEffect(() => {
