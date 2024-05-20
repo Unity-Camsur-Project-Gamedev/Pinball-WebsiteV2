@@ -21,6 +21,8 @@ const BettingSlice = createSlice({
     },
     setBetAmount: (state, action) => {
       const betAmount = action.payload;
+      // const totalBet = parseInt(betAmount) * parseInt(state.multiplier);
+      // state.betAmount = totalBet.toString();
       state.betAmount = betAmount;
     },
     setMultiplier: (state, action) => {

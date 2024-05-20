@@ -183,6 +183,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
                         onClick={() => {
                           dispatch(handleWalletOpen());
                         }}
+                        data-cy="addCredits"
                       >
                         <AddCircleRoundedIcon />
                       </IconButton>
@@ -306,6 +307,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
                   }}
                   onMouseEnter={() => handleHover("clear")}
                   onMouseLeave={() => handleLeave("clear")}
+                  data-cy="clear-bets"
                 >
                   <p
                     className={`${

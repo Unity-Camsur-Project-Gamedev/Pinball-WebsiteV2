@@ -127,8 +127,13 @@ function LiveChat() {
             placeholder="Write a comment..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            data-cy="chatInput"
           />
-          <button type="submit" className="text-cyan-600 font-semibold">
+          <button
+            type="submit"
+            className="text-cyan-600 font-semibold"
+            data-cy="sendButton"
+          >
             Send
           </button>
         </form>

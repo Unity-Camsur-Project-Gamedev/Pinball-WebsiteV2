@@ -25,7 +25,7 @@ function MultiplierButton({ button }) {
         }}
       >
         <div
-          className={`absolute p-1 rounded-full top-[40%] left-[15%]  ${
+          className={`absolute p-1 rounded-full top-[40%] left-[15%] hidden xl:block ${
             multiplier === button
               ? "bg-green-500 transition translate-x-[3px] translate-y-[3px]"
               : ""

@@ -7,12 +7,11 @@ describe("user-simulation", () => {
   });
 
   it("should bet on color using amount buttons", () => {
-    const buttonText = "10";
     const index = 1;
 
     cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
-      cy.contains("div", buttonText).click();
-      cy.get(`div[data-index="${index}"]`).click();
+      cy.get(`div[data-betButton="${index}"]`).click();
+      cy.get(`div[data-colorIndex="${index}"]`).click();
     });
   });
 
@@ -23,7 +22,7 @@ describe("user-simulation", () => {
         .invoke("val", 20001)
         .trigger("change")
         .click({ force: true });
-      cy.get(`div[data-index="${index}"]`).click();
+      cy.get(`div[data-colorIndex="${index}"]`).click();
     });
   });
 
@@ -31,7 +30,42 @@ describe("user-simulation", () => {
     const index = 1;
     cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
       cy.get("[data-cy=type-bet]").type("1000");
-      cy.get(`div[data-index="${index}"]`).click();
+      cy.get(`div[data-colorIndex="${index}"]`).click();
+    });
+  });
+
+  it("should bet with 2x multiplier", () => {
+    const index = 0;
+    cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
+      cy.get("[data-cy=type-bet]").type("1000");
+      cy.get(`div[data-multiplierButton="${index}"]`).click();
+      cy.get(`div[data-colorIndex="${index}"]`).click();
+    });
+  });
+
+  it("should bet to all colors and then clear the bets.", () => {
+    const totalColors = 9;
+    cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
+      for (let i = 0; i < totalColors; i++) {
+        cy.get("[data-cy=type-bet]").type("1000");
+        cy.get(`div[data-colorIndex="${i}"]`).click();
+      }
+      cy.get("[data-cy=clear-bets]").click();
+    });
+  });
+
+  it("should top up credits.", () => {
+    cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
+      cy.get("[data-cy=addCredits]").click();
+      cy.get("[data-topup=topup]").type("1");
+      cy.get("[data-paynow=paynow]").click();
+    });
+  });
+
+  it("should chat.", () => {
+    cy.wait(["@socketRequests", "@streamRequests"]).then(() => {
+      cy.get("[data-cy=chatInput]").type("test chat");
+      cy.get("[data-cy=sendButton]").click();
     });
   });
 });

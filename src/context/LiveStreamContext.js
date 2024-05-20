@@ -40,6 +40,7 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
   const userToken = Cookies.get("token");
   const credits = useSelector((state) => state.user.credits);
   const betAmount = useSelector((state) => state.betting.betAmount);
+  const multiplier = useSelector((state) => state.betting.multiplier);
   const colorName = useSelector((state) => state.button.colorName);
   const initialBet = useSelector((state) => state.betting.initialBet);
   const betHistory = useSelector((state) => state.user.betHistory);
@@ -180,7 +181,7 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
   //COLOR BUTTON HANDLER
   const handleBetOnColor = (key) => {
     dispatch(setSelectedColorIndex(key));
-    const betAmountInt = parseInt(betAmount);
+    const betAmountInt = parseInt(betAmount) * parseInt(multiplier);
     if (!isNaN(betAmountInt) && betAmountInt > 0) {
       if (credits > 0) {
         if (credits >= betAmountInt) {

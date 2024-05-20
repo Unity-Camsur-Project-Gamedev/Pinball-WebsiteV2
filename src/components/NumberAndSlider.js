@@ -23,14 +23,14 @@ function NumberAndSlider() {
     <>
       <div className="w-full grid grid-cols-4 gap-2 text-center">
         {multiplierButtons.map((button, key) => (
-          <div key={key}>
+          <div key={key} data-multiplierButton={key}>
             <MultiplierButton button={button} />
           </div>
         ))}
       </div>
       <div className="grid grid-cols-3 gap-2 w-full text-center">
         {betButtons.map((button, key) => (
-          <div key={key}>
+          <div key={key} data-betButton={key}>
             <NumberInputGrid
               button={button}
               handlerFunction={() => handleInputButtonClick(button)}

@@ -56,6 +56,7 @@ function TopUpModal() {
                         : "border-grey"
                     } cursor-pointer`}
                     onClick={() => handleTopUpButton(button)}
+                    // data-topup={key}
                   >
                     <p className="text-dynamicSmall ">{button}</p>
                   </div>
@@ -76,11 +77,8 @@ function TopUpModal() {
                   }
                   className="text-dynamicMid w-full mx-auto text-[#E26226] outline-none border-none"
                   onChange={handleTopUpInputChange}
-                  // onKeyDown={handleKeyDown}
+                  data-topup="topup"
                 />
-                {/* <p onClick={() => handleClearButton()} style={{ fontWeight: 100, fontSize: '.75rem' }}>
-                                clear
-                            </p> */}
               </div>
             </div>
             <div className="flex items-center justify-between pr-2">
@@ -112,6 +110,7 @@ function TopUpModal() {
                 handleAddCreditsButton(); //process adding credits in the parent component
                 dispatch(handleWalletClose());
               }}
+              data-paynow="paynow"
             >
               pay now
             </Button>
