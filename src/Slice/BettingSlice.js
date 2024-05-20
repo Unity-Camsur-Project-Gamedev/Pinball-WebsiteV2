@@ -8,6 +8,7 @@ const initialState = {
   gameHistory: [],
   colorPercentage: [],
   winners: [],
+  multiplier: "1",
 };
 
 const BettingSlice = createSlice({
@@ -21,6 +22,15 @@ const BettingSlice = createSlice({
     setBetAmount: (state, action) => {
       const betAmount = action.payload;
       state.betAmount = betAmount;
+    },
+    setMultiplier: (state, action) => {
+      const multiplier = action.payload;
+
+      if (multiplier === state.multiplier) {
+        state.multiplier = "1";
+      } else {
+        state.multiplier = multiplier;
+      }
     },
     IncrementBetAmount: (state, action) => {
       const betAmountToAdd = action.payload;
@@ -78,6 +88,7 @@ const BettingSlice = createSlice({
 export const {
   setBetStatus,
   setBetAmount,
+  setMultiplier,
   IncrementBetAmount,
   setInitialbet,
   setConfirmedBet,

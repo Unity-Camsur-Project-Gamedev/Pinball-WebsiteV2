@@ -31,6 +31,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
   const colorHex = useSelector((state) => state.button.colorHex);
   const betStatus = useSelector((state) => state.betting.betStatus);
   const betAmount = useSelector((state) => state.betting.betAmount);
+  const multiplier = useSelector((state) => state.betting.multiplier);
   const initialBet = useSelector((state) => state.betting.initialBet);
   const confirmedBet = useSelector((state) => state.betting.confirmedBet);
   const selectedColorIndex = useSelector(
@@ -155,7 +156,7 @@ function DesktopResponsive2({ empty, setEmpty }) {
         </div>
 
         <div className="input-grid-container grid grid-cols-3 flex-1 bg-[#60c9ff] ">
-          <div className="flex flex-col relative gap-1 2xl:gap-0 justify-center items-center p-2 2xl:p-5">
+          <div className="flex flex-col relative gap-1 2xl:gap-2 justify-center items-center p-2 2xl:p-5 ">
             {/* BLOCKING OVERLAY WHEN BET STATUS BECOMES CLOSED. */}
             {betStatus === "Closed" && (
               <div className="absolute inset-0 z-10 "></div>
@@ -205,7 +206,9 @@ function DesktopResponsive2({ empty, setEmpty }) {
                         data-cy="type-bet"
                         value={
                           betAmount !== ""
-                            ? `₱ ${parseFloat(betAmount).toLocaleString()}`
+                            ? `₱ ${(
+                                parseFloat(betAmount) * parseFloat(multiplier)
+                              ).toLocaleString()}`
                             : "₱ 0"
                         }
                         className="2xl:text-2xl xl:text-xl lg:text-md w-full text-[#E26226] border-2 rounded-full 2xl:p-2 xl:p-1"

@@ -98,7 +98,10 @@ function LiveChat() {
           ref={messagesListRef}
         >
           {messages.map((message, index) => (
-            <li key={index} className="p-1 w-fit rounded-md break-words">
+            <li
+              key={index}
+              className="p-1 w-fit break-words bg-white px-3 py-2 rounded-full"
+            >
               <div className="flex justify-center items-center">
                 <Avatar
                   {...stringAvatar(message.userId)}
@@ -130,44 +133,6 @@ function LiveChat() {
           </button>
         </form>
       </div>
-      {/* <div className="h-full rounded-lg lg:rounded-none chat-feed flex flex-col gap-2 py-2 px-2 backdrop-blur-sm bg-white/30">
-        <ul
-          className="h-full xl:h-[160px] 2xl:h-[210px] w-full overflow-y-auto"
-          ref={messagesListRef}
-        >
-          {messages.map((message, index) => (
-            <li key={index} className="p-1 w-fit rounded-md break-words">
-              <div className="flex justify-center items-center">
-                <Avatar
-                  {...stringAvatar(message.userId)}
-                  style={{ width: "2rem", height: "2rem" }}
-                />
-                <p>
-                  <strong className="ml-1 text-white font-semibold">
-                    {message.userId}:{" "}
-                  </strong>{" "}
-                  <span className="text-white">{message.message.message}</span>
-                </p>
-              </div>
-            </li>
-          ))}
-        </ul>
-        <form
-          onSubmit={sendMessage}
-          className="bg-white rounded-md border-2 border-blue-200"
-        >
-          <input
-            type="text"
-            className="w-5/6 decoration-transparent mr-2 h-full border-none p-2 rounded-md"
-            placeholder="Write a comment..."
-            value={newMessage}
-            onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <button type="submit" className="text-cyan-600 font-semibold">
-            Send
-          </button>
-        </form>
-      </div> */}
     </div>
   );
 }

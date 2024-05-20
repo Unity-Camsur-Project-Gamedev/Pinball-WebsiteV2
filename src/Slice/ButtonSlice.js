@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   betButtons: ["5", "10", "20", "50", "100"],
+  multiplierButtons: ["2", "5", "10", "20"],
   colorName: [
     "Red",
     "Blue",

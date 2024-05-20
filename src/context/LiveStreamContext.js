@@ -14,6 +14,7 @@ import {
   IncrementBetAmount,
   setInitialbet,
   setConfirmedBet,
+  setMultiplier,
 } from "../Slice/BettingSlice";
 import { setSelectedColorIndex } from "../Slice/ButtonSlice";
 
@@ -109,6 +110,7 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
     dispatch(setInitialbet([]));
     // setMirrorArray([...confirmedBetArray]);
     dispatch(setBetAmount("0"));
+    dispatch(setMultiplier("1"));
   };
 
   //MAX BUTTON HANDLER
@@ -125,6 +127,7 @@ export const LiveStreamProvider = ({ children, clearBetsOnColor }) => {
   const handleClearButtonMobile = () => {
     dispatch(setBetAmount("0"));
     dispatch(setInitialbet([]));
+    dispatch(setMultiplier("1"));
     // setMirrorArray([...confirmedBetArray]);
   };
 

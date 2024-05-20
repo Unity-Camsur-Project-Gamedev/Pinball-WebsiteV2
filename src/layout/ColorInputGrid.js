@@ -66,7 +66,7 @@ const ColorInputGrid = () => {
   };
 
   return (
-    <div className="flex-1 grid grid-cols-3 gap-2 w-full ">
+    <div className="flex-1 grid grid-cols-3 gap-2 w-full">
       {renderColorInputs()}
     </div>
   );

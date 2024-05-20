@@ -22,6 +22,7 @@ import LiveStreamFrame from "./LiveStreamFrame";
 //redux
 import { useSelector, useDispatch } from "react-redux";
 import { handleWalletOpen, handleWalletClose } from "../Slice/ModalSlice";
+import MultiplierButton from "../components/MultiplierButton";
 
 function MobileResponsive2() {
   const {
@@ -42,6 +43,10 @@ function MobileResponsive2() {
   const betButtons = useSelector((state) => state.button.betButtons);
   const betStatus = useSelector((state) => state.betting.betStatus);
   const betAmount = useSelector((state) => state.betting.betAmount);
+  const multiplier = useSelector((state) => state.betting.multiplier);
+  const multiplierButtons = useSelector(
+    (state) => state.button.multiplierButtons
+  );
   const toggle = useSelector((state) => state.button.toggle);
   const selectedColorIndex = useSelector(
     (state) => state.button.selectedColorIndex
@@ -159,7 +164,9 @@ function MobileResponsive2() {
                   type="text"
                   value={
                     betAmount !== ""
-                      ? `₱ ${parseFloat(betAmount).toLocaleString()}`
+                      ? `₱ ${(
+                          parseFloat(betAmount) * parseFloat(multiplier)
+                        ).toLocaleString()}`
                       : "₱ 0"
                   }
                   className="text-dynamicMid text-center w-full mx-auto text-[#E26226] outline-none border-none py-1 rounded-2xl"
@@ -178,6 +185,13 @@ function MobileResponsive2() {
                 >
                   clear
                 </button>
+              </div>
+              <div className="grid grid-cols-4 gap-2 w-full text-center">
+                {multiplierButtons.map((button, key) => (
+                  <div key={key}>
+                    <MultiplierButton button={button} />
+                  </div>
+                ))}
               </div>
               <div className="grid grid-cols-3 gap-2 w-full text-center">
                 {betButtons.map((button, key) => (

@@ -38,7 +38,7 @@ function NumberInputGrid({ button, handlerFunction }) {
         onMouseLeave={handleLeave}
       >
         <p
-          className={`text-dynamicMid font-semibold ${
+          className={`text-dynamicSmall font-semibold ${
             isPressed ? "transition translate-x-[3px] translate-y-[3px] " : ""
           } `}
         >
