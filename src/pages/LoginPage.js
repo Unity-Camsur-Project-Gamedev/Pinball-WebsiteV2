@@ -41,21 +41,22 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    navigate("/game/pinball");
+    // e.preventDefault(); // Prevent default form submission
 
-    const data = new FormData(e.currentTarget);
-    const username = data.get("username");
-    const password = data.get("password");
+    // const data = new FormData(e.currentTarget);
+    // const username = data.get("username");
+    // const password = data.get("password");
 
-    const response = await authService.loginUser(username, password);
+    // const response = await authService.loginUser(username, password);
 
-    if (response.token) {
-      Cookies.set("token", response.token, { expires: 4 });
-      toast.success("Successfully logged in.");
-      navigate("/game/pinball");
-    } else {
-      toast.error("Invalid Credentials");
-    }
+    // if (response.token) {
+    //   Cookies.set("token", response.token, { expires: 4 });
+    //   toast.success("Successfully logged in.");
+    //   navigate("/game/pinball");
+    // } else {
+    //   toast.error("Invalid Credentials");
+    // }
   };
 
   return (

@@ -53,28 +53,28 @@ const LiveGameStreamPage = () => {
     </div>
   );
 
-  //DECODE TOKEN EVERY RENDER
-  useEffect(() => {
-    const decodedToken = jwtDecode(userToken);
-    const { uid, username, email, number } = decodedToken;
+  // //DECODE TOKEN EVERY RENDER
+  // useEffect(() => {
+  //   const decodedToken = jwtDecode(userToken);
+  //   const { uid, username, email, number } = decodedToken;
 
-    dispatch(
-      setUser({
-        uid,
-        username,
-        email,
-        number,
-      })
-    );
-  }, [userToken]);
+  //   dispatch(
+  //     setUser({
+  //       uid,
+  //       username,
+  //       email,
+  //       number,
+  //     })
+  //   );
+  // }, [userToken]);
 
-  //CHECK USER SESSION
-  useEffect(() => {
-    const checkSession = async () => {
-      const response = await authService.checkSession(userToken);
-    };
-    checkSession();
-  }, []);
+  // //CHECK USER SESSION
+  // useEffect(() => {
+  //   const checkSession = async () => {
+  //     const response = await authService.checkSession(userToken);
+  //   };
+  //   checkSession();
+  // }, []);
 
   // FETCH SOCKETS
   useEffect(() => {

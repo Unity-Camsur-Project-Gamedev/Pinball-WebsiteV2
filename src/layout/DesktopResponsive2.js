@@ -27,7 +27,8 @@ function DesktopResponsive2({ empty, setEmpty }) {
 
   //redux
   const dispatch = useDispatch();
-  const credits = useSelector((state) => state.user.credits);
+  const credits = 1000;
+  // alert(credits);
   const colorHex = useSelector((state) => state.button.colorHex);
   const betStatus = useSelector((state) => state.betting.betStatus);
   const betAmount = useSelector((state) => state.betting.betAmount);
