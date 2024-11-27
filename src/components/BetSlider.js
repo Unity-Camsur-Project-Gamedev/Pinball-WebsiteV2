@@ -11,7 +11,7 @@ import { setBetAmount } from "../Slice/BettingSlice";
 export default function BetSlider() {
   //redux states
   const dispatch = useDispatch();
-  const credits = useSelector((state) => state.user.credits);
+  const credits = 1000;
   const betAmount = useSelector((state) => state.betting.betAmount);
 
   const [value, setValue] = React.useState(1);
